@@ -1,12 +1,12 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CurveBullet : BulletBase
 {
-    [Tooltip("���ٶ�")]
+    [Tooltip("加速度")]
     public float speedChangeValue = 0;
-    [Tooltip("�ٶȱ仯���� (ǧ�ֱ�)")]
+    [Tooltip("速度变化倍率 (千分比)")]
     public float speedChangeRatio = 1000;
-    [Tooltip("�Ƕȱ任�ٶ�")]
+    [Tooltip("角度变换速度")]
     public float degreeChangeValue = 0;
 
     private float movementX;

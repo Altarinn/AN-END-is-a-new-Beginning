@@ -29,4 +29,14 @@ Unity `2021.3.18f1` (LTS)
 
 ## Stuffs used
 
+### Libraries
+
 [Ultimate 2D Controller](https://github.com/Matthew-J-Spencer/Ultimate-2D-Controller) by Matthew-J-Spencer
+
+### Sprites / Tilemaps
+
+[8x8 1bit Dungeon Tilemap](https://pixelhole.itch.io/8x8dungeontilemap)
+
+### Audio
+
+### Misc.

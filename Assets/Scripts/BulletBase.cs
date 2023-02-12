@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Sprite))]
@@ -9,71 +9,71 @@ using UnityEngine;
 public abstract class BulletBase : MonoBehaviour
 {
     ///<summary>
-    ///×Óµ¯ID
+    ///å­å¼¹ID
     ///</summary>
-    [Tooltip("×Óµ¯id")]
+    [Tooltip("å­å¼¹id")]
     public string BulletId;
 
     ///<summary>
-    ///×Óµ¯ËÙ¶È
+    ///å­å¼¹é€Ÿåº¦
     ///</summary>
-    [Tooltip("×Óµ¯ËÙ¶È")]
-    //[Tooltip("¼¤¹â¿ÉÒÔ²»¹Ü")]
+    [Tooltip("å­å¼¹é€Ÿåº¦")]
+    //[Tooltip("æ¿€å…‰å¯ä»¥ä¸ç®¡")]
     public float Speed = 2;
 
     ///<summary>
-    ///×Óµ¯Éä³Ì
+    ///å­å¼¹å°„ç¨‹
     ///</summary>
-    [Tooltip("×Óµ¯Éä³Ì")]
-    //[Tooltip("¼¤¹â¿ÉÒÔ²»¹Ü")]
+    [Tooltip("å­å¼¹å°„ç¨‹")]
+    //[Tooltip("æ¿€å…‰å¯ä»¥ä¸ç®¡")]
     public float Distance = 20;
 
     ///<summary>
-    ///×Óµ¯ÀàĞÍ
+    ///å­å¼¹ç±»å‹
     ///</summary>
-    [Tooltip("×Óµ¯ÀàĞÍ")]
-    //[Tooltip("¼¤¹â¿ÉÒÔ²»¹Ü")]
+    [Tooltip("å­å¼¹ç±»å‹")]
+    //[Tooltip("æ¿€å…‰å¯ä»¥ä¸ç®¡")]
     public BulletType Type;
 
     ///<summary>
-    ///»÷ÖĞbuff
+    ///å‡»ä¸­buff
     ///</summary>
-    [Tooltip("»÷ÖĞbuff")]
-    //[Tooltip("»÷ÖĞºóÌí¼ÓµÄbuff")]
+    [Tooltip("å‡»ä¸­buff")]
+    //[Tooltip("å‡»ä¸­åæ·»åŠ çš„buff")]
     public int[] Buffs;
 
     ///<summary>
-    ///Ê£Óà»÷ÖĞ´ÎÊı
+    ///å‰©ä½™å‡»ä¸­æ¬¡æ•°
     ///</summary>
-    [Tooltip("»÷ÖĞ´ÎÊı")]
-    //[Tooltip("×Óµ¯ÔÚ»÷ÖĞ¶ÔÓ¦µÄ´ÎÊıºóÏûÊ§£¬¼¤¹â¿ÉÒÔ²»¹Ü")]
+    [Tooltip("å‡»ä¸­æ¬¡æ•°")]
+    //[Tooltip("å­å¼¹åœ¨å‡»ä¸­å¯¹åº”çš„æ¬¡æ•°åæ¶ˆå¤±ï¼Œæ¿€å…‰å¯ä»¥ä¸ç®¡")]
     public int HitNumber = 1;
 
     ///<summary>
-    ///ÉúĞ§ÆµÂÊ
+    ///ç”Ÿæ•ˆé¢‘ç‡
     ///</summary>
-    [Tooltip("ÉúĞ§ÆµÂÊ")]
-    //[Tooltip("¸ô¶à¾ÃÄÜ¶ÔÍ¬Ò»¸öµ¥Î»ÔÙ´ÎÉúĞ§£¬¶Ô¼¤¹â\n¶øÑÔ¾ÍÊÇ´¥·¢ÆµÂÊ£¬ÌîĞ´µ¥Î»ÎªºÁÃë")]
+    [Tooltip("ç”Ÿæ•ˆé¢‘ç‡")]
+    //[Tooltip("éš”å¤šä¹…èƒ½å¯¹åŒä¸€ä¸ªå•ä½å†æ¬¡ç”Ÿæ•ˆï¼Œå¯¹æ¿€å…‰\nè€Œè¨€å°±æ˜¯è§¦å‘é¢‘ç‡ï¼Œå¡«å†™å•ä½ä¸ºæ¯«ç§’")]
     public float HitFrequency = 1000;
 
     /// <summary>
-    /// ×Óµ¯½Ç¶È
+    /// å­å¼¹è§’åº¦
     /// </summary>
     [HideInInspector]
     public float Degree;
 
     ///<summary>
-    ///¶¯»­»ú
+    ///åŠ¨ç”»æœº
     ///</summary>
     protected Animator animator;
 
     /// <summary>
-    /// ÆğÊ¼Î»ÖÃ
+    /// èµ·å§‹ä½ç½®
     /// </summary>
     protected Vector2 startPos;
 
     /// <summary>
-    /// ·¢Éäµ¥Î»
+    /// å‘å°„å•ä½
     /// </summary>
     //[HideInInspector] public Unit unit;
 
@@ -92,7 +92,7 @@ public abstract class BulletBase : MonoBehaviour
     }
 
     ///<summary>
-    ///³õÊ¼»¯
+    ///åˆå§‹åŒ–
     ///</summary>
     virtual protected void ParamInit()
     {
@@ -101,12 +101,12 @@ public abstract class BulletBase : MonoBehaviour
     }
 
     ///<summary>
-    ///ÒÆ¶¯·½Ê½
+    ///ç§»åŠ¨æ–¹å¼
     ///</summary>
     abstract protected void MoveMethod();
 
     ///<summary>
-    ///»÷ÖĞµ÷ÓÃ
+    ///å‡»ä¸­è°ƒç”¨
     ///</summary>
     virtual protected void OnSmash()
     {
@@ -129,7 +129,7 @@ public abstract class BulletBase : MonoBehaviour
     }
 
     ///<summary>
-    ///¼ì²éÎ»ÖÃ
+    ///æ£€æŸ¥ä½ç½®
     ///</summary>
     public virtual void CheckPos()
     {
@@ -176,26 +176,26 @@ public abstract class BulletBase : MonoBehaviour
 public enum BulletType
 {
     ///<summary>
-    ///Ö±Ïß×Óµ¯
+    ///ç›´çº¿å­å¼¹
     ///</summary>
-    [InspectorName("Ö±Ïß×Óµ¯")]
+    [InspectorName("ç›´çº¿å­å¼¹")]
     Linear,
     
     ///<summary>
-    ///×·×Ù×Óµ¯
+    ///è¿½è¸ªå­å¼¹
     ///</summary>
-    [InspectorName("×·×Ù×Óµ¯")]
+    [InspectorName("è¿½è¸ªå­å¼¹")]
     Track,
     
     ///<summary>
-    ///±äËÙ±ä½Ç×Óµ¯
+    ///å˜é€Ÿå˜è§’å­å¼¹
     ///</summary>
-    [InspectorName("±äËÙ±ä½Ç×Óµ¯")]
+    [InspectorName("å˜é€Ÿå˜è§’å­å¼¹")]
     ChangableBullet,
     
     ///<summary>
-    ///¼¤¹â
+    ///æ¿€å…‰
     ///</summary>
-    [InspectorName("¼¤¹â")]
+    [InspectorName("æ¿€å…‰")]
     Laser,
 }
