@@ -27,6 +27,18 @@ Unity `2021.3.18f1` (LTS)
 
 
 
+## Instructions
+
+#### Tilemap
+
+- 编辑：打开`Window > 2D > Tile Palette`
+
+#### 物理
+
+- 所有需要与角色交互的实心区域`Layer`设置为`3: Obstacles`
+
+
+
 ## Stuffs used
 
 ### Libraries
