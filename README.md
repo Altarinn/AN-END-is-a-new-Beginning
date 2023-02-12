@@ -1,7 +1,8 @@
 # AN END is a new Beginning
 
-Unity `2021.3.18f1` (LTS)
+[Brackeys Game Jam 2023.1](https://itch.io/jam/brackeys-9)
 
+Unity `2021.3.18f1` (LTS)  
 2D URP
 
 
@@ -22,3 +23,4 @@ Unity `2021.3.18f1` (LTS)
 
   > - 如果之前的自己太强了打不过怎么办x
   > - 该怎么避免玩家摆烂x
+  > - 玩家有无体术判定（好鬼畜哦
