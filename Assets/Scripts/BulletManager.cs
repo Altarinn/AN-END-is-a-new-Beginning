@@ -12,15 +12,18 @@ public struct BulletSetting
 public class BulletManager : SingletonMonoBehaviour<BulletManager>
 {
     public Bullet bulletPrefab;
+    public Transform bulletContainer;
 
     #region BulletPool
+
+    // We use an object pool to manage all bullets to avoid create / destroy them frequently.
 
     public IObjectPool<Bullet> bulletPool;
     int nBulletsActive = 0;
 
     Bullet CreateBullet()
     {
-        Bullet bullet = Instantiate(bulletPrefab.gameObject).GetComponent<Bullet>();
+        Bullet bullet = Instantiate(bulletPrefab.gameObject, bulletContainer).GetComponent<Bullet>();
         bullet.bulletPool = bulletPool;
 
         return bullet;
@@ -71,6 +74,11 @@ public class BulletManager : SingletonMonoBehaviour<BulletManager>
             this.bullets = bullets;
         }
 
+        /// <summary>
+        /// Action after hits an object.
+        /// </summary>
+        /// <param name="onHitFn">public delegate void OnHitObject(Bullet self, Collider2D collision)</param>
+        /// <returns></returns>
         public BulletList OnHit(Bullet.OnHitObject onHitFn)
         {
             foreach (var bullet in bullets)
@@ -81,6 +89,12 @@ public class BulletManager : SingletonMonoBehaviour<BulletManager>
             return this;
         }
 
+        /// <summary>
+        /// Action after a given time after bullet has spawned.
+        /// </summary>
+        /// <param name="sec">Time in seconds.</param>
+        /// <param name="action">public delegate void OnTimer(Bullet self)</param>
+        /// <returns></returns>
         public BulletList OnTimer(float sec, Bullet.OnTimer action)
         {
             foreach (var bullet in bullets)
@@ -95,6 +109,8 @@ public class BulletManager : SingletonMonoBehaviour<BulletManager>
     protected override void Awake()
     {
         base.Awake();
+
+        bulletContainer = GameObject.Find("BulletsContainer").transform;
         InitializePool();
     }
 
