@@ -42,20 +42,22 @@ public class BulletManager : SingletonMonoBehaviour<BulletManager>
         );
     }
 
-    GUIStyle style;
-    bool _uiInitialized = false;
+    //GUIStyle style;
+    //bool _uiInitialized = false;
 
     private void OnGUI()
     {
-        if(!_uiInitialized)
-        {
-            style = new GUIStyle();
-            style.normal = new GUIStyleState();
-            style.normal.textColor = Color.black;
-            style.normal.background = Texture2D.whiteTexture;
-        }
-        GUI.Label(new Rect(20, 20, 100, 50), 
-            $"Pool act: {nBulletsActive}\nInactive: {bulletPool.CountInactive}\nCapacity: {nBulletsActive + bulletPool.CountInactive}", style);
+        GUI.skin = GameController.GetInstance().debugUISkin;
+
+        //if(!_uiInitialized)
+        //{
+        //    style = new GUIStyle();
+        //    style.normal = new GUIStyleState();
+        //    style.normal.textColor = Color.black;
+        //    style.normal.background = Texture2D.whiteTexture;
+        //}
+        GUILayout.Label(
+            $"Pool act: {nBulletsActive}\nInactive: {bulletPool.CountInactive}\nCapacity: {nBulletsActive + bulletPool.CountInactive}");
     }
 
     #endregion

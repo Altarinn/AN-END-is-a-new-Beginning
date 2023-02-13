@@ -20,7 +20,7 @@ public class GameController : MonoBehaviour
 
 #if PLATFORM_ANDROID
     GameObject dialog = null;
-# endif
+#endif
     private static GameController _instance = null;
 
     private GameController()
@@ -59,6 +59,9 @@ public class GameController : MonoBehaviour
 
     private void Init()
     {
+        // Maybe we won't fix the frame rate ... ?
+        //Application.targetFrameRate = 60;
+
         DataLoader.GetInstance().InitSaveData();
         LoadPlayer();
     }
@@ -100,7 +103,6 @@ public class GameController : MonoBehaviour
             Destroy(dialog);
         }
 #endif
-
     }
     private void FirstInit()
     {
@@ -124,4 +126,9 @@ public class GameController : MonoBehaviour
         Application.Quit();
 #endif
     }
+
+    #region DEBUG
+    [Header("DEBUG")]
+    public GUISkin debugUISkin;
+    #endregion
 }

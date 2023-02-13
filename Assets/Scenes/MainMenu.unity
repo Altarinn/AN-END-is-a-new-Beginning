@@ -1267,6 +1267,7 @@ MonoBehaviour:
   logoutTime: 0
   offlineTime: 0
   MainMenu: {fileID: 0}
+  debugUISkin: {fileID: 11400000, guid: 24daaa55cc51fc14c88d4162d67ae9c4, type: 2}
 --- !u!1 &1503398181
 GameObject:
   m_ObjectHideFlags: 0
