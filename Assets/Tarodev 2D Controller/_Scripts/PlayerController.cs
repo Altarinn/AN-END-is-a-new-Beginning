@@ -10,10 +10,10 @@ namespace TarodevController {
     /// if there's enough interest. You can play and compete for best times here: https://tarodev.itch.io/
     /// If you hve any questions or would like to brag about your score, come to discord: https://discord.gg/GqeHHnhHpz
     /// </summary>
-    public class PlayerController : MonoBehaviour, IPlayerController {
+    public class PlayerController : PlayerInputHandler, IPlayerController {
         // Public for external hooks
         public Vector3 Velocity { get; private set; }
-        public FrameInput Input { get; private set; }
+        public FrameInput Input { get; protected set; }
         public bool JumpingThisFrame { get; private set; }
         public bool LandingThisFrame { get; private set; }
         public Vector3 RawMovement { get; private set; }
@@ -22,18 +22,20 @@ namespace TarodevController {
         private Vector3 _lastPosition;
         private float _currentHorizontalSpeed, _currentVerticalSpeed;
 
-        // This is horrible, but for some reason colliders are not fully established when update starts...
-        private bool _active;
-        void Awake() => Invoke(nameof(Activate), 0.5f);
-        void Activate() =>  _active = true;
-        
-        private void Update() {
-            if(!_active) return;
+        protected override void HandleInput(FrameInput input)
+        {
+            Input = input;
+
+            // Handle last jump pressed time
+            if (Input.JumpDown)
+            {
+                _lastJumpPressed = Time.time;
+            }
+
             // Calculate velocity
             Velocity = (transform.position - _lastPosition) / Time.deltaTime;
             _lastPosition = transform.position;
 
-            GatherInput();
             RunCollisionChecks();
 
             CalculateWalk(); // Horizontal movement
@@ -43,22 +45,6 @@ namespace TarodevController {
 
             MoveCharacter(); // Actually perform the axis movement
         }
-
-
-        #region Gather Input
-
-        private void GatherInput() {
-            Input = new FrameInput {
-                JumpDown = UnityEngine.Input.GetButtonDown("Jump"),
-                JumpUp = UnityEngine.Input.GetButtonUp("Jump"),
-                X = UnityEngine.Input.GetAxisRaw("Horizontal")
-            };
-            if (Input.JumpDown) {
-                _lastJumpPressed = Time.time;
-            }
-        }
-
-        #endregion
 
         #region Collisions
 
