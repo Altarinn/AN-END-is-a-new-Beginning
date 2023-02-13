@@ -6,15 +6,24 @@ using UnityEngine.Pool;
 public class Bullet : MonoBehaviour
 {
     public Vector2 velocity;
+    public SpriteRenderer spriteRenderer;
 
     public delegate void OnTimer(Bullet self);
+    public delegate void OnUpdateBullet(Bullet self);
     public delegate void OnHitObject(Bullet self, Collider2D collision);
+    
     public OnHitObject onHit;
+    public OnUpdateBullet onUpdateBullet = UpdateBulletLinear;
 
     public bool destroyOnHit = true;
     public float lifespan = 5.0f;
 
     public IObjectPool<Bullet> bulletPool;
+
+    private void Awake()
+    {
+        if(spriteRenderer == null) { spriteRenderer = GetComponent<SpriteRenderer>(); }
+    }
 
     //void OnEnable()
     //{
@@ -24,7 +33,8 @@ public class Bullet : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(velocity * Time.deltaTime);
+        onUpdateBullet?.Invoke(this);
+
         lifespan -= Time.deltaTime;
         if(lifespan < 0)
         {
@@ -32,7 +42,12 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    void Release()
+    public static void UpdateBulletLinear(Bullet self)
+    {
+        self.transform.Translate(self.velocity * Time.deltaTime);
+    }
+
+    public void Release()
     {
         bulletPool.Release(this);
     }

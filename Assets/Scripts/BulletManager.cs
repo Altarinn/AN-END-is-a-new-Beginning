@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
+[System.Serializable]
 public struct BulletSetting
 {
     public Sprite sprite;
@@ -34,7 +35,14 @@ public class BulletManager : SingletonMonoBehaviour<BulletManager>
         bulletPool = new ObjectPool<Bullet>(
             CreateBullet,
             (bullet) => { nBulletsActive++;  bullet.gameObject.SetActive(true); },
-            (bullet) => { nBulletsActive--;  bullet.gameObject.SetActive(false); bullet.onHit = null; bullet.StopAllCoroutines(); },
+            (bullet) => 
+            { 
+                nBulletsActive--;
+                bullet.gameObject.SetActive(false);
+                bullet.onHit = null;
+                bullet.onUpdateBullet = Bullet.UpdateBulletLinear;
+                bullet.StopAllCoroutines();
+            },
             (bullet) => { nBulletsActive--;  Destroy(bullet.gameObject); Debug.LogWarning("Please increase bullet pool size."); },
             true,
             100,
@@ -106,6 +114,16 @@ public class BulletManager : SingletonMonoBehaviour<BulletManager>
 
             return this;
         }
+
+        public BulletList OnUpdate(Bullet.OnUpdateBullet action)
+        {
+            foreach (var bullet in bullets)
+            {
+                bullet.onUpdateBullet = action;
+            }
+
+            return this;
+        }
     }
 
     protected override void Awake()
@@ -160,7 +178,7 @@ public class BulletManager : SingletonMonoBehaviour<BulletManager>
     /// <param name="degree"></param>
     /// <param name="initialDistance"></param>
     /// <returns></returns>
-    public BulletList BulletFanShots(Bullet prefab, int N, Vector2 position, Vector2 centerVelocity, float degree, float initialDistance = 0.0f)
+    public BulletList BulletFanShots(BulletSetting settings, int N, Vector2 position, Vector2 centerVelocity, float degree, float initialDistance = 0.0f)
     {
         Bullet[] bullets = new Bullet[N];
 
@@ -175,6 +193,8 @@ public class BulletManager : SingletonMonoBehaviour<BulletManager>
             Bullet bullet = bulletPool.Get();
 
             // TODO: lifespan, sprite, etc.
+            bullet.spriteRenderer.sprite = settings.sprite;
+            bullet.spriteRenderer.color = settings.color;
 
             bullet.transform.position = position + velocity.normalized * initialDistance;
             bullet.velocity = velocity;

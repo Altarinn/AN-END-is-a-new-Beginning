@@ -10,10 +10,12 @@ public struct FrameInput : IEquatable<FrameInput>
     public bool JumpUp;
 
     public bool PrimaryFire;
+    public bool SecondaryFire;
 
     public bool beingHit; // Animation trigger (placeholder)
 
     // We won't handle each input channel separately for easy development.
+    // Equality will be evaluated during recording.
     public static bool operator ==(FrameInput obj1, FrameInput obj2)
     {
         if (ReferenceEquals(obj1, obj2))
@@ -37,13 +39,14 @@ public struct FrameInput : IEquatable<FrameInput>
          && JumpDown.Equals(other.JumpDown)
          && JumpUp.Equals(other.JumpUp)
          && PrimaryFire.Equals(other.PrimaryFire)
+         && SecondaryFire.Equals(other.SecondaryFire)
          && beingHit.Equals(other.beingHit);
     }
     public override bool Equals(object obj) => obj is FrameInput other && this.Equals(other);
 
     public override int GetHashCode()
     {
-        return (X, Y, JumpDown, JumpUp, PrimaryFire, beingHit).GetHashCode();
+        return (X, Y, JumpDown, JumpUp, PrimaryFire, SecondaryFire, beingHit).GetHashCode();
     }
 }
 
@@ -51,11 +54,13 @@ public class ReplayableInput : MonoBehaviour
 {
     public FrameInput Input { get; private set; }
 
+    // Used to simulate burst input (Á¬·¢) during key hold
     float fireCounter;
 
     [SerializeField]
     float fireIntervalMS = 100.0f;
 
+    // Class holding a sequence of input events (for replay)
     public class InputRecord
     {
         public struct RecordEntry
@@ -92,7 +97,8 @@ public class ReplayableInput : MonoBehaviour
         fireCounter = 0.0f;
     }
 
-    // Update is called once per frame
+    // Enable / Disable external input
+    // When disabled, input events can still be triggered by input replay.
     bool inputEnabled = false;
     public bool InputEnabled { 
         get { return inputEnabled; }
@@ -106,12 +112,15 @@ public class ReplayableInput : MonoBehaviour
             }
         }
     }
+
+    // Update is called once per frame
     void Update()
     {
         GatherInput();
         RecordUpdate();
     }
 
+    // Collect input events, either keyboard or replay.
     private void GatherInput()
     {
         if(state == RecorderState.Replay)
@@ -123,6 +132,7 @@ public class ReplayableInput : MonoBehaviour
         else if(InputEnabled)
         {
             // Handle sustained input as multiple repeated inputs
+            // Only for "Fire1"
             bool isFire1 = false;
 
             // TODO: Change to fixed 60FPS and int fireCounter?
@@ -142,6 +152,7 @@ public class ReplayableInput : MonoBehaviour
                 X = UnityEngine.Input.GetAxisRaw("Horizontal"),
 
                 PrimaryFire = isFire1,
+                SecondaryFire = UnityEngine.Input.GetButtonDown("Fire2")
             };
         }
     }
@@ -308,7 +319,7 @@ public class ReplayableInput : MonoBehaviour
         {
             GUI.skin = DebugUI.Instance.debugUISkin;
 
-            GUILayout.BeginArea(new Rect(0, 80, 160, 500));
+            GUILayout.BeginArea(new Rect(0, 35, 100, 500));
 
             if (state == RecorderState.Replay)
             {
@@ -324,7 +335,7 @@ public class ReplayableInput : MonoBehaviour
                 StartRecording(testRecord);
             }
 
-            if (GUILayout.Button("Stop  record"))
+            if (GUILayout.Button("Stop record"))
             {
                 EndRecording();
             }
@@ -334,7 +345,7 @@ public class ReplayableInput : MonoBehaviour
                 StartReplay(testRecord);
             }
 
-            if (GUILayout.Button("Stop  replay"))
+            if (GUILayout.Button("Stop replay"))
             {
                 EndReplay();
             }

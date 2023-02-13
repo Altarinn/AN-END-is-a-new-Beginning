@@ -44,7 +44,7 @@ public class DebugUI : SingletonMonoBehaviour<DebugUI>
     {
         GUI.skin = this.debugUISkin;
 
-        GUILayout.BeginArea(new Rect(0, 240, 160, 500));
+        GUILayout.BeginArea(new Rect(0, 140, 100, 500));
 
         GUILayout.Label($"Current: #{currentInputID} {inputs[currentInputID].gameObject.name}");
         if (GUILayout.Button("Next player"))

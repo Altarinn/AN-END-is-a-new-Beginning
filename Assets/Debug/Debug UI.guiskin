@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 12001, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: Debug UI
   m_EditorClassIdentifier: 
-  m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Font: {fileID: 12800000, guid: 4702264f436f2f94b9a440fe09a61ccd, type: 3}
   m_box:
     m_Name: box
     m_Normal:
@@ -83,17 +83,17 @@ MonoBehaviour:
   m_button:
     m_Name: button
     m_Normal:
-      m_Background: {fileID: 10904, guid: 0000000000000000f000000000000000, type: 0}
+      m_Background: {fileID: 2800000, guid: 532cf94ebecaf86429e612c43200d182, type: 3}
       m_ScaledBackgrounds: []
       m_TextColor: {r: 0, g: 0, b: 0, a: 1}
     m_Hover:
-      m_Background: {fileID: 10904, guid: 0000000000000000f000000000000000, type: 0}
+      m_Background: {fileID: 2800000, guid: b18abdf24a618764c89f2bb78eeabb0e, type: 3}
       m_ScaledBackgrounds: []
       m_TextColor: {r: 0.31132078, g: 0.20970099, b: 0.20970099, a: 1}
     m_Active:
-      m_Background: {fileID: 10906, guid: 0000000000000000f000000000000000, type: 0}
+      m_Background: {fileID: 2800000, guid: 248ab28e0443cad41a8206834398e8f2, type: 3}
       m_ScaledBackgrounds: []
-      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+      m_TextColor: {r: 1, g: 1, b: 1, a: 1}
     m_Focused:
       m_Background: {fileID: 0}
       m_ScaledBackgrounds: []
@@ -135,7 +135,7 @@ MonoBehaviour:
       m_Top: 0
       m_Bottom: 0
     m_Font: {fileID: 0}
-    m_FontSize: 15
+    m_FontSize: 8
     m_FontStyle: 0
     m_Alignment: 4
     m_WordWrap: 0
@@ -269,7 +269,7 @@ MonoBehaviour:
       m_Top: 0
       m_Bottom: 0
     m_Font: {fileID: 0}
-    m_FontSize: 15
+    m_FontSize: 8
     m_FontStyle: 0
     m_Alignment: 0
     m_WordWrap: 1
