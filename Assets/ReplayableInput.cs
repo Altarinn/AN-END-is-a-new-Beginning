@@ -14,6 +14,24 @@ public struct FrameInput : IEquatable<FrameInput>
 
     public bool beingHit; // Animation trigger (placeholder)
 
+    // We need to detect a rising edge from frames.
+    // Otherwise, for "ButtonUp" "ButtonDown" events (all bool types), it may trigger multiple inputs
+    // even if player just entered once due to inconsistent frame times between user input / replay.
+    public static FrameInput RecoverInput(FrameInput previousFrame, FrameInput currentFrame)
+    {
+        return new FrameInput()
+        {
+            X = currentFrame.X,
+            Y = currentFrame.Y,
+            JumpDown = (!previousFrame.JumpDown) && currentFrame.JumpDown,
+            JumpUp = (!previousFrame.JumpUp) && currentFrame.JumpUp,
+            PrimaryFire = (!previousFrame.PrimaryFire) && currentFrame.PrimaryFire,
+            SecondaryFire = (!previousFrame.SecondaryFire) && currentFrame.SecondaryFire,
+
+            beingHit = (!previousFrame.beingHit) && currentFrame.beingHit,
+        };
+    }
+
     // We won't handle each input channel separately for easy development.
     // Equality will be evaluated during recording.
     public static bool operator ==(FrameInput obj1, FrameInput obj2)
@@ -245,6 +263,8 @@ public class ReplayableInput : MonoBehaviour
     InputRecord recordInReplay;
     int currentEntryIndex = 0;
 
+    FrameInput previousFrameReplay;
+
     private void StartReplay(InputRecord record)
     {
         if (state != RecorderState.Idle)
@@ -254,6 +274,7 @@ public class ReplayableInput : MonoBehaviour
         }
 
         state = RecorderState.Replay;
+        previousFrameReplay = default(FrameInput);
         recordInReplay = record;
 
         // TODO: Directly use record's position like this?
@@ -304,7 +325,10 @@ public class ReplayableInput : MonoBehaviour
             EndReplay();
         }
 
-        return entry.input;
+        var result = FrameInput.RecoverInput(previousFrameReplay, entry.input);
+        previousFrameReplay = entry.input;
+
+        return result;
     }
     #endregion
 
