@@ -47,7 +47,7 @@ public class BulletManager : SingletonMonoBehaviour<BulletManager>
 
     private void OnGUI()
     {
-        GUI.skin = GameController.GetInstance().debugUISkin;
+        GUI.skin = DebugUI.Instance.debugUISkin;
 
         //if(!_uiInitialized)
         //{

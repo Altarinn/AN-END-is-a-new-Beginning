@@ -93,6 +93,19 @@ public class ReplayableInput : MonoBehaviour
     }
 
     // Update is called once per frame
+    bool inputEnabled = false;
+    public bool InputEnabled { 
+        get { return inputEnabled; }
+        set 
+        { 
+            inputEnabled = value;
+
+            if(value == false)
+            {
+                Input = default(FrameInput);
+            }
+        }
+    }
     void Update()
     {
         GatherInput();
@@ -107,7 +120,7 @@ public class ReplayableInput : MonoBehaviour
         }
 
         // Record or Idle
-        else
+        else if(InputEnabled)
         {
             // Handle sustained input as multiple repeated inputs
             bool isFire1 = false;
@@ -134,17 +147,22 @@ public class ReplayableInput : MonoBehaviour
     }
 
     #region Recording
-    enum RecorderState
+    public enum RecorderState
     {
         Idle,
         Record,
         Replay
     }
-    RecorderState state = RecorderState.Idle;
+    public RecorderState state { get; protected set; } = RecorderState.Idle;
     InputRecord recordInRecording;
 
     FrameInput lastAction;
     float timeSinceLastEntry = 0.0f;
+
+    public void SetState(RecorderState newState)
+    {
+        state = newState;
+    }
 
     private void StartRecording(InputRecord record)
     {
@@ -154,6 +172,7 @@ public class ReplayableInput : MonoBehaviour
             return;
         }
 
+        record.Clear();
         recordInRecording = record;
         state = RecorderState.Record;
 
@@ -280,44 +299,48 @@ public class ReplayableInput : MonoBehaviour
 
     #region Debug area
 
+    public bool ShowDebugMenu = false;
     InputRecord testRecord = new InputRecord();
 
     private void OnGUI()
     {
-        GUI.skin = GameController.GetInstance().debugUISkin;
-
-        GUILayout.BeginArea(new Rect(0, 80, 160, 500));
-
-        if(state == RecorderState.Replay)
+        if(ShowDebugMenu)
         {
-            GUILayout.Label($"Input state: {state}\nRecord: {currentEntryIndex} / {testRecord.records.Count}");
-        }
-        else
-        {
-            GUILayout.Label($"Input state: {state}\nRecord length: {testRecord.records.Count}");
-        }
+            GUI.skin = DebugUI.Instance.debugUISkin;
 
-        if (GUILayout.Button("Start record"))
-        {
-            StartRecording(testRecord);
-        }
+            GUILayout.BeginArea(new Rect(0, 80, 160, 500));
 
-        if(GUILayout.Button("Stop  record"))
-        {
-            EndRecording();
-        }
+            if (state == RecorderState.Replay)
+            {
+                GUILayout.Label($"Input state: {state}\nRecord: {currentEntryIndex} / {testRecord.records.Count}");
+            }
+            else
+            {
+                GUILayout.Label($"Input state: {state}\nRecord length: {testRecord.records.Count}");
+            }
 
-        if(GUILayout.Button("Start replay"))
-        {
-            StartReplay(testRecord);
-        }
+            if (GUILayout.Button("Start record"))
+            {
+                StartRecording(testRecord);
+            }
 
-        if(GUILayout.Button("Stop  replay"))
-        {
-            EndReplay();
-        }
+            if (GUILayout.Button("Stop  record"))
+            {
+                EndRecording();
+            }
 
-        GUILayout.EndArea();
+            if (GUILayout.Button("Start replay"))
+            {
+                StartReplay(testRecord);
+            }
+
+            if (GUILayout.Button("Stop  replay"))
+            {
+                EndReplay();
+            }
+
+            GUILayout.EndArea();
+        }
     }
 
     #endregion
