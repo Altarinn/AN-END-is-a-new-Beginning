@@ -64,6 +64,9 @@ public class ReplayableInput : MonoBehaviour
 
             //int framesSustained;
             public float timeSustained;
+
+            // Position right after this entry finshed.
+            public Vector2 referencePos;
         }
 
         public List<RecordEntry> records = new();
@@ -168,7 +171,11 @@ public class ReplayableInput : MonoBehaviour
         }
 
         recordInRecording.AddRecordEntry(new InputRecord.RecordEntry()
-            { input = lastAction, timeSustained = timeSinceLastEntry }
+            {
+                input = lastAction,
+                timeSustained = timeSinceLastEntry,
+                referencePos = transform.position
+            }
         );
         timeSinceLastEntry = 0.0f;
 
@@ -187,7 +194,11 @@ public class ReplayableInput : MonoBehaviour
             else if(lastAction != Input)
             {
                 recordInRecording.AddRecordEntry(new InputRecord.RecordEntry()
-                    { input = lastAction, timeSustained = timeSinceLastEntry }
+                    { 
+                        input = lastAction,
+                        timeSustained = timeSinceLastEntry,
+                        referencePos = transform.position
+                    }
                 );
 
                 timeSinceLastEntry = 0.0f;
@@ -250,7 +261,10 @@ public class ReplayableInput : MonoBehaviour
         timeSinceLastEntry += Time.deltaTime;
         if(timeSinceLastEntry >= entry.timeSustained)
         {
-            timeSinceLastEntry -= entry.timeSustained;
+            transform.position = new Vector3(entry.referencePos.x, entry.referencePos.y, transform.position.z);
+
+            //timeSinceLastEntry -= entry.timeSustained;
+            timeSinceLastEntry = 0;
             currentEntryIndex++;
         }
 
@@ -274,7 +288,14 @@ public class ReplayableInput : MonoBehaviour
 
         GUILayout.BeginArea(new Rect(0, 80, 160, 500));
 
-        GUILayout.Label($"Input state: {state}\nRecord length: {testRecord.records.Count}");
+        if(state == RecorderState.Replay)
+        {
+            GUILayout.Label($"Input state: {state}\nRecord: {currentEntryIndex} / {testRecord.records.Count}");
+        }
+        else
+        {
+            GUILayout.Label($"Input state: {state}\nRecord length: {testRecord.records.Count}");
+        }
 
         if (GUILayout.Button("Start record"))
         {
