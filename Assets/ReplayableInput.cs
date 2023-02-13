@@ -46,6 +46,7 @@ public class ReplayableInput : MonoBehaviour
             isFire1 = true;
             fireCounter += fireIntervalMS / 1000.0f;
         }
+        //isFire1 = UnityEngine.Input.GetButtonDown("Fire1");
 
         Input = new FrameInput
         {
