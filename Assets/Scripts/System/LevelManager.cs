@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class LevelManager : MonoBehaviour
+public class LevelManager : SingletonMonoBehaviour<LevelManager>
 {
     public static Transform EnemyTarget;
     public static Transform enemyContainer;
@@ -19,21 +19,8 @@ public class LevelManager : MonoBehaviour
 
     public int livingEnemy = 0;
 
-    private static LevelManager _instance = null;
+    public static LevelManager GetInstance() => Instance;
 
-    private LevelManager()
-    {
-        _instance = this;
-    }
-
-    public static LevelManager GetInstance()
-    {
-        if (_instance == null)
-        {
-            _instance = new LevelManager();
-        }
-        return _instance;
-    }
 
     void Start()
     {

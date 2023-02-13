@@ -1,26 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DataLoader : MonoBehaviour
+public class DataLoader : SingletonMonoBehaviour<DataLoader>
 {
-    private static DataLoader _instance = null;
+    public static DataLoader GetInstance() => Instance;
 
-    private DataLoader()
+    protected override void Awake()
     {
-        _instance = this;
-    }
-
-    public static DataLoader GetInstance()
-    {
-        if (_instance == null)
-        {
-            _instance = new DataLoader();
-        }
-        return _instance;
-    }
-
-    private void Awake()
-    {
+        base.Awake();
         DontDestroyOnLoad(this);
     }
 

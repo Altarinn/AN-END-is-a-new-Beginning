@@ -2,23 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SoundManager : MonoBehaviour
+public class SoundManager : SingletonMonoBehaviour<SoundManager>
 {
-    private static SoundManager _instance = null;
-
-    private SoundManager()
-    {
-        _instance = this;
-    }
-
-    public static SoundManager GetInstance()
-    {
-        if (_instance == null)
-        {
-            _instance = new SoundManager();
-        }
-        return _instance;
-    }
+    public static SoundManager GetInstance() => Instance;
 
     public AudioSource backgroundMusicPlayer;
     public AudioSource UISEPlayer;
@@ -28,8 +14,9 @@ public class SoundManager : MonoBehaviour
     public AudioClip moveOnSE;
     public AudioClip clickSE;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         DontDestroyOnLoad(this);
     }
 

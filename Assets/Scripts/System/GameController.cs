@@ -7,7 +7,7 @@ using UnityEngine.Android;
 # endif
 using UnityEngine.UI;
 
-public class GameController : MonoBehaviour
+public class GameController : SingletonMonoBehaviour<GameController>
 {
     [HideInInspector]
     public double logoutTime;
@@ -21,24 +21,12 @@ public class GameController : MonoBehaviour
 #if PLATFORM_ANDROID
     GameObject dialog = null;
 #endif
-    private static GameController _instance = null;
 
-    private GameController()
-    {
-        _instance = this;
-    }
+    public static GameController GetInstance() => Instance;
 
-    public static GameController GetInstance()
+    protected override void Awake()
     {
-        if (_instance == null)
-        {
-            _instance = new GameController();
-        }
-        return _instance;
-    }
-
-    private void Awake()
-    {
+        base.Awake();
         DontDestroyOnLoad(this);
     }
 
@@ -60,7 +48,7 @@ public class GameController : MonoBehaviour
     private void Init()
     {
         // Maybe we won't fix the frame rate ... ?
-        //Application.targetFrameRate = 60;
+        // Application.targetFrameRate = 60;
 
         DataLoader.GetInstance().InitSaveData();
         LoadPlayer();

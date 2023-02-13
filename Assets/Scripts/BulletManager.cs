@@ -112,7 +112,13 @@ public class BulletManager : SingletonMonoBehaviour<BulletManager>
     {
         base.Awake();
 
-        bulletContainer = GameObject.Find("BulletsContainer").transform;
+        GameObject obj = GameObject.Find("BulletsContainer");
+        if(obj == null)
+        {
+            obj = new GameObject("TempBulletContainer");
+        }
+        bulletContainer = obj.transform;
+
         InitializePool();
     }
 

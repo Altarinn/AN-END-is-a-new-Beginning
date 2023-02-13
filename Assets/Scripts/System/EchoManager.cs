@@ -2,26 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EchoManager : MonoBehaviour
+public class EchoManager : SingletonMonoBehaviour<EchoManager>
 {
-    private static EchoManager _instance = null;
+    public static EchoManager GetInstance() => Instance;
 
-    private EchoManager()
+    protected override void Awake()
     {
-        _instance = this;
-    }
-
-    public static EchoManager GetInstance()
-    {
-        if (_instance == null)
-        {
-            _instance = new EchoManager();
-        }
-        return _instance;
-    }
-
-    private void Awake()
-    {
+        base.Awake();
         DontDestroyOnLoad(this);
     }
 }

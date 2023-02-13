@@ -1,4 +1,4 @@
-// https://qiita.com/okuhiiro/items/3d69c602b8538c04a479
+//https://qiita.com/okuhiiro/items/3d69c602b8538c04a479
 
 using System;
 using UnityEngine;
@@ -31,8 +31,8 @@ public abstract class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBe
         // ¥¢¥¿¥Ã¥Á¤µ¤ì¤Æ¤¤¤ëˆöºÏ¤ÏÆÆ—‰¤¹¤ë.
         if (this != Instance)
         {
-            Destroy(this);
-            //Destroy(this.gameObject);
+            //Destroy(this);
+            Destroy(this.gameObject);
             Debug.LogError(
                 typeof(T) +
                 " ¤Ï¼È¤ËËû¤ÎGameObject¤Ë¥¢¥¿¥Ã¥Á¤µ¤ì¤Æ¤¤¤ë¤¿¤á¡¢¥³¥ó¥Ý©`¥Í¥ó¥È¤òÆÆ—‰¤·¤Þ¤·¤¿." +

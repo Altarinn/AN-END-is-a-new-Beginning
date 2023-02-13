@@ -1,27 +1,14 @@
 using UnityEngine;
 
-public class UIManager : MonoBehaviour
+public class UIManager : SingletonMonoBehaviour<UIManager>
 {
     public Transform UIContainer;
 
-    private static UIManager _instance = null;
+    public static UIManager GetInstance() => Instance;
 
-    private UIManager()
+    protected override void Awake()
     {
-        _instance = this;
-    }
-
-    public static UIManager GetInstance()
-    {
-        if (_instance == null)
-        {
-            _instance = new UIManager();
-        }
-        return _instance;
-    }
-
-    private void Awake()
-    {
+        base.Awake();
         DontDestroyOnLoad(this);
         DontDestroyOnLoad(UIContainer.gameObject);
     }
