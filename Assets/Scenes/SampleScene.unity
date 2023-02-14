@@ -220,6 +220,59 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &299362565
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 299362566}
+  - component: {fileID: 299362567}
+  m_Layer: 0
+  m_Name: TimedBomb
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &299362566
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 299362565}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1919814913}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &299362567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 299362565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b54975a80feda6240b1a8a9d40564a82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  setting:
+    sprite: {fileID: 21300000, guid: 8620bcf7fa769e94fa548c2fc0325ef4, type: 3}
+    color: {r: 0.9716981, g: 0.377555, b: 0, a: 1}
+  flySpeed: 18
+  explosionSpeed: 16
+  explosionNum: 36
+  gravity: 30
+  maxFall: 20
+  delay: 1
 --- !u!1 &464707528
 GameObject:
   m_ObjectHideFlags: 0
@@ -934,7 +987,7 @@ MonoBehaviour:
   InputModule: {fileID: 1432466706}
   Fire1: {fileID: 95374567}
   Fire2: {fileID: 701369851}
-  Fire3: {fileID: 0}
+  Fire3: {fileID: 299362567}
 --- !u!4 &1432466709 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6432609860406773170, guid: 42303504a4fc90a43bc5178df9876bf2, type: 3}
@@ -3009,6 +3062,7 @@ Transform:
   m_Children:
   - {fileID: 95374566}
   - {fileID: 701369850}
+  - {fileID: 299362566}
   m_Father: {fileID: 1432466709}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
