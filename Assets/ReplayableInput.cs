@@ -11,6 +11,7 @@ public struct FrameInput : IEquatable<FrameInput>
 
     public bool PrimaryFire;
     public bool SecondaryFire;
+    public bool ThirdFire;
 
     public bool beingHit; // Animation trigger (placeholder)
 
@@ -27,6 +28,7 @@ public struct FrameInput : IEquatable<FrameInput>
             JumpUp = (!previousFrame.JumpUp) && currentFrame.JumpUp,
             PrimaryFire = (!previousFrame.PrimaryFire) && currentFrame.PrimaryFire,
             SecondaryFire = (!previousFrame.SecondaryFire) && currentFrame.SecondaryFire,
+            ThirdFire = (!previousFrame.ThirdFire) && currentFrame.ThirdFire,
 
             beingHit = (!previousFrame.beingHit) && currentFrame.beingHit,
         };
@@ -58,13 +60,14 @@ public struct FrameInput : IEquatable<FrameInput>
          && JumpUp.Equals(other.JumpUp)
          && PrimaryFire.Equals(other.PrimaryFire)
          && SecondaryFire.Equals(other.SecondaryFire)
+         && ThirdFire.Equals(other.ThirdFire)
          && beingHit.Equals(other.beingHit);
     }
     public override bool Equals(object obj) => obj is FrameInput other && this.Equals(other);
 
     public override int GetHashCode()
     {
-        return (X, Y, JumpDown, JumpUp, PrimaryFire, SecondaryFire, beingHit).GetHashCode();
+        return (X, Y, JumpDown, JumpUp, PrimaryFire, SecondaryFire, ThirdFire, beingHit).GetHashCode();
     }
 }
 
@@ -72,7 +75,7 @@ public class ReplayableInput : MonoBehaviour
 {
     public FrameInput Input { get; private set; }
 
-    // Used to simulate burst input (Á¬·¢) during key hold
+    // Used to simulate burst input (ï¿½ï¿½ï¿½ï¿½) during key hold
     float fireCounter;
 
     [SerializeField]
@@ -170,7 +173,8 @@ public class ReplayableInput : MonoBehaviour
                 X = UnityEngine.Input.GetAxisRaw("Horizontal"),
 
                 PrimaryFire = isFire1,
-                SecondaryFire = UnityEngine.Input.GetButtonDown("Fire2")
+                SecondaryFire = UnityEngine.Input.GetButtonDown("Fire2"),
+                ThirdFire = UnityEngine.Input.GetButtonDown("Fire3")
             };
         }
     }

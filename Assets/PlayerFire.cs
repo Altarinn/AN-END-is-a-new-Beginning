@@ -18,5 +18,9 @@ public class PlayerFire : PlayerInputHandler
         {
             Fire2?.Fire(transform.position, direction);
         }
+        if(input.ThirdFire)
+        {
+            Fire3?.Fire(transform.position, direction);
+        }
     }
 }
