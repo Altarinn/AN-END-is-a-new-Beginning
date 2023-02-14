@@ -90,6 +90,12 @@ public class Bullet : MonoBehaviour
 
         if (onHit != null) { onHit(this, collider); }
 
+        var dt = collider.GetComponent<DamageTaker>();
+        if (dt != null)
+        {
+            dt.Damage(1, velocity.normalized);
+        }
+
         if (destroyOnHit) { Release(); }
     }
 

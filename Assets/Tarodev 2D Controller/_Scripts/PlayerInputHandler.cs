@@ -15,8 +15,7 @@ public abstract class PlayerInputHandler : MonoBehaviour
     {
         if (InputModule == null)
         {
-            Debug.LogError($"{name} has no ReplayableInput assigned for PlayerController!");
-            return;
+            Debug.LogWarning($"{name} has no ReplayableInput assigned for PlayerController! Default inputs will be used ...");
         }
 
         _active = true;
@@ -35,6 +34,11 @@ public abstract class PlayerInputHandler : MonoBehaviour
 
     private FrameInput GatherInput()
     {
+        if(InputModule == null)
+        {
+            return default(FrameInput);
+        }
+
         return InputModule.Input;
     }
 }

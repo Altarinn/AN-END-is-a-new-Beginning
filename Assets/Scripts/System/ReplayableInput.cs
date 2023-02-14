@@ -13,7 +13,9 @@ public struct FrameInput : IEquatable<FrameInput>
     public bool SecondaryFire;
     public bool ThirdFire;
 
-    public bool beingHit; // Animation trigger (placeholder)
+    // Animation trigger (placeholder)
+    //public Vector2 hitDirection;
+    public bool beingHit;
 
     // We need to detect a rising edge from frames.
     // Otherwise, for "ButtonUp" "ButtonDown" events (all bool types), it may trigger multiple inputs

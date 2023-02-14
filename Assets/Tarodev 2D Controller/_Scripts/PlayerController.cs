@@ -11,6 +11,7 @@ namespace TarodevController {
     /// If you hve any questions or would like to brag about your score, come to discord: https://discord.gg/GqeHHnhHpz
     /// </summary>
     public class PlayerController : PlayerInputHandler, IPlayerController {
+        
         // Public for external hooks
         public Vector3 Velocity { get; private set; }
         public FrameInput Input { get; protected set; }
@@ -21,6 +22,19 @@ namespace TarodevController {
 
         private Vector3 _lastPosition;
         private float _currentHorizontalSpeed, _currentVerticalSpeed;
+
+        [Header("DO YOU CONTROL IT?")]
+        public bool UseInput = false;
+        private Vector2 _externalMovement;
+
+        /// <summary>
+        /// You should multiply `movement` by `Time.deltaTime`.
+        /// </summary>
+        /// <param name="movement">Movement (in units)</param>
+        public void ApplyExternalMovement(Vector2 movement)
+        {
+            _externalMovement += movement;
+        }
 
         protected override void HandleInput(FrameInput input)
         {
@@ -38,13 +52,31 @@ namespace TarodevController {
 
             RunCollisionChecks();
 
-            CalculateWalk(); // Horizontal movement
+            if(UseInput)
+            {
+                CalculateWalk(); // Horizontal movement
+            }
+
             CalculateJumpApex(); // Affects fall speed, so calculate before gravity
             CalculateGravity(); // Vertical movement
-            CalculateJump(); // Possibly overrides vertical
+            
+            if(UseInput)
+            {
+                CalculateJump(); // Possibly overrides vertical
+            }
+
+            //HandleExternalMovement();
 
             MoveCharacter(); // Actually perform the axis movement
         }
+
+        //private void HandleExternalMovement()
+        //{
+        //    Debug.Log($"{_externalMovement.x}");
+        //    _currentHorizontalSpeed += _externalMovement.x;
+        //    _currentVerticalSpeed += _externalMovement.y;
+        //    _externalMovement = Vector2.zero;
+        //}
 
         #region Collisions
 
@@ -246,9 +278,13 @@ namespace TarodevController {
 
         // We cast our bounds before moving to avoid future collisions
         private void MoveCharacter() {
+
             var pos = transform.position;
+
             RawMovement = new Vector3(_currentHorizontalSpeed, _currentVerticalSpeed); // Used externally
-            var move = RawMovement * Time.deltaTime;
+            var move = RawMovement * Time.deltaTime + (Vector3)_externalMovement;
+            _externalMovement = Vector2.zero;
+
             var furthestPoint = pos + move;
 
             // check furthest movement. If nothing hit, move and don't do extra checks
@@ -271,7 +307,8 @@ namespace TarodevController {
                     // We've landed on a corner or hit our head on a ledge. Nudge the player gently
                     if (i == 1) {
                         if (_currentVerticalSpeed < 0) _currentVerticalSpeed = 0;
-                        var dir = transform.position - hit.transform.position;
+                        var contact = hit.ClosestPoint((Vector2)transform.position);
+                        var dir = transform.position - new Vector3(contact.x, contact.y, transform.position.z);
                         transform.position += dir.normalized * move.magnitude;
                     }
 

@@ -41,7 +41,7 @@ public class PlayerGravityBomb : AttackPatternBase
             .OnHit((self, coll) =>
             {
                 b.BulletFanShots(setting, 12, self.transform.position, Vector3.up * explosionSpeed, 360, 0.1f)
-                .OnTimer(0.05f, (self) => self.Release());
+                .SetLife(0.05f);
             });
         });
     }
