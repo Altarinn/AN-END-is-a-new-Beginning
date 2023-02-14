@@ -170,6 +170,8 @@ MonoBehaviour:
   setting:
     sprite: {fileID: 21300000, guid: 8620bcf7fa769e94fa548c2fc0325ef4, type: 3}
     color: {r: 0.83396226, g: 0.9191463, b: 1, a: 1}
+    dontDestroyOnHit: 0
+    lifeSpan: 0
   flySpeed: 18
   explosionSpeed: 10
   burstNum: 3
@@ -267,6 +269,8 @@ MonoBehaviour:
   setting:
     sprite: {fileID: 21300000, guid: 8620bcf7fa769e94fa548c2fc0325ef4, type: 3}
     color: {r: 0.9716981, g: 0.377555, b: 0, a: 1}
+    dontDestroyOnHit: 0
+    lifeSpan: 5
   flySpeed: 18
   explosionSpeed: 16
   explosionNum: 36
@@ -667,6 +671,8 @@ MonoBehaviour:
   setting:
     sprite: {fileID: 21300000, guid: 8620bcf7fa769e94fa548c2fc0325ef4, type: 3}
     color: {r: 1, g: 0.4188679, b: 0.4188679, a: 1}
+    dontDestroyOnHit: 0
+    lifeSpan: 0
   flySpeed: 18
   explosionSpeed: 16
   explosionNum: 36

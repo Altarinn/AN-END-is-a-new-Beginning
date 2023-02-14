@@ -13,6 +13,7 @@ public class Bullet : MonoBehaviour
     public delegate void OnHitObject(Bullet self, Collider2D collision);
     
     public OnHitObject onHit;
+    public OnTimer onRelease;
     public OnUpdateBullet onUpdateBullet = UpdateBulletLinear;
 
     public bool destroyOnHit = true;
@@ -23,6 +24,17 @@ public class Bullet : MonoBehaviour
     private void Awake()
     {
         if(spriteRenderer == null) { spriteRenderer = GetComponent<SpriteRenderer>(); }
+    }
+
+    private void OnDisable()
+    {
+        // Re-initialize myself
+        onHit = null;
+        onRelease = null;
+        onUpdateBullet = Bullet.UpdateBulletLinear;
+        destroyOnHit = false;
+        lifespan = 5.0f;
+        StopAllCoroutines();
     }
 
     //void OnEnable()
@@ -42,6 +54,16 @@ public class Bullet : MonoBehaviour
         }
     }
 
+    public void ApplySetting(BulletSetting setting)
+    {
+        if (spriteRenderer == null) { spriteRenderer = GetComponent<SpriteRenderer>(); }
+
+        spriteRenderer.sprite = setting.sprite;
+        spriteRenderer.color = setting.color;
+        destroyOnHit = !setting.dontDestroyOnHit;
+        lifespan = 5.0f + setting.extraLifeSpan;
+    }
+
     public static void UpdateBulletLinear(Bullet self)
     {
         self.transform.Translate(self.velocity * Time.deltaTime);
@@ -49,6 +71,7 @@ public class Bullet : MonoBehaviour
 
     public void Release()
     {
+        onRelease?.Invoke(this);
         bulletPool.Release(this);
     }
 

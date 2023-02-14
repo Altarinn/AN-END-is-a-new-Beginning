@@ -2,12 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
+using System.Linq;
 
 [System.Serializable]
 public struct BulletSetting
 {
     public Sprite sprite;
     public Color color;
+
+    public bool dontDestroyOnHit;
+
+    [Tooltip("lifespan = 5.0 + extra sec")]
+    public float extraLifeSpan;
 }
 
 public class BulletManager : SingletonMonoBehaviour<BulletManager>
@@ -39,9 +45,6 @@ public class BulletManager : SingletonMonoBehaviour<BulletManager>
             { 
                 nBulletsActive--;
                 bullet.gameObject.SetActive(false);
-                bullet.onHit = null;
-                bullet.onUpdateBullet = Bullet.UpdateBulletLinear;
-                bullet.StopAllCoroutines();
             },
             (bullet) => { nBulletsActive--;  Destroy(bullet.gameObject); Debug.LogWarning("Please increase bullet pool size."); },
             true,
@@ -115,11 +118,41 @@ public class BulletManager : SingletonMonoBehaviour<BulletManager>
             return this;
         }
 
+        public BulletList OnRelease(Bullet.OnTimer action)
+        {
+            foreach (var bullet in bullets)
+            {
+                bullet.onRelease = action;
+            }
+
+            return this;
+        }
+
         public BulletList OnUpdate(Bullet.OnUpdateBullet action)
         {
             foreach (var bullet in bullets)
             {
                 bullet.onUpdateBullet = action;
+            }
+
+            return this;
+        }
+
+        public BulletList SetDestroyOnHit(bool value)
+        {
+            foreach (var bullet in bullets)
+            {
+                bullet.destroyOnHit = value;
+            }
+
+            return this;
+        }
+
+        public BulletList SetLife(float value)
+        {
+            foreach (var bullet in bullets)
+            {
+                bullet.lifespan = value;
             }
 
             return this;
@@ -193,8 +226,7 @@ public class BulletManager : SingletonMonoBehaviour<BulletManager>
             Bullet bullet = bulletPool.Get();
 
             // TODO: lifespan, sprite, etc.
-            bullet.spriteRenderer.sprite = settings.sprite;
-            bullet.spriteRenderer.color = settings.color;
+            bullet.ApplySetting(settings);
 
             bullet.transform.position = position + velocity.normalized * initialDistance;
             bullet.velocity = velocity;
