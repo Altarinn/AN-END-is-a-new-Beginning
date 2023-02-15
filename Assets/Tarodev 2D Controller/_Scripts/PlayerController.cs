@@ -25,6 +25,7 @@ namespace TarodevController {
 
         [Header("DO YOU CONTROL IT?")]
         public bool UseInput = false;
+        public bool Gravity = true;
         private Vector2 _externalMovement;
 
         /// <summary>
@@ -209,6 +210,7 @@ namespace TarodevController {
             else {
                 // Add downward force while ascending if we ended the jump early
                 var fallSpeed = _endedJumpEarly && _currentVerticalSpeed > 0 ? _fallSpeed * _jumpEndEarlyGravityModifier : _fallSpeed;
+                if (!Gravity) { fallSpeed = 0; }
 
                 // Fall
                 _currentVerticalSpeed -= fallSpeed * Time.deltaTime;

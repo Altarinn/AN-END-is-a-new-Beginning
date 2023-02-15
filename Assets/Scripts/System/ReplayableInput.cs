@@ -203,7 +203,7 @@ public class ReplayableInput : InputModule
         state = newState;
     }
 
-    private void StartRecording(InputRecord record)
+    public void StartRecording(InputRecord record)
     {
         if (state != RecorderState.Idle)
         {
@@ -220,7 +220,7 @@ public class ReplayableInput : InputModule
         timeSinceLastEntry = 0.0f;
     }
 
-    private void EndRecording()
+    public void EndRecording()
     {
         if (state != RecorderState.Record)
         {
@@ -275,7 +275,7 @@ public class ReplayableInput : InputModule
 
     FrameInput previousFrameReplay;
 
-    private void StartReplay(InputRecord record)
+    public void StartReplay(InputRecord record)
     {
         if (state != RecorderState.Idle)
         {
@@ -294,7 +294,7 @@ public class ReplayableInput : InputModule
         currentEntryIndex = 0;
     }
 
-    private void EndReplay()
+    public void EndReplay()
     {
         if (state != RecorderState.Replay)
         {
@@ -357,11 +357,11 @@ public class ReplayableInput : InputModule
 
             if (state == RecorderState.Replay)
             {
-                GUILayout.Label($"Input state: {state}\nRecord: {currentEntryIndex} / {testRecord.records.Count}");
+                GUILayout.Label($"Input state: {state}\nRecord: {currentEntryIndex} / {recordInReplay.records.Count}");
             }
             else
             {
-                GUILayout.Label($"Input state: {state}\nRecord length: {testRecord.records.Count}");
+                GUILayout.Label($"Input state: {state}\nRecord length: {recordInRecording.records.Count}");
             }
 
             if (GUILayout.Button("Start record"))

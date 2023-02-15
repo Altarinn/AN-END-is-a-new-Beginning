@@ -18,6 +18,8 @@ public class DebugUI : SingletonMonoBehaviour<DebugUI>
 
     bool SetInputID(int id)
     {
+        return false;
+
         if(inputs.Any(input => 
             (input.state != ReplayableInput.RecorderState.Idle))
         )
@@ -42,6 +44,8 @@ public class DebugUI : SingletonMonoBehaviour<DebugUI>
 
     private void OnGUI()
     {
+        return;
+
         GUI.skin = this.debugUISkin;
 
         GUILayout.BeginArea(new Rect(0, 140, 100, 500));

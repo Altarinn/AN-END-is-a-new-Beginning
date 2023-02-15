@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEditor;
 #if PLATFORM_ANDROID
 using UnityEngine.Android;
@@ -28,21 +29,31 @@ public class GameController : SingletonMonoBehaviour<GameController>
     {
         base.Awake();
         DontDestroyOnLoad(this);
+
+        if(gameObject.activeSelf)
+        {
+            GetPermission();
+            DataInit();
+            bool ifFirst = Save.GetInstance().FirstLog();
+            if (ifFirst)
+                FirstInit();
+            Init();
+        }
     }
 
     void Start()
     {
-        GetPermission();
-        DataInit();
-        bool ifFirst = Save.GetInstance().FirstLog();
-        if (ifFirst)
-            FirstInit();
-        Init();
+        //GetPermission();
+        //DataInit();
+        //bool ifFirst = Save.GetInstance().FirstLog();
+        //if (ifFirst)
+        //    FirstInit();
+        //Init();
     }
 
     private void DataInit()
     {
-        DataLoader.GetInstance().LoadData();
+        //DataLoader.GetInstance().LoadData();
     }
 
     private void Init()
@@ -50,13 +61,9 @@ public class GameController : SingletonMonoBehaviour<GameController>
         // Maybe we won't fix the frame rate ... ?
         // Application.targetFrameRate = 60;
 
-        DataLoader.GetInstance().InitSaveData();
+        //DataLoader.GetInstance().InitSaveData();
         LoadPlayer();
-    }
-
-    private void LoadPlayer()
-    {
-
+        InitRoom(SceneManager.GetActiveScene().name);
     }
 
     private void GetPermission()
@@ -91,6 +98,9 @@ public class GameController : SingletonMonoBehaviour<GameController>
             Destroy(dialog);
         }
 #endif
+
+        GUI.skin = DebugUI.Instance.debugUISkin;
+        GUI.Label(new Rect(400, 10, 100, 30), $"TIME: {currentRoom?.time}");
     }
     private void FirstInit()
     {
@@ -114,6 +124,156 @@ public class GameController : SingletonMonoBehaviour<GameController>
         Application.Quit();
 #endif
     }
+
+    #region Game-specific
+
+    [Header("AN END is a new Beginning!")]
+
+    public GameObject playerPrefab;
+    public GameObject phantomPrefab;
+
+    public bool IsPhantom { get; private set; }
+
+    public Dictionary<string, Room> rooms = new();
+    Room currentRoom;
+
+    [HideInInspector] public GameObject player { get; private set; }
+    private float initialWait = 1.0f;
+
+    public void EnterLevelAsync(string sceneName, string doorName = "unspecified")
+    {
+        // TODO: Finish room properly
+        if(currentRoom != null)
+        {
+            currentRoom.FinishRoom();
+        }
+
+        // TODO: Black screen
+        Debug.Log($"Find spawn point {doorName}");
+        StartCoroutine(LoadLevelAsync(sceneName, doorName));
+    }
+
+    IEnumerator LoadLevelAsync(string sceneName, string doorName)
+    {
+        //if (player) { DontDestroyOnLoad(player); }
+
+        Debug.Log($"Find spawn point {doorName}");
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+
+        // Wait until finish
+        while (!asyncLoad.isDone) { yield return null; }
+
+        LoadPlayer(doorName);
+        InitRoom(SceneManager.GetActiveScene().name);
+    }
+
+    public void InitRoom(string roomName)
+    {
+        if(rooms.ContainsKey(roomName))
+        {
+            currentRoom = rooms[roomName];
+        }
+        else
+        {
+            currentRoom = new Room();
+            rooms.Add(roomName, currentRoom);
+        }
+
+        currentRoom.InitRoom(player);
+    }
+
+    public void LoadPlayer(string spawnName = "unspecified")
+    {
+        if (player == null)
+        {
+            if(IsPhantom)
+            {
+                Debug.Log($"Instantiate phantom at {SceneManager.GetActiveScene().name}");
+                player = Instantiate(phantomPrefab);
+                player.SetActive(false);
+            }
+            else
+            {
+                Debug.Log($"Instantiate player at {SceneManager.GetActiveScene().name}");
+                player = Instantiate(playerPrefab);
+                player.SetActive(false);
+            }
+        }
+
+        // Forget about it lol
+        //SceneManager.MoveGameObjectToScene(player, SceneManager.GetActiveScene());
+
+        // Find spawn point
+        Debug.Log($"Find spawn point {spawnName}");
+        var spawnPoints = GameObject.FindObjectsOfType<Door>();
+        Door targetSpawn = null;
+        foreach (var spawnPoint in spawnPoints)
+        {
+            // 1st priority: spawn point with specific name
+            if (spawnPoint.name == spawnName)
+            {
+                targetSpawn = spawnPoint;
+            }
+
+            // 2nd priority: default spawn point
+            if (targetSpawn == null && spawnPoint.isDefaultDoor)
+            {
+                targetSpawn = spawnPoint;
+            }
+        }
+
+        // 3rd priority: 1st spawn point
+        if (targetSpawn == null && spawnPoints.Length > 0) { targetSpawn = spawnPoints[0]; }
+
+        // Found target spawn point, put our player there
+        if (targetSpawn != null)
+        {
+            player.SetActive(true);
+            player.transform.position = targetSpawn.spawnPivot.position;
+
+            var pc = player.GetComponent<TarodevController.PlayerController>();
+            pc.Gravity = false;
+            pc.UseInput = false;
+
+            // Wait for everything loaded, especially preventing player fall through the ground
+            Invoke(nameof(ActivatePlayer), initialWait);
+        }
+    }
+
+    private void Update()
+    {
+        currentRoom?.UpdateRoom();
+    }
+
+    public void ChangeToPhantom(Phantom phantom)
+    {
+        // Already phantom
+        if (IsPhantom) { return; }
+
+        if(player != null)
+        {
+            var plri = player.GetComponent<ReplayableInput>();
+            plri.InputEnabled = false;
+
+            var phri = phantom.GetComponent<ReplayableInput>();
+            phri.InputEnabled = true;
+        }
+
+        player = phantom.gameObject;
+        IsPhantom = true;
+    }
+
+    void ActivatePlayer()
+    {
+        var pc = player.GetComponent<TarodevController.PlayerController>();
+        pc.Gravity = true;
+        pc.UseInput = true;
+        pc.GetComponent<ReplayableInput>().InputEnabled = true;
+
+        initialWait = 0;
+    }
+
+    #endregion
 
     #region DEBUG
     [Header("DEBUG")]

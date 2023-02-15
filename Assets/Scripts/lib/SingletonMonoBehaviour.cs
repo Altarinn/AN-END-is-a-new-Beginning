@@ -32,6 +32,7 @@ public abstract class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBe
         if (this != Instance)
         {
             //Destroy(this);
+            this.gameObject.SetActive(false);
             Destroy(this.gameObject);
             Debug.LogError(
                 typeof(T) +

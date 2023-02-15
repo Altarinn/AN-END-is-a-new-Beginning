@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : SingletonMonoBehaviour<LevelManager>
 {
@@ -15,7 +16,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager>
     public int levelNow = 1;
 
     public GameObject playerPrefab;
-    [HideInInspector] public GameObject player;
+    [HideInInspector] public GameObject player { get; private set; }
 
     public int livingEnemy = 0;
 

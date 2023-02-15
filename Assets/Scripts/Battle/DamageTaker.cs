@@ -36,7 +36,7 @@ public class DamageTaker : MonoBehaviour
 
     Sequence seq;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         vT = visuals.transform;
         vTorigin = vT.localPosition;
@@ -59,7 +59,7 @@ public class DamageTaker : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         if(Invincible)
         {
@@ -85,7 +85,7 @@ public class DamageTaker : MonoBehaviour
     /// </summary>
     /// <param name="damage">damage value</param>
     /// <param name="direction">where the damage comes from</param>
-    public void Damage(float damage, Vector2 direction)
+    public virtual void Damage(float damage, Vector2 direction)
     {
         if (Invincible) return;
         if (damage <= 0) return;
@@ -127,12 +127,12 @@ public class DamageTaker : MonoBehaviour
         knockbackVelocity = direction * knockbackSpeed;
     }
 
-    public void Heal(float healing)
+    public virtual void Heal(float healing)
     {
 
     }
 
-    void CheckDeath()
+    protected virtual void CheckDeath()
     {
         if(health < 0)
         {
