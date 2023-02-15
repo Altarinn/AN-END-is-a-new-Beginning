@@ -73,10 +73,14 @@ public struct FrameInput : IEquatable<FrameInput>
     }
 }
 
-public class ReplayableInput : MonoBehaviour
+/// <summary>
+/// ReplayableInput - Capture / Simulate replayed inputs to "Input" property in each frame.
+/// Related:
+///  - Tarodev 2D Controller/_Scripts/PlayerInputHandler.cs (& derived classes, e.g., PlayerController, PlayerFire)
+///    -> Checks ReplayableInput.Input and calls HandleInput(FrameInput input) in each frame.
+/// </summary>
+public class ReplayableInput : InputModule
 {
-    public FrameInput Input { get; private set; }
-
     // Used to simulate burst input (����) during key hold
     float fireCounter;
 

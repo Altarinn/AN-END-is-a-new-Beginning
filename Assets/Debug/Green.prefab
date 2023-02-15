@@ -19665,6 +19665,7 @@ GameObject:
   - component: {fileID: 7445834223152265322}
   - component: {fileID: 7445834223152265320}
   - component: {fileID: 4472587150047085586}
+  - component: {fileID: 4787934775682113758}
   - component: {fileID: 4472587150047085592}
   - component: {fileID: 4472587150047085593}
   - component: {fileID: 4472587150047085597}
@@ -19744,6 +19745,27 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: -0.06}
   m_Size: {x: 0.64, y: 1.01}
   m_Direction: 0
+--- !u!50 &4787934775682113758
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7445834223152265321}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!114 &4472587150047085592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19787,7 +19809,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   visuals: {fileID: 8722626139103753084}
-  body: {fileID: 0}
+  body: {fileID: 7445834223152265320}
   spriteRenderer: {fileID: 7445834223940930226}
   maxHealth: 100
   health: 100

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class PlayerInputHandler : MonoBehaviour
 {
-    public ReplayableInput InputModule;
+    public InputModule InputModule;
 
     // This is horrible, but for some reason colliders are not fully established when update starts...
     protected bool _active;

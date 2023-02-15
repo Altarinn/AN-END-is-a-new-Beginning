@@ -88,12 +88,17 @@ public class DamageTaker : MonoBehaviour
     public void Damage(float damage, Vector2 direction)
     {
         if (Invincible) return;
+        if (damage <= 0) return;
 
         health -= damage;
         CheckDeath();
 
         direction = new Vector2(Mathf.Sign(direction.x), 0);
         //direction = new Vector2(0, 0);
+
+        // Disable player input
+        body.UseInput = false;
+        body.ZeroVelocity();
 
         seq?.Kill();
         seq = DOTween.Sequence()
@@ -106,9 +111,10 @@ public class DamageTaker : MonoBehaviour
                 propertyBlock.SetFloat("_Damaged", val);
                 spriteRenderer?.SetPropertyBlock(propertyBlock, 0);
             }).SetEase(Ease.OutQuart))
+            .Join(DOVirtual.DelayedCall(damageTime, () => body.UseInput = true))
 
             //.Append(vT.DOLocalMove(vTorigin, recoverTime))
-            .Append(vT.DOScale(1.0f, damageTime))
+            .Append(vT.DOScale(1.0f, recoverTime))
             .Join(DOVirtual.Float(1, 0, recoverTime, (val) =>
             {
                 spriteRenderer?.GetPropertyBlock(propertyBlock, 0);

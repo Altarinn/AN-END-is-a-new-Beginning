@@ -319,6 +319,12 @@ namespace TarodevController {
             }
         }
 
+        public void ZeroVelocity()
+        {
+            _currentHorizontalSpeed = 0;
+            _currentVerticalSpeed = 0;
+        }
+
         #endregion
     }
 }
