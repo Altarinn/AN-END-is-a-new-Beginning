@@ -77,7 +77,7 @@ public class PlayerTimedBomb : AttackPatternBase
             .SetDestroyOnHit(false)
             .SetLife(delay * 3)
             .OnRelease((self) => {
-                b.BulletFanShots(setting, explosionNum/4, self.transform.position, Vector3.up * explosionSpeed * 0.333f, 360, 0.5f)
+                b.BulletFanShots(setting, explosionNum / 4, self.transform.position, Vector3.up * explosionSpeed * 0.333f, 360, 0.5f)
                 .OnUpdate((self) =>
                 {
                     self.velocity.y = Mathf.Max(-maxFall, self.velocity.y - gravity * Time.deltaTime);
