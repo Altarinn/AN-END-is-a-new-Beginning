@@ -237,4 +237,220 @@ public class BulletManager : SingletonMonoBehaviour<BulletManager>
 
         return new BulletList(bullets);
     }
+
+    /// <summary> 
+    /// Shots N bullets from the same position with a slight angle difference and a perpendicular offset. 
+    /// </summary> 
+    /// <param name=“settings”></param> 
+    /// <param name=“N”></param> 
+    /// <param name=“position”></param> 
+    /// <param name=“centerVelocity”></param> 
+    /// <param name=“bulletDistance”></param> 
+    /// <param name=“targetDegree”></param> 
+    /// <returns></returns>
+    public BulletList BulletFocusedShots(BulletSetting settings, int N, Vector2 position, Vector2 centerVelocity, float bulletDistance = 0.5f, float targetDegree = 1.0f)
+    {
+        Bullet[] bullets = new Bullet[N];
+
+        for(int i = 0; i < N; i++)
+        {
+            Vector2 velocity = centerVelocity;
+            if (N > 1)
+            {
+                velocity = Quaternion.AngleAxis(-targetDegree * i, Vector3.forward) * centerVelocity;
+            }
+
+            Bullet bullet = bulletPool.Get();
+
+            bullet.ApplySetting(settings);
+
+            bullet.transform.position = position + Vector2.Perpendicular(centerVelocity) * bulletDistance * i;
+            bullet.velocity = velocity;
+            bullet.lifespan = 5.0f;
+
+            bullets[i] = bullet;
+        }
+
+        return new BulletList(bullets);
+    }
+
+    /// <summary> 
+    /// Shots N bullets from the same position with a spiral pattern. 
+    /// </summary> 
+    /// <param name=“settings”></param> 
+    /// <param name=“N”></param> 
+    /// <param name=“position”></param> 
+    /// <param name=“speed”></param>
+    /// <param name=“angle”></param> 
+    /// <param name=“angleIncrement”></param> 
+    /// <param name=“initialDistance”></param> 
+    /// <returns></returns>
+    public BulletList BulletSpiralShots(BulletSetting settings, int N, Vector2 position, float speed, float angle, float angleIncrement, float initialDistance = 0.0f)
+    {
+        Bullet[] bullets = new Bullet[N];
+
+        for(int i = 0; i < N; i++)
+        {
+            // Calculate the velocity based on the angle and speed
+            Vector2 velocity = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad)) * speed;
+
+            Bullet bullet = bulletPool.Get();
+
+            // TODO: lifespan, sprite, etc.
+            bullet.ApplySetting(settings);
+
+            // Calculate the initial position based on the angle and distance
+            bullet.transform.position = position + velocity.normalized * initialDistance;
+            bullet.velocity = velocity;
+            bullet.lifespan = 5.0f;
+
+            bullets[i] = bullet;
+
+            // Increment the angle for the next bullet
+            angle += angleIncrement;
+        }
+
+        return new BulletList(bullets);
+    }
+
+    /// <summary> 
+    /// Shots N bullets from the same position with a circular pattern and a periodic velocity change. 
+    /// </summary> 
+    /// <param name=“settings”></param> 
+    /// <param name=“N”></param> 
+    /// <param name=“position”></param> 
+    /// <param name=“speed”></param> 
+    /// <param name=“initialAngle”></param> 
+    /// <param name=“interval”></param> 
+    /// <param name=“angleIncrement”></param> 
+    /// <param name=“initialDistance”></param> 
+    /// <returns></returns>
+    public BulletList BulletCurveShots(BulletSetting settings, int N, Vector2 position, float speed, float initialAngle = 0.0f, float interval = 0.05f, float angleIncrement = 10f, float initialDistance = 0.0f)
+    {
+        Bullet[] bullets = new Bullet[N];
+
+        for(int i = 0; i < N; i++)
+        {
+            // Calculate the angle based on the number of bullets and the initial angle
+            float angle = initialAngle + 360.0f / N * i;
+
+            // Calculate the velocity based on the angle and speed
+            Vector2 velocity = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad)) * speed;
+
+            Bullet bullet = bulletPool.Get();
+
+            // TODO: lifespan, sprite, etc.
+            bullet.ApplySetting(settings);
+
+            // Calculate the initial position based on the angle and distance
+            bullet.transform.position = position + velocity.normalized * initialDistance;
+            bullet.velocity = velocity;
+            bullet.lifespan = 5.0f;
+
+            // Add a coroutine to change the velocity periodically
+            bullet.StartCoroutine(CurvePattern(bullet, angle, interval, angleIncrement));
+
+            bullets[i] = bullet;
+        }
+
+        return new BulletList(bullets);
+    }
+
+    // A coroutine to change the velocity of the bullet to form a star shape
+    private IEnumerator CurvePattern(Bullet bullet, float initialAngle, float interval, float angleIncrement)
+    {
+        // The current angle of the bullet
+        float angle = initialAngle;
+
+        // The speed of the bullet
+        float speed = bullet.velocity.magnitude;
+
+        // Repeat until the bullet is destroyed
+        while (bullet != null)
+        {
+            // Wait for the interval
+            yield return new WaitForSeconds(interval);
+
+            // Increment the angle
+            angle += angleIncrement;
+
+            // Calculate the new velocity based on the angle and speed
+            Vector2 velocity = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad)) * speed;
+
+            // Set the new velocity to the bullet
+            bullet.velocity = velocity;
+        }
+    }
+
+    /// <summary> 
+    /// Shots N bullets from the same position with a circular pattern and a zigzag velocity change. 
+    /// </summary> 
+    /// <param name=“settings”></param> 
+    /// <param name=“N”></param> 
+    /// <param name=“position”></param> 
+    /// <param name=“speed”></param> 
+    /// <param name=“interval”></param> 
+    /// <param name=“angleIncrement”></param> 
+    /// <param name=“initialAngle”></param> 
+    /// <param name=“initialDistance”></param> 
+    /// <returns></returns>
+    public BulletList BulletZigzagShots(BulletSetting settings, int N, Vector2 position, float speed, float interval, float angleIncrement, float initialAngle = 0.0f, float initialDistance = 0.0f)
+    {
+        Bullet[] bullets = new Bullet[N];
+
+        for(int i = 0; i < N; i++)
+        {
+            // Calculate the angle based on the number of bullets and the initial angle
+            float angle = initialAngle + 360.0f / N * i;
+
+            // Calculate the velocity based on the angle and speed
+            Vector2 velocity = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad)) * speed;
+
+            Bullet bullet = bulletPool.Get();
+
+            // TODO: lifespan, sprite, etc.
+            bullet.ApplySetting(settings);
+
+            // Calculate the initial position based on the angle and distance
+            bullet.transform.position = position + velocity.normalized * initialDistance;
+            bullet.velocity = velocity;
+            bullet.lifespan = 5.0f;
+
+            // Add a coroutine to change the velocity periodically
+            bullet.StartCoroutine(ZigzagPattern(bullet, angle, interval, angleIncrement));
+
+            bullets[i] = bullet;
+        }
+
+        return new BulletList(bullets);
+    }
+
+    // A coroutine to change the velocity of the bullet to form a zigzag shape
+    private IEnumerator ZigzagPattern(Bullet bullet, float initialAngle, float interval, float angleIncrement)
+    {
+        // The current angle of the bullet
+        float angle = initialAngle + angleIncrement / 2;
+
+        // The speed of the bullet
+        float speed = bullet.velocity.magnitude;
+
+        // Repeat until the bullet is destroyed
+        while (bullet != null)
+        {
+            // Wait for the interval
+            yield return new WaitForSeconds(interval);
+
+            // Alternate the angle increment between positive and negative
+            angleIncrement = -angleIncrement;
+
+            // Increment the angle
+            angle += angleIncrement;
+
+            // Calculate the new velocity based on the angle and speed
+            Vector2 velocity = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad)) * speed;
+
+            // Set the new velocity to the bullet
+            bullet.velocity = velocity;
+        }
+    }
 }

@@ -40,7 +40,10 @@ public class PlayerMegaman : AttackPatternBase
     {
         if(currentBurstCount < burstNum)
         {
-            b.BulletFanShots(setting, 1, origin, direction * flySpeed, 60, 0.5f)
+            // Try these patterns
+            //b.BulletZigzagShots(setting, 1, origin, flySpeed, 0.05f, 45.0f, 0f, 0.5f)
+            //b.BulletCurveShots(setting, 1, origin, flySpeed, 0f, 0.05f, 10f, 0.5f)
+            b.BulletFocusedShots(setting, 3, origin, direction * flySpeed, 0.08f, 10f)
             .OnHit((self, coll) =>
             {
                 b.BulletFanShots(setting, explosionNum, self.transform.position, Vector3.up * explosionSpeed, 360, 0.5f);
