@@ -6,10 +6,15 @@ public class PlayerFire : PlayerInputHandler
 {
     public AttackPatternBase Fire1, Fire2, Fire3;
 
+    private Vector2 direction = Vector2.right;
+
     protected override void HandleInput(FrameInput input)
     {
-        Vector2 direction = Vector2.right;
-
+        if (input.X != 0.0f)
+        { 
+        direction = Vector2.right * input.X;
+        }
+        
         if(input.PrimaryFire)
         {
             Fire1?.Fire(transform.position, direction);

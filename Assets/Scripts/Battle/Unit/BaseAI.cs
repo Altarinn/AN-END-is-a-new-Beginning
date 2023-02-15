@@ -8,17 +8,7 @@ public abstract class BaseAI : InputModule
     public string targetTag = "TruePlayer";
 
     // Start is called before the first frame update
-    void Start()
-    {
-        if(target == null)
-        {
-            target = GameObject.FindWithTag(targetTag);
-            if(target == null)
-            {
-                Debug.LogError($"Cannot find gameObject with tag {targetTag}!");
-            }
-        }
-    }
+    protected abstract void Start();
 
     // Update is called once per frame
     protected abstract void Update();
