@@ -25,7 +25,12 @@ namespace TarodevController {
 
         [Header("DO YOU CONTROL IT?")]
         public bool UseInput = false;
+
+        [Tooltip("Advanced phantom abilities?")]
+        public bool IsPhantom = false;
+
         public bool Gravity = true;
+        
         private Vector2 _externalMovement;
 
         /// <summary>
