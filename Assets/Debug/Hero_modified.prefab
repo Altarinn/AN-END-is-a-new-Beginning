@@ -19707,25 +19707,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InputModule: {fileID: 4472587150047085592}
   UseInput: 1
-  IsPhantom: 1
+  IsPhantom: 0
   Gravity: 1
   _characterBounds:
     m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0.5, y: 0.65, z: 0}
+    m_Extent: {x: 0.4, y: 0.5, z: 0}
   _groundLayer:
     serializedVersion: 2
-    m_Bits: 2056
+    m_Bits: 3080
   _detectorCount: 5
   _detectionRayLength: 0.1
   _rayBuffer: 0.1
   _acceleration: 90
-  _moveClamp: 10
-  _deAcceleration: 90
-  _apexBonus: 2
+  _moveClamp: 11
+  _deAcceleration: 80
+  _apexBonus: 1.4
   _fallClamp: -40
   _minFallSpeed: 80
   _maxFallSpeed: 120
-  _jumpHeight: 24
+  _jumpHeight: 26
   _jumpApexThreshold: 10
   _coyoteTimeThreshold: 0.1
   _jumpBuffer: 0.1
@@ -19748,8 +19748,8 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.06}
-  m_Size: {x: 0.64, y: 1.01}
+  m_Offset: {x: 0, y: -0.27}
+  m_Size: {x: 0.64, y: 0.83}
   m_Direction: 0
 --- !u!50 &4787934775682113758
 Rigidbody2D:
@@ -19800,7 +19800,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InputModule: {fileID: 4472587150047085592}
   Fire1: {fileID: 4472587148700581357}
-  Fire2: {fileID: 0}
+  Fire2: {fileID: 4472587148362988785}
   Fire3: {fileID: 4472587149035624461}
 --- !u!114 &4472587150047085597
 MonoBehaviour:
@@ -19900,7 +19900,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 9ec0ca269ec0b4f4fa12877c83d9dd88, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 74b158675fc605946818249f70b6578e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -19958,7 +19958,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8722626139103753084}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.056, z: 0}
+  m_LocalPosition: {x: 0, y: 0.184, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

@@ -18,7 +18,7 @@ EditorBuildSettings:
     path: Assets/Scenes/PlayGround2.unity
     guid: 33af1218e405e384f818a7135743ec0f
   - enabled: 1
-    path: Assets/Scenes/PlayGround3.unity
+    path: Assets/Scenes/Phantom Playground.unity
     guid: 6bbe487f68613c846bd47a502f724beb
   - enabled: 1
     path: Assets/Scenes/Stage01/Room02.unity

@@ -75,6 +75,12 @@ namespace TarodevController {
                 }
 
                 CalculateJumpApex(); // Affects fall speed, so calculate before gravity
+
+                if(UseInput && IsPhantom)
+                {
+                    CalculateGrab();
+                }
+
                 CalculateGravity(); // Vertical movement
 
                 if (UseInput)
@@ -306,7 +312,11 @@ namespace TarodevController {
         float _dashTimer, _dashSpeed;
         int _dashRemains;
 
-        public void CalculateDash()
+        public bool Grabbing => _grabbing;
+        bool _grabbing;
+        int _grabDirection => ((int)Mathf.Sign(Input.X)) * (_grabbing ? 1 : 0);
+
+        private void CalculateDash()
         {
             if(Input.SecondaryFire && !_dashing && _dashRemains > 0)
             {
@@ -358,7 +368,7 @@ namespace TarodevController {
             }
         }
 
-        public void CalculateDashUpdate()
+        private void CalculateDashUpdate()
         {
             _dashTimer += Time.deltaTime;
             MoveCharacter();
@@ -377,11 +387,29 @@ namespace TarodevController {
                 _currentHorizontalSpeed = Mathf.Sign(_currentHorizontalSpeed) * Mathf.Max(Input.X * _currentHorizontalSpeed, 0);
                 _currentVerticalSpeed = Mathf.Sign(_currentVerticalSpeed) * Mathf.Max(Input.Y * _currentVerticalSpeed, 0);
 
+                _currentHorizontalSpeed *= 0.7f;
+                _currentVerticalSpeed *= 1.0f;
+
                 _currentHorizontalSpeed = Mathf.Sign(_currentHorizontalSpeed) * Mathf.Min(maximumSpeedAfterDash.x, Mathf.Abs(_currentHorizontalSpeed));
                 _currentVerticalSpeed = Mathf.Sign(_currentVerticalSpeed) * Mathf.Min(maximumSpeedAfterDash.y, Mathf.Abs(_currentVerticalSpeed));
 
                 Debug.Log(Input.Y);
                 Debug.Log(_currentVerticalSpeed);
+            }
+        }
+
+        private void CalculateGrab()
+        {
+            if(_currentVerticalSpeed <= 1e-4 && Input.Y > 0 && ((_colLeft && Input.X < 0) || (_colRight && Input.X > 0)))
+            {
+                _grabbing = true;
+                ZeroVelocity();
+                Gravity = false;
+            }
+            else
+            {
+                _grabbing = false;
+                Gravity = true;
             }
         }
 

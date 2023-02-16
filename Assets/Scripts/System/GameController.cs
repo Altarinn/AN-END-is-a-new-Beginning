@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEditor;
+using System;
 #if PLATFORM_ANDROID
 using UnityEngine.Android;
-# endif
+#endif
 using UnityEngine.UI;
 
 public class GameController : SingletonMonoBehaviour<GameController>
@@ -100,8 +101,14 @@ public class GameController : SingletonMonoBehaviour<GameController>
 #endif
 
         GUI.skin = DebugUI.Instance.debugUISkin;
-        GUI.Label(new Rect(400, 10, 100, 30), $"TIME: {currentRoom?.time}");
+        GUI.Label(new Rect(400, 10, 100, 14), $"TIME: {currentRoom?.time}");
+        
+        if(GUI.Button(new Rect(400, 30, 100, 14), "GO Phantom"))
+        {
+            TEST_InstantPhantom();
+        }
     }
+
     private void FirstInit()
     {
         GetPermission();
@@ -142,8 +149,16 @@ public class GameController : SingletonMonoBehaviour<GameController>
 
     public void EnterLevelAsync(string sceneName, string doorName = "unspecified")
     {
+        // Check if scene exists
+        int buildIdx = SceneUtility.GetBuildIndexByScenePath(sceneName);
+        if(buildIdx < 0)
+        {
+            Debug.LogWarning($"Scene \"{sceneName}\" does not exist!");
+            return;
+        }
+
         // TODO: Finish room properly
-        if(currentRoom != null)
+        if (currentRoom != null)
         {
             currentRoom.FinishRoom();
         }
@@ -261,6 +276,25 @@ public class GameController : SingletonMonoBehaviour<GameController>
 
         player = phantom.gameObject;
         IsPhantom = true;
+    }
+
+    private void TEST_InstantPhantom()
+    {
+        // End room
+        currentRoom?.FinishRoom();
+        IsPhantom = true;
+
+        // Reload
+        StartCoroutine(TEST_InstantPhantom_ReloadLevel());
+    }
+
+    IEnumerator TEST_InstantPhantom_ReloadLevel()
+    {
+        var playerPos = player.transform.position;
+
+        yield return StartCoroutine(LoadLevelAsync(SceneManager.GetActiveScene().name, "NO"));
+
+        player.transform.position = playerPos;
     }
 
     void ActivatePlayer()

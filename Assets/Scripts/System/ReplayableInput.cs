@@ -362,7 +362,7 @@ public class ReplayableInput : InputModule
             }
             else
             {
-                GUILayout.Label($"Input state: {state}\nRecord length: {recordInRecording.records.Count}");
+                GUILayout.Label($"Input state: {state}\nRecord length: {recordInRecording?.records.Count}");
             }
 
             if (GUILayout.Button("Start record"))
