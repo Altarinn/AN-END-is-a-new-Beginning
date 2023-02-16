@@ -3,7 +3,6 @@ using UnityEngine;
 
 [RequireComponent(typeof(Sprite))]
 [RequireComponent(typeof(Animator))]
-[RequireComponent(typeof(AudioSource))]
 [RequireComponent(typeof(Collider2D))]
 
 public abstract class BulletBase : MonoBehaviour
@@ -33,13 +32,13 @@ public abstract class BulletBase : MonoBehaviour
     ///子弹类型
     ///</summary>
     [Label("子弹类型")]
-    public BulletType Type;
+    public BulletType Type;/*
     ///<summary>
     ///击中buff
     ///</summary>
     [Label("击中buff")]
     [Tooltip("击中后添加的buff")]
-    public int[] Buffs;
+    public int[] Buffs;*/
     ///<summary>
     ///剩余击中次数
     ///</summary>
@@ -103,9 +102,10 @@ public abstract class BulletBase : MonoBehaviour
     ///</summary>
     virtual protected void OnSmash()
     {
-        GetComponent<Collider2D>().enabled = false;
+        /*GetComponent<Collider2D>().enabled = false;
         GetComponent<Animator>().SetTrigger("Hit");
-        this.enabled = false;
+        this.enabled = false;*/
+        OnAnimationOver();
     }
 
     virtual protected void OnHit(Collider2D collision)
@@ -114,7 +114,7 @@ public abstract class BulletBase : MonoBehaviour
         if (tmpBuffManager == null)
             return;
         tmpBuffManager.AddBuffToQueue(Buffs, unit);*/
-        collision.gameObject.BroadcastMessage("GetHurt", Damage);
+        //collision.gameObject.BroadcastMessage("GetHurt", Damage);
 
         HitNumber--;
         if (HitNumber <= 0)
