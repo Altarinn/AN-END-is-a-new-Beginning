@@ -17,7 +17,7 @@ TagManager:
   - PlayerBullet
   - EnemyBullet
   - Enemy
-  - Barriers
+  - Creature-only Obstacles
   - EnemyObstacles
   - Door
   - 

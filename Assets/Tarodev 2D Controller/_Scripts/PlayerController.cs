@@ -15,13 +15,17 @@ namespace TarodevController {
         // Public for external hooks
         public Vector3 Velocity { get; private set; }
         public FrameInput Input { get; protected set; }
+
+        // For animations
         public bool JumpingThisFrame { get; private set; }
         public bool LandingThisFrame { get; private set; }
+        public bool DashingThisFrame { get; private set; }
         public Vector3 RawMovement { get; private set; }
         public bool Grounded => _colDown;
 
         private Vector3 _lastPosition;
         private float _currentHorizontalSpeed, _currentVerticalSpeed;
+        private bool _dashing;
 
         [Header("DO YOU CONTROL IT?")]
         public bool UseInput = false;
@@ -56,24 +60,36 @@ namespace TarodevController {
             Velocity = (transform.position - _lastPosition) / Time.deltaTime;
             _lastPosition = transform.position;
 
-            RunCollisionChecks();
-
-            if(UseInput)
+            if (!_dashing)
             {
-                CalculateWalk(); // Horizontal movement
-            }
+                RunCollisionChecks();
 
-            CalculateJumpApex(); // Affects fall speed, so calculate before gravity
-            CalculateGravity(); // Vertical movement
-            
-            if(UseInput)
+                if (UseInput && IsPhantom)
+                {
+                    CalculateDash(); // May block all inputs for a while
+                }
+
+                if (UseInput)
+                {
+                    CalculateWalk(); // Horizontal movement
+                }
+
+                CalculateJumpApex(); // Affects fall speed, so calculate before gravity
+                CalculateGravity(); // Vertical movement
+
+                if (UseInput)
+                {
+                    CalculateJump(); // Possibly overrides vertical
+                }
+
+                //HandleExternalMovement();
+
+                MoveCharacter(); // Actually perform the axis movement
+            }
+            else
             {
-                CalculateJump(); // Possibly overrides vertical
+                CalculateDashUpdate();
             }
-
-            //HandleExternalMovement();
-
-            MoveCharacter(); // Actually perform the axis movement
         }
 
         //private void HandleExternalMovement()
@@ -273,6 +289,99 @@ namespace TarodevController {
 
             if (_colUp) {
                 if (_currentVerticalSpeed > 0) _currentVerticalSpeed = 0;
+            }
+        }
+
+        #endregion
+
+        #region Phantom
+
+        [Header("PHANTOM")][SerializeField] private float _dashDistance = 1.5f;
+        [SerializeField] private float _dashTime = 0.2f;
+        [SerializeField, Tooltip("#dashes able to perform before landing")] private int _dashNumber = 1;
+        [SerializeField] private Vector2 maximumSpeedAfterDash = new Vector2(10, 10);
+
+        LayerMask _groundLayerCache;
+        Vector3 _currentDashTarget;
+        float _dashTimer, _dashSpeed;
+        int _dashRemains;
+
+        public void CalculateDash()
+        {
+            if(Input.SecondaryFire && !_dashing && _dashRemains > 0)
+            {
+                // Dash direction
+                Vector3 dashDirc = new Vector3(Input.X, Input.Y, 0);
+                Debug.Log(dashDirc);
+
+                // Position after dash
+                var dashedPosition = transform.position + dashDirc * _dashDistance;
+
+                // Start:dash!
+                DashingThisFrame = true;
+                _dashing = true;
+
+                Vector2 dashSpeed = dashDirc * _dashDistance / _dashTime;
+                _dashSpeed = dashSpeed.magnitude;
+                _currentHorizontalSpeed = dashSpeed.x;
+                _currentVerticalSpeed = dashSpeed.y;
+
+                _currentDashTarget = dashedPosition;
+                _dashTimer = 0;
+
+                GetComponent<Collider2D>().enabled = false;
+                UseInput = false;
+
+                // Check if dashed position valid for phantom dash
+                _groundLayerCache = _groundLayer;
+                var hit = Physics2D.OverlapBox(dashedPosition, _characterBounds.size, 0, _groundLayer);
+                if(!hit)
+                {
+                    _groundLayer = 0;
+                }
+                else
+                {
+                    // TODO: Dash failure animation?
+                }
+
+                // TODO: Decrease even if dash failed?
+                _dashRemains--;
+            }
+            else
+            {
+                DashingThisFrame = false;
+            }
+
+            if(_colDown)
+            {
+                _dashRemains = _dashNumber;
+            }
+        }
+
+        public void CalculateDashUpdate()
+        {
+            _dashTimer += Time.deltaTime;
+            MoveCharacter();
+            //transform.position = Vector3.MoveTowards(transform.position, _currentDashTarget, _dashSpeed * Time.deltaTime);
+
+            if (_dashTimer > _dashTime)
+            {
+                _dashing = false;
+                GetComponent<Collider2D>().enabled = true;
+                _groundLayer = _groundLayerCache;
+                UseInput = true;
+
+                _dashTimer = 0;
+
+                // Multiply speed by inputs
+                _currentHorizontalSpeed = Mathf.Sign(_currentHorizontalSpeed) * Mathf.Max(Input.X * _currentHorizontalSpeed, 0);
+                _currentVerticalSpeed = Mathf.Sign(_currentVerticalSpeed) * Mathf.Max(Input.Y * _currentVerticalSpeed, 0);
+
+                _currentHorizontalSpeed = Mathf.Sign(_currentHorizontalSpeed) * Mathf.Min(maximumSpeedAfterDash.x, Mathf.Abs(_currentHorizontalSpeed));
+                _currentVerticalSpeed = Mathf.Sign(_currentVerticalSpeed) * Mathf.Min(maximumSpeedAfterDash.y, Mathf.Abs(_currentVerticalSpeed));
+
+                Debug.Log(Input.Y);
+                Debug.Log(_currentVerticalSpeed);
             }
         }
 

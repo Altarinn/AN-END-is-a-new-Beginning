@@ -322,6 +322,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InputModule: {fileID: 5344058223637253235}
   UseInput: 1
+  IsPhantom: 1
   Gravity: 1
   _characterBounds:
     m_Center: {x: 0, y: 0, z: 0}
@@ -333,17 +334,21 @@ MonoBehaviour:
   _detectionRayLength: 0.1
   _rayBuffer: 0.1
   _acceleration: 90
-  _moveClamp: 13
-  _deAcceleration: 60
+  _moveClamp: 10
+  _deAcceleration: 90
   _apexBonus: 2
   _fallClamp: -40
   _minFallSpeed: 80
   _maxFallSpeed: 120
-  _jumpHeight: 41
+  _jumpHeight: 24
   _jumpApexThreshold: 10
   _coyoteTimeThreshold: 0.1
   _jumpBuffer: 0.1
   _jumpEndEarlyGravityModifier: 3
+  _dashDistance: 1.6
+  _dashTime: 0.1
+  _dashNumber: 1
+  maximumSpeedAfterDash: {x: 3, y: 3}
   _freeColliderIterations: 10
 --- !u!70 &5344058223637253241
 CapsuleCollider2D:

@@ -177,6 +177,7 @@ public class ReplayableInput : InputModule
                 JumpDown = UnityEngine.Input.GetButtonDown("Jump"),
                 JumpUp = UnityEngine.Input.GetButtonUp("Jump"),
                 X = UnityEngine.Input.GetAxisRaw("Horizontal"),
+                Y = UnityEngine.Input.GetAxisRaw("Vertical"),
 
                 PrimaryFire = isFire1,
                 SecondaryFire = UnityEngine.Input.GetButtonDown("Fire2"),

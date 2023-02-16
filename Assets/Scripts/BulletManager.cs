@@ -193,6 +193,7 @@ public class BulletManager : SingletonMonoBehaviour<BulletManager>
         Bullet bullet = bulletPool.Get();
 
         // TODO: lifespan, sprite, etc.
+        bullet.ApplySetting(settings);
 
         bullet.transform.position = position;
         bullet.velocity = velocity;
