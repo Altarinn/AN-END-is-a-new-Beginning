@@ -21,9 +21,14 @@ public class Bullet : MonoBehaviour
 
     public IObjectPool<Bullet> bulletPool;
 
+    static int enemyLayer, playerLayer;
+
     private void Awake()
     {
         if(spriteRenderer == null) { spriteRenderer = GetComponent<SpriteRenderer>(); }
+
+        enemyLayer = LayerMask.NameToLayer("EnemyBullet");
+        playerLayer = LayerMask.NameToLayer("PlayerBullet");
     }
 
     private void OnDisable()
@@ -62,6 +67,15 @@ public class Bullet : MonoBehaviour
         spriteRenderer.color = setting.color;
         destroyOnHit = !setting.dontDestroyOnHit;
         lifespan = 5.0f + setting.extraLifeSpan;
+
+        if(setting.isEnemy)
+        {
+            gameObject.layer = enemyLayer;
+        }
+        else
+        {
+            gameObject.layer = playerLayer;
+        }
     }
 
     public static void UpdateBulletLinear(Bullet self)

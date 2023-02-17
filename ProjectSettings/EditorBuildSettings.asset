@@ -20,24 +20,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Phantom Playground.unity
     guid: 6bbe487f68613c846bd47a502f724beb
-  - enabled: 1
-    path: Assets/Scenes/Stage01 - Chandelier Castle/Room1-2.unity
-    guid: 11c28d9871a331b4fb7bd467b3309687
-  - enabled: 1
-    path: Assets/Scenes/Stage01 - Chandelier Castle/Room1-F.unity
-    guid: fdb67b8e9e7138243bd014c8947ce686
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
-  - enabled: 1
-    path: Assets/Scenes/Stage03 - Phantom Temple/Room3-4.unity
-    guid: c5f4e29df3bbe7145b55679893c180be
-  - enabled: 1
-    path: Assets/Scenes/Stage03 - Phantom Temple/Room3-F.unity
-    guid: aa3c08238af2a5a4fa6b8b55b931ca87
-  - enabled: 1
-    path: Assets/Scenes/Stage03 - Phantom Temple/Room3-ph1.unity
-    guid: dc5c3ef433afcd64c8373ea39305b00d
   - enabled: 1
     path: Assets/Scenes/Room(Easter egg).unity
     guid: f0f5263962e63ed44a1ab3e1981afcbe
@@ -47,6 +32,15 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Room(Undistribute2).unity
     guid: 4312f13b6679bf34f9bb3871e547d285
+  - enabled: 1
+    path: Assets/Scenes/Stage01 - Chandelier Castle/Room1-1.unity
+    guid: eec6da8900f5f8140a47b82fb4183bdc
+  - enabled: 1
+    path: Assets/Scenes/Stage01 - Chandelier Castle/Room1-2.unity
+    guid: 11c28d9871a331b4fb7bd467b3309687
+  - enabled: 1
+    path: Assets/Scenes/Stage01 - Chandelier Castle/Room1-F.unity
+    guid: fdb67b8e9e7138243bd014c8947ce686
   - enabled: 1
     path: Assets/Scenes/Stage02 - Dark Pit/Room2-1.unity
     guid: a27c00836ab14f44881818488a2cef06
@@ -59,4 +53,22 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Stage02 - Dark Pit/Room2-F.unity
     guid: 9070c08d6cc761947b682595b06c297d
+  - enabled: 1
+    path: Assets/Scenes/Stage03 - Phantom Temple/Room3-1.unity
+    guid: c50e23a805a0e2048b6581c86e518e0b
+  - enabled: 1
+    path: Assets/Scenes/Stage03 - Phantom Temple/Room3-2.unity
+    guid: 1eddd8aa74f039a45a137aca5ff2a4f0
+  - enabled: 1
+    path: Assets/Scenes/Stage03 - Phantom Temple/Room3-3.unity
+    guid: 81d8b057f1d245e4186968c92748c05d
+  - enabled: 1
+    path: Assets/Scenes/Stage03 - Phantom Temple/Room3-4.unity
+    guid: c5f4e29df3bbe7145b55679893c180be
+  - enabled: 1
+    path: Assets/Scenes/Stage03 - Phantom Temple/Room3-F.unity
+    guid: aa3c08238af2a5a4fa6b8b55b931ca87
+  - enabled: 1
+    path: Assets/Scenes/Stage03 - Phantom Temple/Room3-ph1.unity
+    guid: dc5c3ef433afcd64c8373ea39305b00d
   m_configObjects: {}

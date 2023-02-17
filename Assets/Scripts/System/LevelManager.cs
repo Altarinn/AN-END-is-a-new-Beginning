@@ -46,6 +46,12 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager>
         GameController.Instance.EnterLevelAsync("Scenes/Room(Easter egg)", "RightDoor");
     }
 
+    public void EnterLevelStr(string scene)
+    {
+        GameController.Instance.EnterLevelAsync(scene);
+        //SceneManager.LoadScene(scene);
+    }
+
     public void Win()
     {
         levelStateNow = LevelState.Win;

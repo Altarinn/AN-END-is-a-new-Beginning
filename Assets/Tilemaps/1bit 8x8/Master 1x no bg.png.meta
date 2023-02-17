@@ -1811,7 +1811,13 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -4, y: 4}
+        - {x: -4, y: -4}
+        - {x: 0, y: -4}
+        - {x: 0, y: 0}
+        - {x: 4, y: 0}
+        - {x: 4, y: 4}
       tessellationDetail: 0
       bones: []
       spriteID: 4d7b5a3ca05d71441bd92a122e52071f
@@ -1832,7 +1838,13 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -4, y: 4}
+        - {x: -4, y: 0}
+        - {x: 0, y: 0}
+        - {x: 0, y: -4}
+        - {x: 4, y: -4}
+        - {x: 4, y: 4}
       tessellationDetail: 0
       bones: []
       spriteID: a95ef67df0e1943479514c2643388d44
@@ -2071,7 +2083,13 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -4, y: 4}
+        - {x: -4, y: -4}
+        - {x: 4, y: -4}
+        - {x: 4, y: 0}
+        - {x: 0, y: 0}
+        - {x: 0, y: 4}
       tessellationDetail: 0
       bones: []
       spriteID: 516c5fbce94bb944eae398f021c95677
@@ -2092,7 +2110,13 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: 0, y: 4}
+        - {x: 0, y: 0}
+        - {x: -4, y: 0}
+        - {x: -4, y: -4}
+        - {x: 4, y: -4}
+        - {x: 4, y: 4}
       tessellationDetail: 0
       bones: []
       spriteID: e40a9e29b9b88c346b7c4696bf0161f7
@@ -2849,7 +2873,7 @@ TextureImporter:
     nameFileIdTable:
       Master 1x no bg_21: -1277222258
       Master 1x no bg_54: 1375197053
-      Master 1x no bg_81: 816926243
+      Master 1x no bg_109: -434621927
       Master 1x no bg_119: -1499747296
       Master 1x no bg_22: -185652251
       Master 1x no bg_78: 1685247781
@@ -2880,9 +2904,9 @@ TextureImporter:
       Master 1x no bg_35: -61823365
       Master 1x no bg_112: 2019055994
       Master 1x no bg_82: -545033653
-      Master 1x no bg_103: -447511058
-      Master 1x no bg_44: 616935421
       Master 1x no bg_71: 335078031
+      Master 1x no bg_44: 616935421
+      Master 1x no bg_103: -447511058
       Master 1x no bg_65: 1064716950
       Master 1x no bg_126: 1673639306
       Master 1x no bg_123: 1552229085
@@ -2974,7 +2998,7 @@ TextureImporter:
       Master 1x no bg_9: -218150786
       Master 1x no bg_105: 421238607
       Master 1x no bg_42: -1832403415
-      Master 1x no bg_109: -434621927
+      Master 1x no bg_81: 816926243
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

@@ -814,8 +814,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c50e07320a3ccf340be1cb717f42c76e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetScene: Scenes/PlayGround3
-  targetDoor: LeftDoor
+  targetScene: Room3-3
+  targetDoor: EggDoor
   spawnPivot: {fileID: 1921680068}
   isDefaultDoor: 1
 --- !u!4 &685499193

@@ -11,6 +11,7 @@ public struct BulletSetting
     public Color color;
 
     public bool dontDestroyOnHit;
+    public bool isEnemy;
 
     [Tooltip("lifespan = 5.0 + extra sec")]
     public float extraLifeSpan;

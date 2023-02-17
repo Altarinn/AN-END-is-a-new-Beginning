@@ -3610,6 +3610,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: 2.00004
       objectReference: {fileID: 0}
+    - target: {fileID: 3814938566087493860, guid: eeffe423e6fde6747a3d4ce41eeec622, type: 3}
+      propertyPath: targetScene
+      value: MainMenu
+      objectReference: {fileID: 0}
     - target: {fileID: 3814938566087493861, guid: eeffe423e6fde6747a3d4ce41eeec622, type: 3}
       propertyPath: m_RootOrder
       value: 8
