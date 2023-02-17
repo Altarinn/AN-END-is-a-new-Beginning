@@ -21,12 +21,21 @@ EditorBuildSettings:
     path: Assets/Scenes/Phantom Playground.unity
     guid: 6bbe487f68613c846bd47a502f724beb
   - enabled: 1
-    path: Assets/Scenes/Stage01/Room02.unity
+    path: Assets/Scenes/Stage01/Room1-2.unity
     guid: 11c28d9871a331b4fb7bd467b3309687
   - enabled: 1
-    path: Assets/Scenes/Stage01/Room03.unity
+    path: Assets/Scenes/Stage01/Room1-3.unity
     guid: fdb67b8e9e7138243bd014c8947ce686
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/Stage03/Room3-1.unity
+    guid: c5f4e29df3bbe7145b55679893c180be
+  - enabled: 1
+    path: Assets/Scenes/Stage03/Room3-F.unity
+    guid: aa3c08238af2a5a4fa6b8b55b931ca87
+  - enabled: 1
+    path: Assets/Scenes/Stage03/Room3-ph1.unity
+    guid: dc5c3ef433afcd64c8373ea39305b00d
   m_configObjects: {}

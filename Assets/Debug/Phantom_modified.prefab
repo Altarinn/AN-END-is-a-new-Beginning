@@ -334,7 +334,7 @@ MonoBehaviour:
   _detectionRayLength: 0.1
   _rayBuffer: 0.1
   _acceleration: 90
-  _moveClamp: 8.9
+  _moveClamp: 9.6
   _deAcceleration: 100
   _apexBonus: 1.4
   _fallClamp: -40
@@ -349,6 +349,8 @@ MonoBehaviour:
   _dashTime: 0.11
   _dashNumber: 1
   maximumSpeedAfterDash: {x: 2.3, y: 8.2}
+  _climbSpeed: 2
+  _wallJumpNoHorizontal: 0.2
   _freeColliderIterations: 10
 --- !u!70 &5344058223637253241
 CapsuleCollider2D:

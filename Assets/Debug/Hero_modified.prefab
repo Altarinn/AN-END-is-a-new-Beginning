@@ -103,10 +103,10 @@ MonoBehaviour:
     color: {r: 0.83396226, g: 0.9191463, b: 1, a: 1}
     dontDestroyOnHit: 0
     extraLifeSpan: 0
-  flySpeed: 18
+  flySpeed: 22
   explosionSpeed: 10
   burstNum: 3
-  explosionNum: 17
+  explosionNum: 9
   burstRecoverSec: 0.35
 --- !u!1 &4472587149035624463
 GameObject:
@@ -19734,6 +19734,8 @@ MonoBehaviour:
   _dashTime: 0.1
   _dashNumber: 1
   maximumSpeedAfterDash: {x: 3, y: 6}
+  _climbSpeed: 2
+  _wallJumpNoHorizontal: 0.5
   _freeColliderIterations: 10
 --- !u!70 &4472587150047085586
 CapsuleCollider2D:

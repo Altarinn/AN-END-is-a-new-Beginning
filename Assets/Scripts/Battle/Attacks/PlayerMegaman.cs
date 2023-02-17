@@ -47,7 +47,7 @@ public class PlayerMegaman : AttackPatternBase
             b.BulletShot(setting, origin, direction * flySpeed)
             .OnHit((self, coll) =>
             {
-                b.BulletFanShots(setting, explosionNum, self.transform.position, Vector3.up * explosionSpeed, 360, 0.5f);
+                b.BulletFanShots(setting, explosionNum, self.transform.position, direction * explosionSpeed, 360 - (360 / explosionNum), 0.5f);
             });
         }
 

@@ -198,20 +198,26 @@ namespace TarodevController {
         [SerializeField] private float _apexBonus = 2;
 
         private void CalculateWalk() {
-            if (Input.X != 0) {
-                // Set horizontal move speed
-                _currentHorizontalSpeed += Input.X * _acceleration * Time.deltaTime;
+            if (_timeLastWallJump + _wallJumpNoHorizontal < Time.time)
+            //if (true)
+            {
+                if (Input.X != 0 && _timeLastWallJump + _wallJumpNoHorizontal < Time.time)
+                {
+                    // Set horizontal move speed
+                    _currentHorizontalSpeed += Input.X * _acceleration * Time.deltaTime;
 
-                // clamped by max frame movement
-                _currentHorizontalSpeed = Mathf.Clamp(_currentHorizontalSpeed, -_moveClamp, _moveClamp);
+                    // clamped by max frame movement
+                    _currentHorizontalSpeed = Mathf.Clamp(_currentHorizontalSpeed, -_moveClamp, _moveClamp);
 
-                // Apply bonus at the apex of a jump
-                var apexBonus = Mathf.Sign(Input.X) * _apexBonus * _apexPoint;
-                _currentHorizontalSpeed += apexBonus * Time.deltaTime;
-            }
-            else {
-                // No input. Let's slow the character down
-                _currentHorizontalSpeed = Mathf.MoveTowards(_currentHorizontalSpeed, 0, _deAcceleration * Time.deltaTime);
+                    // Apply bonus at the apex of a jump
+                    var apexBonus = Mathf.Sign(Input.X) * _apexBonus * _apexPoint;
+                    _currentHorizontalSpeed += apexBonus * Time.deltaTime;
+                }
+                else
+                {
+                    // No input. Let's slow the character down
+                    _currentHorizontalSpeed = Mathf.MoveTowards(_currentHorizontalSpeed, 0, _deAcceleration * Time.deltaTime);
+                }
             }
 
             if (_currentHorizontalSpeed > 0 && _colRight || _currentHorizontalSpeed < 0 && _colLeft) {
@@ -263,6 +269,13 @@ namespace TarodevController {
         private bool CanUseCoyote => _coyoteUsable && !_colDown && _timeLeftGrounded + _coyoteTimeThreshold > Time.time;
         private bool HasBufferedJump => _colDown && _lastJumpPressed + _jumpBuffer > Time.time;
 
+        private float _timeLeftGrabbing;
+        private float _timeLastWallJump = -100.0f;
+        private bool _canUseWallJump, _coyoteUsableWall;
+        private bool _contactWall => _colLeft || _colRight;
+        private bool CanUseCoyoteWall => _coyoteUsableWall && !_grabbing && _timeLeftGrabbing + _coyoteTimeThreshold > Time.time;
+        private bool HasBufferedJumpWall => _grabbing && _lastJumpPressed + _jumpBuffer > Time.time;
+
         private void CalculateJumpApex() {
             if (!_colDown) {
                 // Gets stronger the closer to the top of the jump
@@ -287,6 +300,23 @@ namespace TarodevController {
                 JumpingThisFrame = false;
             }
 
+            // Wall Jump
+            if(Input.JumpDown && _canUseWallJump && CanUseCoyoteWall || HasBufferedJumpWall)
+            {
+                _currentVerticalSpeed = _jumpHeight;
+                _currentHorizontalSpeed = -1 * _grabDirection * _moveClamp;
+                _endedJumpEarly = false;
+                _coyoteUsableWall = false;
+                _canUseWallJump = false;
+                _timeLastWallJump = Time.time;
+                _timeLeftGrabbing = float.MinValue;
+                JumpingThisFrame = true;
+            }
+            else
+            {
+                JumpingThisFrame = false;
+            }
+
             // End the jump early if button released
             if (!_colDown && Input.JumpUp && !_endedJumpEarly && Velocity.y > 0) {
                 // _currentVerticalSpeed = 0;
@@ -306,6 +336,8 @@ namespace TarodevController {
         [SerializeField] private float _dashTime = 0.2f;
         [SerializeField, Tooltip("#dashes able to perform before landing")] private int _dashNumber = 1;
         [SerializeField] private Vector2 maximumSpeedAfterDash = new Vector2(10, 10);
+        [SerializeField] private float _climbSpeed = 2.0f;
+        [SerializeField] private float _wallJumpNoHorizontal = 0.5f;
 
         LayerMask _groundLayerCache;
         Vector3 _currentDashTarget;
@@ -314,7 +346,7 @@ namespace TarodevController {
 
         public bool Grabbing => _grabbing;
         bool _grabbing;
-        int _grabDirection => ((int)Mathf.Sign(Input.X)) * (_grabbing ? 1 : 0);
+        int _grabDirection;
 
         private void CalculateDash()
         {
@@ -400,16 +432,32 @@ namespace TarodevController {
 
         private void CalculateGrab()
         {
-            if(_currentVerticalSpeed <= 1e-4 && Input.Y > 0 && ((_colLeft && Input.X < 0) || (_colRight && Input.X > 0)))
+            if(_currentVerticalSpeed <= 1e-4 && !_colDown && ((_colLeft && Input.X < 0) || (_colRight && Input.X > 0)))
             {
+                if (!_grabbing) { _coyoteUsableWall = true; } // Only trigger when first grabbing
+
                 _grabbing = true;
+                _grabDirection = (int)Mathf.Sign(Input.X);
+                _canUseWallJump = true;
                 ZeroVelocity();
                 Gravity = false;
             }
             else
             {
+                if (_grabbing) { _timeLeftGrabbing = Time.time; } // Only trigger when first leaving
+
                 _grabbing = false;
                 Gravity = true;
+            }
+
+            //if (_grabbing)
+            //{
+            //    _currentVerticalSpeed = Input.Y * _climbSpeed;
+            //}
+
+            if(_grabbing)
+            {
+                _currentVerticalSpeed = -_climbSpeed;
             }
         }
 
