@@ -38,4 +38,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Stage03/Room3-ph1.unity
     guid: dc5c3ef433afcd64c8373ea39305b00d
+  - enabled: 1
+    path: Assets/Scenes/Room(Easter egg).unity
+    guid: f0f5263962e63ed44a1ab3e1981afcbe
+  - enabled: 1
+    path: Assets/Scenes/Room(Undistribute1).unity
+    guid: 7c65d18f34f08ab4abe4d10c8dd00467
+  - enabled: 1
+    path: Assets/Scenes/Room(Undistribute2).unity
+    guid: 4312f13b6679bf34f9bb3871e547d285
   m_configObjects: {}

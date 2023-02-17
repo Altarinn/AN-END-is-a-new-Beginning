@@ -38,7 +38,12 @@ namespace TarodevController {
         private Vector2 _externalMovement;
 
         /// <summary>
+        /// This is the expected way for an external component to move the controller (except thru InputModule).
+        /// It should be used as `transform.Translate(movement)`.
+        /// 
         /// You should multiply `movement` by `Time.deltaTime`.
+        /// Later, in MoveCharacter() the controller will apply accumulated movements in this frame.
+        /// MoveCharacter() will then check collision and ensure there's no unresolved conflicts.
         /// </summary>
         /// <param name="movement">Movement (in units)</param>
         public void ApplyExternalMovement(Vector2 movement)
@@ -63,6 +68,7 @@ namespace TarodevController {
             if (!_dashing)
             {
                 RunCollisionChecks();
+                if (IsPhantom) { RunCollisionChecksWallContact(); }
 
                 if (UseInput && IsPhantom)
                 {
@@ -86,6 +92,7 @@ namespace TarodevController {
                 if (UseInput)
                 {
                     CalculateJump(); // Possibly overrides vertical
+                    if (IsPhantom) { CalculateWallJump(); }
                 }
 
                 //HandleExternalMovement();
@@ -112,10 +119,11 @@ namespace TarodevController {
         [SerializeField] private LayerMask _groundLayer;
         [SerializeField] private int _detectorCount = 3;
         [SerializeField] private float _detectionRayLength = 0.1f;
+        [SerializeField] private float _contactRayLength = 0.25f;
         [SerializeField] [Range(0.1f, 0.3f)] private float _rayBuffer = 0.1f; // Prevents side detectors hitting the ground
 
         private RayRange _raysUp, _raysRight, _raysDown, _raysLeft;
-        private bool _colUp, _colRight, _colDown, _colLeft;
+        private bool _colUp, _colRight, _colDown, _colLeft, _contLeft, _contRight;
 
         private float _timeLeftGrounded;
 
@@ -126,7 +134,7 @@ namespace TarodevController {
 
             // Ground
             LandingThisFrame = false;
-            var groundedCheck = RunDetection(_raysDown);
+            var groundedCheck = RunDetection(_raysDown, _detectionRayLength);
             if (_colDown && !groundedCheck) _timeLeftGrounded = Time.time; // Only trigger when first leaving
             else if (!_colDown && groundedCheck) {
                 _coyoteUsable = true; // Only trigger when first touching
@@ -136,12 +144,31 @@ namespace TarodevController {
             _colDown = groundedCheck;
 
             // The rest
-            _colUp = RunDetection(_raysUp);
-            _colLeft = RunDetection(_raysLeft);
-            _colRight = RunDetection(_raysRight);
+            _colUp = RunDetection(_raysUp, _detectionRayLength);
+            _colLeft = RunDetection(_raysLeft, _detectionRayLength);
+            _colRight = RunDetection(_raysRight, _detectionRayLength);
+        }
 
-            bool RunDetection(RayRange range) {
-                return EvaluateRayPositions(range).Any(point => Physics2D.Raycast(point, range.Dir, _detectionRayLength, _groundLayer));
+        bool RunDetection(RayRange range, float rayLength)
+        {
+            return EvaluateRayPositions(range).Any(point => Physics2D.Raycast(point, range.Dir, rayLength, _groundLayer));
+        }
+
+        private void RunCollisionChecksWallContact()
+        {
+            _contLeft = RunDetection(_raysLeft, _contactRayLength);
+            _contRight = RunDetection(_raysRight, _contactRayLength);
+
+            // Wall contact
+            if (_contLeft || _contRight)
+            {
+                _contactWall = true;
+                _grabDirection = _contLeft ? -1 : 1;
+            }
+            else if (_contactWall)
+            {
+                _contactWall = false;
+                _timeLeftContact = Time.time;
             }
         }
 
@@ -269,12 +296,12 @@ namespace TarodevController {
         private bool CanUseCoyote => _coyoteUsable && !_colDown && _timeLeftGrounded + _coyoteTimeThreshold > Time.time;
         private bool HasBufferedJump => _colDown && _lastJumpPressed + _jumpBuffer > Time.time;
 
-        private float _timeLeftGrabbing;
+        private bool _contactWall;
+        private float _timeLeftContact;
         private float _timeLastWallJump = -100.0f;
-        private bool _canUseWallJump, _coyoteUsableWall;
-        private bool _contactWall => _colLeft || _colRight;
-        private bool CanUseCoyoteWall => _coyoteUsableWall && !_grabbing && _timeLeftGrabbing + _coyoteTimeThreshold > Time.time;
-        private bool HasBufferedJumpWall => _grabbing && _lastJumpPressed + _jumpBuffer > Time.time;
+        private bool _coyoteUsableWall;
+        private bool CanUseCoyoteWall => _coyoteUsableWall && !_contactWall && _timeLeftContact + _coyoteTimeThreshold > Time.time;
+        private bool HasBufferedJumpWall => _contactWall && _lastJumpPressed + _jumpBuffer > Time.time;
 
         private void CalculateJumpApex() {
             if (!_colDown) {
@@ -288,32 +315,17 @@ namespace TarodevController {
         }
 
         private void CalculateJump() {
+
             // Jump if: grounded or within coyote threshold || sufficient jump buffer
             if (Input.JumpDown && CanUseCoyote || HasBufferedJump) {
                 _currentVerticalSpeed = _jumpHeight;
                 _endedJumpEarly = false;
                 _coyoteUsable = false;
                 _timeLeftGrounded = float.MinValue;
+                _lastJumpPressed = float.MinValue;
                 JumpingThisFrame = true;
             }
             else {
-                JumpingThisFrame = false;
-            }
-
-            // Wall Jump
-            if(Input.JumpDown && _canUseWallJump && CanUseCoyoteWall || HasBufferedJumpWall)
-            {
-                _currentVerticalSpeed = _jumpHeight;
-                _currentHorizontalSpeed = -1 * _grabDirection * _moveClamp;
-                _endedJumpEarly = false;
-                _coyoteUsableWall = false;
-                _canUseWallJump = false;
-                _timeLastWallJump = Time.time;
-                _timeLeftGrabbing = float.MinValue;
-                JumpingThisFrame = true;
-            }
-            else
-            {
                 JumpingThisFrame = false;
             }
 
@@ -438,13 +450,12 @@ namespace TarodevController {
 
                 _grabbing = true;
                 _grabDirection = (int)Mathf.Sign(Input.X);
-                _canUseWallJump = true;
                 ZeroVelocity();
                 Gravity = false;
             }
             else
             {
-                if (_grabbing) { _timeLeftGrabbing = Time.time; } // Only trigger when first leaving
+                //if (_grabbing) { _timeLeftGrabbing = Time.time; } // Only trigger when first leaving
 
                 _grabbing = false;
                 Gravity = true;
@@ -458,6 +469,30 @@ namespace TarodevController {
             if(_grabbing)
             {
                 _currentVerticalSpeed = -_climbSpeed;
+            }
+        }
+
+        private void CalculateWallJump()
+        {
+            if (JumpingThisFrame) { return; }
+            
+            // Wall Jump
+            if (Input.JumpDown && CanUseCoyoteWall || HasBufferedJumpWall)
+            {
+                _currentVerticalSpeed = _jumpHeight;
+                _currentHorizontalSpeed = -1 * _grabDirection * _moveClamp;
+                _endedJumpEarly = false;
+                _coyoteUsableWall = false;
+
+                _lastJumpPressed = float.MinValue;
+
+                _timeLastWallJump = Time.time;
+                _timeLeftContact = float.MinValue;
+                JumpingThisFrame = true;
+            }
+            else
+            {
+                JumpingThisFrame = false;
             }
         }
 

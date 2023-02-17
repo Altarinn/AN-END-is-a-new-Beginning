@@ -12,6 +12,8 @@ public class PlayerTimedBomb : AttackPatternBase
     public float gravity = 2.0f, maxFall = 20.0f;
     public float delay = 5.0f;
 
+    float initialOffset = 0.2f;
+
     BulletManager b;
 
     private void Start()
@@ -28,7 +30,7 @@ public class PlayerTimedBomb : AttackPatternBase
 
     public override void Fire(Vector2 origin, Vector2 direction)
     {
-        b.BulletFanShots(setting, 1, origin, (direction + Vector2.up / 1f).normalized * flySpeed, 60, 0.5f)
+        b.BulletFanShots(setting, 1, origin, (direction + Vector2.up / 1f).normalized * flySpeed, 60, initialOffset)
         .OnUpdate((self) => 
         { 
             self.velocity.y = Mathf.Max(-maxFall, self.velocity.y - gravity * Time.deltaTime);
@@ -43,7 +45,7 @@ public class PlayerTimedBomb : AttackPatternBase
             .SetDestroyOnHit(false)
             .SetLife(delay)
             .OnRelease((self) => {
-                b.BulletFanShots(setting, explosionNum, self.transform.position, Vector3.up * explosionSpeed, 360, 0.5f)
+                b.BulletFanShots(setting, explosionNum, self.transform.position, Vector3.up * explosionSpeed, 360, initialOffset)
                 .OnUpdate((self) =>
                 {
                     self.velocity.y = Mathf.Max(-maxFall, self.velocity.y - gravity * Time.deltaTime);
@@ -60,7 +62,7 @@ public class PlayerTimedBomb : AttackPatternBase
             .SetDestroyOnHit(false)
             .SetLife(delay * 2)
             .OnRelease((self) => {
-                b.BulletFanShots(setting, explosionNum / 2, self.transform.position, Vector3.up * explosionSpeed * 0.667f, 360, 0.5f)
+                b.BulletFanShots(setting, explosionNum / 2, self.transform.position, Vector3.up * explosionSpeed * 0.667f, 360, initialOffset)
                 .OnUpdate((self) =>
                 {
                     self.velocity.y = Mathf.Max(-maxFall, self.velocity.y - gravity * Time.deltaTime);
@@ -77,7 +79,7 @@ public class PlayerTimedBomb : AttackPatternBase
             .SetDestroyOnHit(false)
             .SetLife(delay * 3)
             .OnRelease((self) => {
-                b.BulletFanShots(setting, explosionNum / 4, self.transform.position, Vector3.up * explosionSpeed * 0.333f, 360, 0.5f)
+                b.BulletFanShots(setting, explosionNum / 4, self.transform.position, Vector3.up * explosionSpeed * 0.333f, 360, initialOffset)
                 .OnUpdate((self) =>
                 {
                     self.velocity.y = Mathf.Max(-maxFall, self.velocity.y - gravity * Time.deltaTime);

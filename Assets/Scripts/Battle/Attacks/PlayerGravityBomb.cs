@@ -10,6 +10,8 @@ public class PlayerGravityBomb : AttackPatternBase
     public int explosionNum = 36;
     public float gravity = 2.0f, maxFall = 20.0f;
 
+    float initialOffset = 0.2f;
+
     BulletManager b;
 
     private void Start()
@@ -24,7 +26,7 @@ public class PlayerGravityBomb : AttackPatternBase
 
     public override void Fire(Vector2 origin, Vector2 direction)
     {
-        b.BulletFanShots(setting, 1, origin, (direction + Vector2.up / 1.732f).normalized * flySpeed, 60, 0.5f)
+        b.BulletFanShots(setting, 1, origin, (direction + Vector2.up / 1.732f).normalized * flySpeed, 60, initialOffset)
         .OnUpdate((self) => 
         { 
             self.velocity.y = Mathf.Max(-maxFall, self.velocity.y - gravity * Time.deltaTime);
@@ -32,7 +34,7 @@ public class PlayerGravityBomb : AttackPatternBase
         })
         .OnHit((self, coll) =>
         {
-            b.BulletFanShots(setting, explosionNum, self.transform.position, Vector3.up * explosionSpeed, 360, 0.5f)
+            b.BulletFanShots(setting, explosionNum, self.transform.position, Vector3.up * explosionSpeed, 360, initialOffset)
             .OnUpdate((self) =>
             {
                 self.velocity.y = Mathf.Max(-maxFall, self.velocity.y - gravity * Time.deltaTime);
@@ -40,7 +42,7 @@ public class PlayerGravityBomb : AttackPatternBase
             })
             .OnHit((self, coll) =>
             {
-                b.BulletFanShots(setting, 12, self.transform.position, Vector3.up * explosionSpeed, 360, 0.1f)
+                b.BulletFanShots(setting, 12, self.transform.position, Vector3.up * explosionSpeed, 360, initialOffset)
                 .SetLife(0.05f);
             });
         });

@@ -43,7 +43,7 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager>
 
     public void EnterLevel(int sceneOrder)
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(sceneOrder);
+        GameController.Instance.EnterLevelAsync("Scenes/Room(Easter egg)", "RightDoor");
     }
 
     public void Win()
