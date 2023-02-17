@@ -10,12 +10,12 @@ public class DamageTaker : MonoBehaviour
     public TarodevController.PlayerController body;
     public SpriteRenderer spriteRenderer;
 
-    Transform vT;
+    protected Transform vT;
 
     Vector3 vTorigin;
     Color vRcolor;
 
-    private MaterialPropertyBlock propertyBlock;
+    MaterialPropertyBlock propertyBlock;
 
     [Header("Health")]
     public float maxHealth;
@@ -34,7 +34,7 @@ public class DamageTaker : MonoBehaviour
     public float knockbackTime = 0.5f;
     Vector2 knockbackVelocity = Vector2.zero;
 
-    Sequence seq;
+    protected Sequence seq;
 
     protected virtual void Awake()
     {
