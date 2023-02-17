@@ -10,7 +10,7 @@ public class PlayerGravityBomb : AttackPatternBase
     public int explosionNum = 36;
     public float gravity = 2.0f, maxFall = 20.0f;
 
-    float initialOffset = 0.2f;
+    float initialOffset = 0.4f;
 
     BulletManager b;
 

@@ -14,7 +14,7 @@ public class PlayerMegaman : AttackPatternBase
     int currentBurstCount = 0;
     float burstTimer = 0;
 
-    float initialOffset = 0.2f;
+    float initialOffset = 0.3f;
 
     BulletManager b;
 
@@ -49,7 +49,7 @@ public class PlayerMegaman : AttackPatternBase
             b.BulletShot(setting, origin, direction * flySpeed)
             .OnHit((self, coll) =>
             {
-                b.BulletFanShots(setting, explosionNum, self.transform.position, direction * explosionSpeed, 360 - (360 / explosionNum), initialOffset);
+                b.BulletFanShots(setting, explosionNum, self.transform.position, direction * explosionSpeed, 300, initialOffset);
             });
         }
 

@@ -106,7 +106,7 @@ MonoBehaviour:
   flySpeed: 22
   explosionSpeed: 10
   burstNum: 3
-  explosionNum: 9
+  explosionNum: 19
   burstRecoverSec: 0.35
 --- !u!1 &4472587149035624463
 GameObject:
@@ -19717,6 +19717,7 @@ MonoBehaviour:
     m_Bits: 3080
   _detectorCount: 5
   _detectionRayLength: 0.1
+  _contactRayLength: 0.25
   _rayBuffer: 0.1
   _acceleration: 90
   _moveClamp: 11

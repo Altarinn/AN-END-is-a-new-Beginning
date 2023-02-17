@@ -12,7 +12,7 @@ public class PlayerTimedBomb : AttackPatternBase
     public float gravity = 2.0f, maxFall = 20.0f;
     public float delay = 5.0f;
 
-    float initialOffset = 0.2f;
+    float initialOffset = 0.4f;
 
     BulletManager b;
 
