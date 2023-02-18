@@ -34,6 +34,10 @@ public class DamageTaker : MonoBehaviour
     public float knockbackTime = 0.5f;
     Vector2 knockbackVelocity = Vector2.zero;
 
+    [Header("Audio")]
+    public AudioClip hurt;
+    AudioSource m_MyAudioSource;
+
     protected Sequence seq;
 
     protected virtual void Awake()
@@ -56,6 +60,7 @@ public class DamageTaker : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        m_MyAudioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -89,6 +94,8 @@ public class DamageTaker : MonoBehaviour
     {
         if (Invincible) return;
         if (damage <= 0) return;
+
+        m_MyAudioSource.PlayOneShot(hurt, 0.2f);
 
         health -= damage;
         CheckDeath();

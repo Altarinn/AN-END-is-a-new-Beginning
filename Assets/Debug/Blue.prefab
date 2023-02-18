@@ -332,6 +332,7 @@ MonoBehaviour:
     m_Bits: 2056
   _detectorCount: 5
   _detectionRayLength: 0.1
+  _contactRayLength: 0.25
   _rayBuffer: 0.1
   _acceleration: 90
   _moveClamp: 10
@@ -349,6 +350,8 @@ MonoBehaviour:
   _dashTime: 0.1
   _dashNumber: 1
   maximumSpeedAfterDash: {x: 3, y: 3}
+  _climbSpeed: 2
+  _wallJumpNoHorizontal: 0.5
   _freeColliderIterations: 10
 --- !u!70 &5344058223637253241
 CapsuleCollider2D:
@@ -594,6 +597,7 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 8620bcf7fa769e94fa548c2fc0325ef4, type: 3}
     color: {r: 1, g: 0.4188679, b: 0.4188679, a: 1}
     dontDestroyOnHit: 0
+    isEnemy: 0
     extraLifeSpan: 0
   flySpeed: 18
   explosionSpeed: 16
@@ -648,6 +652,7 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 8620bcf7fa769e94fa548c2fc0325ef4, type: 3}
     color: {r: 0.9716981, g: 0.377555, b: 0, a: 1}
     dontDestroyOnHit: 0
+    isEnemy: 0
     extraLifeSpan: 0
   flySpeed: 18
   explosionSpeed: 16
@@ -703,6 +708,7 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 8620bcf7fa769e94fa548c2fc0325ef4, type: 3}
     color: {r: 0.83396226, g: 0.9191463, b: 1, a: 1}
     dontDestroyOnHit: 0
+    isEnemy: 0
     extraLifeSpan: 0
   flySpeed: 18
   explosionSpeed: 10

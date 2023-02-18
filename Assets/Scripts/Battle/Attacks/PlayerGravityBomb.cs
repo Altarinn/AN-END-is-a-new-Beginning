@@ -9,6 +9,9 @@ public class PlayerGravityBomb : AttackPatternBase
     public float flySpeed = 18, explosionSpeed = 16;
     public int explosionNum = 36;
     public float gravity = 2.0f, maxFall = 20.0f;
+    public AudioClip bomb_l;
+    public AudioClip bomb_s;
+    AudioSource m_MyAudioSource;
 
     float initialOffset = 0.4f;
 
@@ -17,6 +20,7 @@ public class PlayerGravityBomb : AttackPatternBase
     private void Start()
     {
         b = BulletManager.Instance;
+        m_MyAudioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -26,6 +30,7 @@ public class PlayerGravityBomb : AttackPatternBase
 
     public override void Fire(Vector2 origin, Vector2 direction)
     {
+        m_MyAudioSource.PlayOneShot(bomb_l, 1.0f);
         b.BulletFanShots(setting, explosionNum, transform.position, direction * explosionSpeed, 360, initialOffset)
         .OnUpdate((self) =>
         {
@@ -34,6 +39,7 @@ public class PlayerGravityBomb : AttackPatternBase
         })
         .OnHit((self, coll) =>
         {
+            m_MyAudioSource.PlayOneShot(bomb_s, 0.6f);
             b.BulletFanShots(setting, 12, self.transform.position, Vector3.up * explosionSpeed, 360, initialOffset)
             .SetLife(0.05f);
         });

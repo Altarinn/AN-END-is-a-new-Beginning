@@ -14,7 +14,10 @@ public class PlayerFire : PlayerInputHandler
         //{ 
         //    direction = Vector2.right * input.X;
         //}
-        direction = new Vector2(input.X, input.Y);
+        if(input.X!=0||input.Y!=0)
+        {
+            direction = new Vector2(input.X, input.Y);
+        }
         
         if(input.PrimaryFire)
         {

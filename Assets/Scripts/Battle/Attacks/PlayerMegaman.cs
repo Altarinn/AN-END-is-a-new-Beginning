@@ -10,6 +10,10 @@ public class PlayerMegaman : AttackPatternBase
 
     public int burstNum = 3, explosionNum = 16;
     public float burstRecoverSec = 0.35f;
+    public AudioClip mega;
+    public AudioClip bomb;
+    AudioSource m_MyAudioSource;
+
 
     int currentBurstCount = 0;
     float burstTimer = 0;
@@ -18,9 +22,11 @@ public class PlayerMegaman : AttackPatternBase
 
     BulletManager b;
 
+
     private void Start()
     {
         b = BulletManager.Instance;
+        m_MyAudioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -42,6 +48,7 @@ public class PlayerMegaman : AttackPatternBase
     {
         if(currentBurstCount < burstNum)
         {
+            m_MyAudioSource.PlayOneShot(mega, 1.0f);
             // Try these patterns
             //b.BulletZigzagShots(setting, 1, origin, flySpeed, 0.05f, 45.0f, 0f, 0.5f)
             //b.BulletCurveShots(setting, 1, origin, flySpeed, 0f, 0.05f, 10f, 0.5f)
@@ -49,6 +56,7 @@ public class PlayerMegaman : AttackPatternBase
             b.BulletShot(setting, origin, direction * flySpeed)
             .OnHit((self, coll) =>
             {
+                m_MyAudioSource.PlayOneShot(bomb, 1.0f);
                 b.BulletFanShots(setting, explosionNum, self.transform.position, direction * explosionSpeed, 300, initialOffset);
             });
         }
