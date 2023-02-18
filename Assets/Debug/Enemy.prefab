@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: 134649478358822319}
   - component: {fileID: -1224536174945984945}
   - component: {fileID: 3567099202883713157}
+  - component: {fileID: 8177279424656665643}
   m_Layer: 9
   m_Name: Enemy
   m_TagString: Untagged
@@ -147,6 +148,7 @@ MonoBehaviour:
   invincibleTime: 0.01
   knockbackSpeed: 5
   knockbackTime: 0.1
+  hurt: {fileID: 0}
 --- !u!114 &1392115736636854273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,6 +177,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InputModule: {fileID: 1392115736636854273}
   UseInput: 1
+  IsPhantom: 0
+  Gravity: 1
   _characterBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0.35, y: 0.4, z: 0}
@@ -183,6 +187,7 @@ MonoBehaviour:
     m_Bits: 8
   _detectorCount: 3
   _detectionRayLength: 0.1
+  _contactRayLength: 0.25
   _rayBuffer: 0.01
   _acceleration: 30
   _moveClamp: 5
@@ -196,6 +201,12 @@ MonoBehaviour:
   _coyoteTimeThreshold: 0.1
   _jumpBuffer: 0.1
   _jumpEndEarlyGravityModifier: 3
+  _dashDistance: 1.5
+  _dashTime: 0.2
+  _dashNumber: 1
+  maximumSpeedAfterDash: {x: 10, y: 10}
+  _climbSpeed: 2
+  _wallJumpNoHorizontal: 0.5
   _freeColliderIterations: 10
 --- !u!61 &134649478358822319
 BoxCollider2D:
@@ -259,6 +270,26 @@ MonoBehaviour:
   damage: 5
   knockbackSpeed: 15
   knockbackTime: 0.25
+--- !u!95 &8177279424656665643
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 134649478358822322}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7012ece5413ad1d43a68bceda9e82b70, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &3238148814817182788
 GameObject:
   m_ObjectHideFlags: 0

@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: 134649478358822319}
   - component: {fileID: -1224536174945984945}
   - component: {fileID: 3567099202883713157}
+  - component: {fileID: -4944945854452883017}
   m_Layer: 9
   m_Name: Giant
   m_TagString: Untagged
@@ -147,6 +148,7 @@ MonoBehaviour:
   invincibleTime: 0.01
   knockbackSpeed: 1.3
   knockbackTime: 0.13
+  hurt: {fileID: 0}
 --- !u!114 &1392115736636854273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -185,6 +187,7 @@ MonoBehaviour:
     m_Bits: 8
   _detectorCount: 3
   _detectionRayLength: 0.1
+  _contactRayLength: 0.25
   _rayBuffer: 0.1
   _acceleration: 30
   _moveClamp: 4.3
@@ -267,6 +270,26 @@ MonoBehaviour:
   damage: 5
   knockbackSpeed: 15
   knockbackTime: 0.25
+--- !u!95 &-4944945854452883017
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 134649478358822322}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7012ece5413ad1d43a68bceda9e82b70, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &3238148814817182788
 GameObject:
   m_ObjectHideFlags: 0

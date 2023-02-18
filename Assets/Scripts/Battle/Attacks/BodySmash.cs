@@ -14,9 +14,12 @@ public class BodySmash : MonoBehaviour
     public float knockbackTime = 0.2f;
     Vector2 knockbackVelocity = Vector2.zero;
 
+    private Animator anim;
+
     private void Awake()
     {
         playerController = GetComponent<TarodevController.PlayerController>();
+        anim = GetComponent<Animator>();
     }
 
     private void Update()
@@ -39,6 +42,7 @@ public class BodySmash : MonoBehaviour
         {
             dt.Damage(damage, playerController.Velocity.normalized);
             knockbackVelocity = playerController.Velocity.normalized * -1 * knockbackSpeed;
+            anim.SetTrigger("DoAttack");
         }
     }
 }
