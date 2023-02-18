@@ -14,6 +14,7 @@ public class Door : MonoBehaviour
 
     GameObject doorVisuals;
     bool isOpen = false;
+    public bool isHidden = false;
 
     int doorLayer, obstacleLayer;
 
@@ -28,6 +29,7 @@ public class Door : MonoBehaviour
 
             var sr = doorVisuals.AddComponent<SpriteRenderer>();
             sr.sprite = GameController.Instance.doorSprite;
+            if (isHidden) { sr.color = Color.clear; }
 
             var coll = GetComponent<BoxCollider2D>();
             doorVisuals.transform.localPosition = coll.offset;

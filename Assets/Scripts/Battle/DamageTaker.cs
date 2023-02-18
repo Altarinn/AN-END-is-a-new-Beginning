@@ -95,7 +95,7 @@ public class DamageTaker : MonoBehaviour
         if (Invincible) return;
         if (damage <= 1e-2) return;
 
-        m_MyAudioSource.PlayOneShot(hurt, 0.2f);
+        m_MyAudioSource?.PlayOneShot(hurt, 0.2f);
 
         health -= damage;
         CheckDeath();
@@ -141,7 +141,7 @@ public class DamageTaker : MonoBehaviour
 
     protected virtual void CheckDeath()
     {
-        if(health < 0)
+        if(health <= 0)
         {
             dead = true;
             GameObject obj = Instantiate(GameController.Instance.DeathExplosion, transform.position, Quaternion.identity);

@@ -317,7 +317,8 @@ namespace TarodevController {
         private void CalculateJump() {
 
             // Jump if: grounded or within coyote threshold || sufficient jump buffer
-            if (Input.JumpDown && CanUseCoyote || HasBufferedJump) {
+            if (_fakeJump || (Input.JumpDown && CanUseCoyote || HasBufferedJump)) {
+                _fakeJump = false;
                 _currentVerticalSpeed = _jumpHeight;
                 _endedJumpEarly = false;
                 _coyoteUsable = false;
@@ -548,8 +549,20 @@ namespace TarodevController {
 
         public void ZeroVelocity()
         {
-            _currentHorizontalSpeed = 0;
-            _currentVerticalSpeed = 0;
+            SetVelocity(Vector2.zero);
+        }
+
+        bool _fakeJump;
+
+        public void FakeJump()
+        {
+            _fakeJump = true;
+        }
+
+        public void SetVelocity(Vector2 vec)
+        {
+            _currentHorizontalSpeed = vec.x;
+            _currentVerticalSpeed = vec.y;
         }
 
         #endregion

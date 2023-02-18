@@ -54,7 +54,8 @@ public class PlayerMegaman : AttackPatternBase
             //b.BulletCurveShots(setting, 1, origin, flySpeed, 0f, 0.05f, 10f, 0.5f)
             //b.BulletFocusedShots(setting, 3, origin, direction * flySpeed, 0.08f, 10f)
             b.BulletShot(setting, origin, direction * flySpeed)
-            .OnHit((self, coll) =>
+            .SetLife(2.0f)
+            .OnRelease((self) =>
             {
                 m_MyAudioSource.PlayOneShot(bomb, 1.0f);
                 b.BulletFanShots(setting, explosionNum, self.transform.position, direction * explosionSpeed, 300, initialOffset);

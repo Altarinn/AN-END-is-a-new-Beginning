@@ -19,6 +19,7 @@ public class HPBar : MonoBehaviour
 
         var player = GameController.Instance.player;
         int currentHealth = Mathf.RoundToInt(player.GetComponent<DamageTaker>().health);
+        currentHealth = Mathf.Clamp(currentHealth, 0, 30);
 
         if(currentHealth == transform.childCount) { return; }
         

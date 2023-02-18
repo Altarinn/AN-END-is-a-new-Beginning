@@ -181,6 +181,7 @@ public class GameController : SingletonMonoBehaviour<GameController>
     IEnumerator LoadLevelAsync(string sceneName, string doorName)
     {
         //if (player) { DontDestroyOnLoad(player); }
+        ExitCutScene();
 
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
 
@@ -338,6 +339,30 @@ public class GameController : SingletonMonoBehaviour<GameController>
         UIManager.Instance.RefreshState();
     }
 
+    bool isInCutscene = false;
+
+    public void EnterCutScene()
+    {
+        if(player != null)
+        {
+            var pi = player.GetComponent<ReplayableInput>();
+            pi.InputEnabled = false;
+        }
+
+        isInCutscene = true;
+    }
+
+    public void ExitCutScene()
+    {
+        if (player != null)
+        {
+            var pi = player.GetComponent<ReplayableInput>();
+            pi.InputEnabled = true;
+        }
+
+        isInCutscene = false;
+    }
+
     private void TEST_InstantPhantom()
     {
         // End room
@@ -357,10 +382,16 @@ public class GameController : SingletonMonoBehaviour<GameController>
         player.transform.position = playerPos;
     }
 
-    public void TimeUp() { RestartLevel(); }
+    public void TimeUp() 
+    {
+        if (isInCutscene) { return; }
+        RestartLevel(); 
+    }
 
     public void RestartLevel()
     {
+        if (isInCutscene) { return; }
+
         if(IsPhantom)
         {
             EnterLevelAsync(SceneManager.GetActiveScene().name, doorEntered);

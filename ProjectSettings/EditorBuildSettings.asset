@@ -71,4 +71,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Stage03 - Phantom Temple/Room3-ph1.unity
     guid: dc5c3ef433afcd64c8373ea39305b00d
+  - enabled: 1
+    path: Assets/Scenes/Stage01 - Chandelier Castle/Room1-N.unity
+    guid: 459f13183dad3f94b8f1da8e5b675b36
+  - enabled: 1
+    path: Assets/Scenes/Stage02 - Dark Pit/Room2-N.unity
+    guid: d3f9df719d0997646a177d0506393e0d
+  - enabled: 1
+    path: Assets/Scenes/Stage03 - Phantom Temple/Room3-N.unity
+    guid: ef72406f87306c044aa6e4c8ad21d30b
   m_configObjects: {}
