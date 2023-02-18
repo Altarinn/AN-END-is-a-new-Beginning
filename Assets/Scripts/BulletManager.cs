@@ -223,6 +223,11 @@ public class BulletManager : SingletonMonoBehaviour<BulletManager>
         return new BulletList(bullet);
     }
 
+    public void ClearBullets()
+    {
+        bulletPool.Clear();
+    }
+
     /// <summary>
     /// Shots N bullets from (-degree/2, ..., degree/2) with equal intervals.
     /// </summary>

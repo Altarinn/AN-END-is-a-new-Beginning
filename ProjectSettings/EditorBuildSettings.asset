@@ -8,16 +8,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: 099ec01c993d9194289702a9a398db30
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/PlayGround.unity
     guid: 9cfcc25a36face04c846f68ebd079dcb
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/PlayGround2.unity
     guid: 33af1218e405e384f818a7135743ec0f
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Phantom Playground.unity
     guid: 6bbe487f68613c846bd47a502f724beb
   - enabled: 0
@@ -26,10 +26,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Room(Easter egg).unity
     guid: f0f5263962e63ed44a1ab3e1981afcbe
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Room(Undistribute1).unity
     guid: 7c65d18f34f08ab4abe4d10c8dd00467
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Room(Undistribute2).unity
     guid: 4312f13b6679bf34f9bb3871e547d285
   - enabled: 1

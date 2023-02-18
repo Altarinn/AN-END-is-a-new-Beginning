@@ -26,6 +26,7 @@ public class EnemySpawn : MonoBehaviour
         for(int i = 0; i < spawnCount; i++)
         {
             SpriteRenderer renderer = Instantiate(enemyPrefab, transform).GetComponent<DamageTaker>().spriteRenderer;
+            GameController.Instance.RefreshRoomEnemyList();
             renderer.color = Color.clear;
             renderer.DOColor(Color.white, 0.3f);
             yield return new WaitForSeconds(spawnInterval);

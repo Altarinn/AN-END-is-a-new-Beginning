@@ -2872,6 +2872,48 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Master 1x no bg_128
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 24
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2dde1bb68f7644c4ba24a306873dedd5
+      internalID: -257460875
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Master 1x no bg_129
+      rect:
+        serializedVersion: 2
+        x: 88
+        y: 24
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5093b66df66253f41a5077c8d9ed3afc
+      internalID: -1067965418
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -2885,7 +2927,7 @@ TextureImporter:
     nameFileIdTable:
       Master 1x no bg_21: -1277222258
       Master 1x no bg_54: 1375197053
-      Master 1x no bg_109: -434621927
+      Master 1x no bg_81: 816926243
       Master 1x no bg_119: -1499747296
       Master 1x no bg_22: -185652251
       Master 1x no bg_78: 1685247781
@@ -2916,9 +2958,9 @@ TextureImporter:
       Master 1x no bg_35: -61823365
       Master 1x no bg_112: 2019055994
       Master 1x no bg_82: -545033653
-      Master 1x no bg_71: 335078031
-      Master 1x no bg_44: 616935421
       Master 1x no bg_103: -447511058
+      Master 1x no bg_44: 616935421
+      Master 1x no bg_71: 335078031
       Master 1x no bg_65: 1064716950
       Master 1x no bg_126: 1673639306
       Master 1x no bg_123: 1552229085
@@ -2950,6 +2992,7 @@ TextureImporter:
       Master 1x no bg_64: 1419890907
       Master 1x no bg_110: 954641875
       Master 1x no bg_10: -907006258
+      Master 1x no bg_129: -1067965418
       Master 1x no bg_57: 68928134
       Master 1x no bg_39: -781127581
       Master 1x no bg_124: -1123510466
@@ -2997,6 +3040,7 @@ TextureImporter:
       Master 1x no bg_83: -957697163
       Master 1x no bg_91: 2092123803
       Master 1x no bg_74: 1926213901
+      Master 1x no bg_128: -257460875
       Master 1x no bg_68: 266607297
       Master 1x no bg_33: -1950939884
       Master 1x no bg_17: 779619062
@@ -3010,7 +3054,7 @@ TextureImporter:
       Master 1x no bg_9: -218150786
       Master 1x no bg_105: 421238607
       Master 1x no bg_42: -1832403415
-      Master 1x no bg_81: 816926243
+      Master 1x no bg_109: -434621927
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

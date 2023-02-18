@@ -369,6 +369,9 @@ MonoBehaviour:
   bomb_m: {fileID: 8300000, guid: a3f59191a4abcb54fb6fa2d16ae229e4, type: 3}
   bomb_s: {fileID: 8300000, guid: d8ea2481d6a5ef94a94ccad92b2527d1, type: 3}
   slime: {fileID: 8300000, guid: b5803c17557c59c40bf3a6d69cb46cb3, type: 3}
+  shake1: 0.3
+  shake2: 0.1
+  shake3: 0.03
 --- !u!82 &186982199237003546
 AudioSource:
   m_ObjectHideFlags: 0
@@ -20123,8 +20126,8 @@ MonoBehaviour:
   visuals: {fileID: 8722626139103753084}
   body: {fileID: 7445834223152265320}
   spriteRenderer: {fileID: 7445834223940930226}
-  maxHealth: 100
-  health: 100
+  maxHealth: 4
+  health: 4
   destroyOnDeath: 0
   dead: 0
   damageTime: 0.1

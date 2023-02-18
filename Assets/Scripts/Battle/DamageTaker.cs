@@ -144,7 +144,19 @@ public class DamageTaker : MonoBehaviour
         if(health < 0)
         {
             dead = true;
-            if (destroyOnDeath) { seq?.Kill(); Destroy(this.gameObject); }
+            GameObject obj = Instantiate(GameController.Instance.DeathExplosion, transform.position, Quaternion.identity);
+
+            if (destroyOnDeath) 
+            { 
+                seq?.Kill();
+                Destroy(this.gameObject);
+            }
+
+            if(GameController.Instance.player == gameObject)
+            {
+                GetComponent<ReplayableInput>().InputEnabled = false;
+                DOVirtual.DelayedCall(0.5f, () => { GameController.Instance.RestartLevel(); });
+            }
         }
     }
 }

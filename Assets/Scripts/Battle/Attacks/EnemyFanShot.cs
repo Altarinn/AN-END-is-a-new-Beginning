@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using DG.Tweening;
+
 public class EnemyFanShot : AttackPatternBase
 {
     public BulletSetting setting;

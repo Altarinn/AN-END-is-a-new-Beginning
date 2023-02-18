@@ -7,6 +7,7 @@ using System.Linq;
 public class Room
 {
     string key;
+    static HashSet<string> ignoredKeys = new HashSet<string>() { "Room1-F", "Room2-F", "Room3-F", "Room(Easter egg)" };
 
     public Room(string name)
     {
@@ -32,20 +33,25 @@ public class Room
             // Play replay if any
             if (playerRecord != null)
             {
-                time = playerRecord.totalTime;
+                time = Mathf.Max(10.0f, playerRecord.totalTime);
                 
                 var plGhost = CreateGhostPlayer();
                 plri = plGhost.GetComponent<ReplayableInput>();
                 plri.StartReplay(playerRecord);
                 plGhost.SetActive(true);
             }
+            else
+            {
+                time = 99.0f;
+            }
         }
         else
         {
             // Find all enemies
-            int enemyLayer = LayerMask.NameToLayer("Enemy");
-            enemies = GameObject.FindObjectsOfType<DamageTaker>().Where(dt => dt.gameObject.layer == enemyLayer).ToList();
-            spawns = GameObject.FindObjectsOfType<EnemySpawn>().ToList();
+            RefreshEnemyList();
+
+            enemies.ForEach(e => Debug.Log(e.gameObject));
+            spawns.ForEach(e => Debug.Log(e.gameObject));
 
             // Keep a record if room not completed
             if (!roomCompleted)
@@ -75,8 +81,15 @@ public class Room
         return player;
     }
 
+    public void RefreshEnemyList()
+    {
+        int enemyLayer = LayerMask.NameToLayer("Enemy");
+        enemies = GameObject.FindObjectsOfType<DamageTaker>().Where(dt => dt.gameObject.layer == enemyLayer).ToList();
+        spawns = GameObject.FindObjectsOfType<EnemySpawn>().ToList();
+    }
+
     public bool CheckRoomCompleted()
-        => enemies.All(e => e.dead) && spawns.All(s => s.spawnFinished);
+        => controller.IsPhantom || (enemies.All(e => e.dead) && spawns.All(s => s.spawnFinished));
 
     public void UpdateRoom()
     {

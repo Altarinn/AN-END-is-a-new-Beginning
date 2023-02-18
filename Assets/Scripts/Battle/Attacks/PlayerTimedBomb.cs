@@ -19,6 +19,11 @@ public class PlayerTimedBomb : AttackPatternBase
 
     float initialOffset = 0.4f;
 
+    [Header("CameraShake")]
+    public float shake1 = 0.5f;
+    public float shake2 = 0.3f;
+    public float shake3 = 0.1f;
+
     BulletManager b;
 
     private void Start()
@@ -57,6 +62,7 @@ public class PlayerTimedBomb : AttackPatternBase
             .SetLife(delay)
             .OnRelease((self) => {
                 m_MyAudioSource.PlayOneShot(bomb_m, 0.9f);
+                GameController.Instance.CameraShake(shake1);
                 b.BulletFanShots(setting, explosionNum, self.transform.position, Vector3.up * explosionSpeed, 360, initialOffset)
                 .OnUpdate((self) =>
                 {
@@ -78,6 +84,7 @@ public class PlayerTimedBomb : AttackPatternBase
             .SetLife(delay * 2)
             .OnRelease((self) => {
                 m_MyAudioSource.PlayOneShot(bomb_m, 0.9f);
+                GameController.Instance.CameraShake(shake2);
                 b.BulletFanShots(setting, explosionNum / 2, self.transform.position, Vector3.up * explosionSpeed * 0.667f, 360, initialOffset)
                 .OnUpdate((self) =>
                 {
@@ -99,6 +106,7 @@ public class PlayerTimedBomb : AttackPatternBase
             .SetLife(delay * 3)
             .OnRelease((self) => {
                 m_MyAudioSource.PlayOneShot(bomb_m, 0.9f);
+                GameController.Instance.CameraShake(shake3);
                 b.BulletFanShots(setting, explosionNum / 4, self.transform.position, Vector3.up * explosionSpeed * 0.333f, 360, initialOffset)
                 .OnUpdate((self) =>
                 {

@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEditor;
 using System;
+using DG.Tweening;
+
 #if PLATFORM_ANDROID
 using UnityEngine.Android;
 #endif
@@ -19,6 +21,8 @@ public class GameController : SingletonMonoBehaviour<GameController>
 
     [Header("基础组件")]
     public GameObject MainMenu;
+    public GameObject MainCamera;
+    public GameObject DeathExplosion;
 
 #if PLATFORM_ANDROID
     GameObject dialog = null;
@@ -35,9 +39,9 @@ public class GameController : SingletonMonoBehaviour<GameController>
         {
             GetPermission();
             DataInit();
-            bool ifFirst = Save.GetInstance().FirstLog();
-            if (ifFirst)
-                FirstInit();
+            //bool ifFirst = Save.GetInstance().FirstLog();
+            //if (ifFirst)
+            FirstInit();
             Init();
         }
     }
@@ -63,8 +67,7 @@ public class GameController : SingletonMonoBehaviour<GameController>
         // Application.targetFrameRate = 60;
 
         //DataLoader.GetInstance().InitSaveData();
-        LoadPlayer();
-        InitRoom(SceneManager.GetActiveScene().name);
+        InitLevel("unspecified");
     }
 
     private void GetPermission()
@@ -100,7 +103,13 @@ public class GameController : SingletonMonoBehaviour<GameController>
         }
 #endif
 
-        GUI.skin = DebugUI.Instance.debugUISkin;
+        if(currentRoom == null) { return; }
+
+        if(DebugUI.Instance != null)
+        {
+            GUI.skin = DebugUI.Instance.debugUISkin;
+        }
+
         GUI.Label(new Rect(400, 10, 100, 14), $"TIME: {currentRoom?.time}");
         
         if(GUI.Button(new Rect(400, 30, 100, 14), "GO Phantom"))
@@ -119,17 +128,17 @@ public class GameController : SingletonMonoBehaviour<GameController>
         GetPermission();
         //处理数据初始化
 
-        Save.GetInstance().SaveFunc();
+        //Save.GetInstance().SaveFunc();
     }
 
     private void OnDestroy()
     {
-        Save.GetInstance().SaveFunc();
+        //Save.GetInstance().SaveFunc();
     }
 
     public void ExitGame()
     {
-        Save.GetInstance().SaveFunc();
+        //Save.GetInstance().SaveFunc();
 #if UNITY_EDITOR
         EditorApplication.isPlaying = false;
 #elif UNITY_ANDROID
@@ -150,6 +159,8 @@ public class GameController : SingletonMonoBehaviour<GameController>
     Room currentRoom;
     string doorEntered;
 
+    public Sprite doorSprite;
+
     [HideInInspector] public GameObject player { get; private set; }
     private float initialWait = 1.0f;
 
@@ -164,7 +175,6 @@ public class GameController : SingletonMonoBehaviour<GameController>
         }
 
         // TODO: Black screen
-        Debug.Log($"Find spawn point {doorName}");
         StartCoroutine(LoadLevelAsync(sceneName, doorName));
     }
 
@@ -172,13 +182,27 @@ public class GameController : SingletonMonoBehaviour<GameController>
     {
         //if (player) { DontDestroyOnLoad(player); }
 
-        Debug.Log($"Find spawn point {doorName}");
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
 
         // Wait until finish
         while (!asyncLoad.isDone) { yield return null; }
 
+        InitLevel(doorName);
+    }
+
+    public void InitLevel(string doorName)
+    {
+        MainCamera = GameObject.FindObjectOfType<Camera>().gameObject;
         LoadPlayer(doorName);
+        UIManager.Instance.RefreshState();
+
+        // Terminates if no player generated (no spawn point found)
+        if (player == null)
+        {
+            currentRoom = null;
+            return;
+        }
+
         InitRoom(SceneManager.GetActiveScene().name);
     }
 
@@ -197,32 +221,30 @@ public class GameController : SingletonMonoBehaviour<GameController>
         currentRoom.InitRoom(player);
     }
 
+    public void OpenAllDoors()
+    {
+        var doors = FindObjectsOfType<Door>();
+        foreach (var door in doors)
+        {
+            door.Open();
+        }
+    }
+
     public void FinishRoom(string roomName)
     {
+        OpenAllDoors();
+    }
 
+    public void RefreshRoomEnemyList() => currentRoom?.RefreshEnemyList();
+
+    public void ExitStage()
+    {
+        IsPhantom = false;
+        rooms.Clear();
     }
 
     public void LoadPlayer(string spawnName = "unspecified")
     {
-        if (player == null)
-        {
-            if(IsPhantom)
-            {
-                Debug.Log($"Instantiate phantom at {SceneManager.GetActiveScene().name}");
-                player = Instantiate(phantomPrefab);
-                player.SetActive(false);
-            }
-            else
-            {
-                Debug.Log($"Instantiate player at {SceneManager.GetActiveScene().name}");
-                player = Instantiate(playerPrefab);
-                player.SetActive(false);
-            }
-        }
-
-        // Forget about it lol
-        //SceneManager.MoveGameObjectToScene(player, SceneManager.GetActiveScene());
-
         // Find spawn point
         Debug.Log($"Find spawn point {spawnName}");
         var spawnPoints = GameObject.FindObjectsOfType<Door>();
@@ -245,26 +267,53 @@ public class GameController : SingletonMonoBehaviour<GameController>
         // 3rd priority: 1st spawn point
         if (targetSpawn == null && spawnPoints.Length > 0) { targetSpawn = spawnPoints[0]; }
 
-        // Found target spawn point, put our player there
-        if (targetSpawn != null)
+        // No spawnpoint, not a level
+        if (targetSpawn == null) 
         {
-            player.SetActive(true);
-            player.transform.position = targetSpawn.spawnPivot.position;
-
-            var pc = player.GetComponent<TarodevController.PlayerController>();
-            pc.Gravity = false;
-            pc.UseInput = false;
-
-            doorEntered = targetSpawn.name;
-
-            // Wait for everything loaded, especially preventing player fall through the ground
-            Invoke(nameof(ActivatePlayer), initialWait);
+            Debug.Log($"No spawn point found in {SceneManager.GetActiveScene().name}");
+            return; 
         }
+
+        // Found target spawn point, put our player there
+        if (player == null)
+        {
+            if (IsPhantom)
+            {
+                Debug.Log($"Instantiate phantom at {SceneManager.GetActiveScene().name}");
+                player = Instantiate(phantomPrefab);
+                player.SetActive(false);
+                OpenAllDoors();
+            }
+            else
+            {
+                Debug.Log($"Instantiate player at {SceneManager.GetActiveScene().name}");
+                player = Instantiate(playerPrefab);
+                player.SetActive(false);
+                targetSpawn.Open();
+            }
+        }
+
+        player.SetActive(true);
+        player.transform.position = targetSpawn.spawnPivot.position;
+
+        var pc = player.GetComponent<TarodevController.PlayerController>();
+        pc.Gravity = false;
+        pc.UseInput = false;
+
+        doorEntered = targetSpawn.name;
+
+        // Wait for everything loaded, especially preventing player fall through the ground
+        Invoke(nameof(ActivatePlayer), initialWait);
     }
 
     private void Update()
     {
         currentRoom?.UpdateRoom();
+    }
+
+    public void CameraShake(float strength = 0.5f)
+    {
+        MainCamera.transform.DOShakePosition(0.5f, strength, 13, 1, false, true);
     }
 
     public void ChangeToPhantom(Phantom phantom)
@@ -282,7 +331,11 @@ public class GameController : SingletonMonoBehaviour<GameController>
         }
 
         player = phantom.gameObject;
+        player.layer = LayerMask.NameToLayer("Phantom");
         IsPhantom = true;
+
+        OpenAllDoors();
+        UIManager.Instance.RefreshState();
     }
 
     private void TEST_InstantPhantom()
@@ -306,7 +359,7 @@ public class GameController : SingletonMonoBehaviour<GameController>
 
     public void TimeUp() { RestartLevel(); }
 
-    private void RestartLevel()
+    public void RestartLevel()
     {
         if(IsPhantom)
         {

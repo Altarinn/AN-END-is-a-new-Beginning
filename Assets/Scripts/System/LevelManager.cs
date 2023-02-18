@@ -31,13 +31,13 @@ public class LevelManager : SingletonMonoBehaviour<LevelManager>
     private void Init()
     {
         //EnemyTarget = player.transform;
-        enemyContainer = GameObject.Find("EnemyContainer").transform;
-        bulletContainer = GameObject.Find("BulletsContainer").transform;
+        //enemyContainer = GameObject.Find("EnemyContainer").transform;
+        //bulletContainer = GameObject.Find("BulletsContainer").transform;
         areaEffectContainer = GameObject.Find("AreaEffectContainer").transform;
 
         DontDestroyOnLoad(this);
-        DontDestroyOnLoad(enemyContainer);
-        DontDestroyOnLoad(bulletContainer);
+        //DontDestroyOnLoad(enemyContainer);
+        //DontDestroyOnLoad(bulletContainer);
         DontDestroyOnLoad(areaEffectContainer);
     }
 

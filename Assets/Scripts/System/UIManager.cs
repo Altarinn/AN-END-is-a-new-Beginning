@@ -6,6 +6,8 @@ public class UIManager : SingletonMonoBehaviour<UIManager>
     public Transform UIContainer;
     public GameObject tipsPrefab;
 
+    public GameObject HPBar, HPBarPh;
+
     public static UIManager GetInstance() => Instance;
 
     protected override void Awake()
@@ -34,6 +36,12 @@ public class UIManager : SingletonMonoBehaviour<UIManager>
     public void DestroyMenu(GameObject destroyMenu)
     {
         Destroy(destroyMenu);
+    }
+
+    public void RefreshState()
+    {
+        HPBar.SetActive(!GameController.Instance.IsPhantom);
+        HPBarPh.SetActive(GameController.Instance.IsPhantom);
     }
 
     public GameObject InstantiateTips(string text, Vector2 pos)

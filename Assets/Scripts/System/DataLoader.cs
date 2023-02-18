@@ -22,8 +22,8 @@ public class DataLoader : SingletonMonoBehaviour<DataLoader>
 
     public void InitSaveData()
     {
-        Save save = Save.GetInstance();
-        Save.UISaveData UIData = save.Load<Save.UISaveData>(SaveDataType.UIData);
+        //Save save = Save.GetInstance();
+        //Save.UISaveData UIData = save.Load<Save.UISaveData>(SaveDataType.UIData);
 
     }
 }
