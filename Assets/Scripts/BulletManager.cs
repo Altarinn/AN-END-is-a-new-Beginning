@@ -59,17 +59,17 @@ public class BulletManager : SingletonMonoBehaviour<BulletManager>
 
     private void OnGUI()
     {
-        GUI.skin = DebugUI.Instance.debugUISkin;
+        //GUI.skin = DebugUI.Instance.debugUISkin;
 
-        //if(!_uiInitialized)
-        //{
-        //    style = new GUIStyle();
-        //    style.normal = new GUIStyleState();
-        //    style.normal.textColor = Color.black;
-        //    style.normal.background = Texture2D.whiteTexture;
-        //}
-        GUILayout.Label(
-            $"Pool act: {nBulletsActive}\nInactive: {bulletPool.CountInactive}\nCapacity: {nBulletsActive + bulletPool.CountInactive}");
+        ////if(!_uiInitialized)
+        ////{
+        ////    style = new GUIStyle();
+        ////    style.normal = new GUIStyleState();
+        ////    style.normal.textColor = Color.black;
+        ////    style.normal.background = Texture2D.whiteTexture;
+        ////}
+        //GUILayout.Label(
+        //    $"Pool act: {nBulletsActive}\nInactive: {bulletPool.CountInactive}\nCapacity: {nBulletsActive + bulletPool.CountInactive}");
     }
 
     #endregion
@@ -154,6 +154,26 @@ public class BulletManager : SingletonMonoBehaviour<BulletManager>
             foreach (var bullet in bullets)
             {
                 bullet.lifespan = value;
+            }
+
+            return this;
+        }
+
+        public BulletList SetDamage(float value)
+        {
+            foreach (var bullet in bullets)
+            {
+                bullet.damage = value;
+            }
+
+            return this;
+        }
+
+        public BulletList SetSticky(bool value)
+        {
+            foreach (var bullet in bullets)
+            {
+                bullet.sticky = value;
             }
 
             return this;

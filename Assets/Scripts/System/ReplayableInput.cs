@@ -354,7 +354,7 @@ public class ReplayableInput : InputModule
         {
             GUI.skin = DebugUI.Instance.debugUISkin;
 
-            GUILayout.BeginArea(new Rect(0, 35, 100, 500));
+            GUILayout.BeginArea(new Rect(0, 0, 140, 500));
 
             if (state == RecorderState.Replay)
             {
@@ -365,25 +365,25 @@ public class ReplayableInput : InputModule
                 GUILayout.Label($"Input state: {state}\nRecord length: {recordInRecording?.records.Count}");
             }
 
-            if (GUILayout.Button("Start record"))
-            {
-                StartRecording(testRecord);
-            }
+            //if (GUILayout.Button("Start record"))
+            //{
+            //    StartRecording(testRecord);
+            //}
 
-            if (GUILayout.Button("Stop record"))
-            {
-                EndRecording();
-            }
+            //if (GUILayout.Button("Stop record"))
+            //{
+            //    EndRecording();
+            //}
 
-            if (GUILayout.Button("Start replay"))
-            {
-                StartReplay(testRecord);
-            }
+            //if (GUILayout.Button("Start replay"))
+            //{
+            //    StartReplay(testRecord);
+            //}
 
-            if (GUILayout.Button("Stop replay"))
-            {
-                EndReplay();
-            }
+            //if (GUILayout.Button("Stop replay"))
+            //{
+            //    EndReplay();
+            //}
 
             GUILayout.EndArea();
         }

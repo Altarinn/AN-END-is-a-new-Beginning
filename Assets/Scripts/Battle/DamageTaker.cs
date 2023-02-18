@@ -93,7 +93,7 @@ public class DamageTaker : MonoBehaviour
     public virtual void Damage(float damage, Vector2 direction)
     {
         if (Invincible) return;
-        if (damage <= 0) return;
+        if (damage <= 1e-2) return;
 
         m_MyAudioSource.PlayOneShot(hurt, 0.2f);
 

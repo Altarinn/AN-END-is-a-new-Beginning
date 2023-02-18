@@ -2,15 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class Room
 {
+    string key;
+
+    public Room(string name)
+    {
+        key = name;
+    }
+
     ReplayableInput.InputRecord playerRecord;
     GameController controller;
     ReplayableInput plri;
 
     public float time { get; private set; }
     bool roomCompleted;
+
+    List<DamageTaker> enemies;
+    List<EnemySpawn> spawns;
 
     public void InitRoom(GameObject player)
     {
@@ -31,17 +42,26 @@ public class Room
         }
         else
         {
+            // Find all enemies
+            int enemyLayer = LayerMask.NameToLayer("Enemy");
+            enemies = GameObject.FindObjectsOfType<DamageTaker>().Where(dt => dt.gameObject.layer == enemyLayer).ToList();
+            spawns = GameObject.FindObjectsOfType<EnemySpawn>().ToList();
+
             // Keep a record if room not completed
-            if(!roomCompleted)
+            if (!roomCompleted)
             {
+                time = 0;
                 plri = player.GetComponent<ReplayableInput>();
                 if (plri != null)
                 {
                     playerRecord = new ReplayableInput.InputRecord();
                     plri.StartRecording(playerRecord);
-
-                    // TODO: Check if room completed or not
                 }
+            }
+            else
+            {
+                enemies.ForEach(e => e.gameObject.SetActive(false));
+                spawns.ForEach(s => s.gameObject.SetActive(false));
             }
         }
     }
@@ -55,6 +75,9 @@ public class Room
         return player;
     }
 
+    public bool CheckRoomCompleted()
+        => enemies.All(e => e.dead) && spawns.All(s => s.spawnFinished);
+
     public void UpdateRoom()
     {
         // Not initialized
@@ -63,11 +86,14 @@ public class Room
         if(controller.IsPhantom)
         {
             time -= Time.deltaTime;
+            if(time < 0) { controller.TimeUp(); }
         }
-        else
+        else if(!roomCompleted)
         {
             time += Time.deltaTime;
         }
+
+        if (!roomCompleted && CheckRoomCompleted()) { FinishRoom(); }
     }
 
     public void FinishRoom()
@@ -76,6 +102,7 @@ public class Room
         {
             roomCompleted = true;
             plri.EndRecording();
+            controller.FinishRoom(key);
         }
     }
 }

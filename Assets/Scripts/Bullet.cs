@@ -17,7 +17,8 @@ public class Bullet : MonoBehaviour
     public OnUpdateBullet onUpdateBullet = UpdateBulletLinear;
 
     public bool destroyOnHit = true;
-    public float lifespan = 5.0f;
+    public bool sticky = false; // If sticky, will stick to and move together with enemy after hit.
+    public float lifespan = 5.0f, damage = 1.0f;
 
     public IObjectPool<Bullet> bulletPool;
 
@@ -37,6 +38,8 @@ public class Bullet : MonoBehaviour
         onHit = null;
         onRelease = null;
         onUpdateBullet = Bullet.UpdateBulletLinear;
+        damage = 1.0f;
+        sticky = false;
         destroyOnHit = false;
         lifespan = 5.0f;
         StopAllCoroutines();
@@ -107,7 +110,8 @@ public class Bullet : MonoBehaviour
         var dt = collider.GetComponent<DamageTaker>();
         if (dt != null)
         {
-            dt.Damage(1, velocity.normalized);
+            dt.Damage(damage, velocity.normalized);
+            if (sticky) { transform.parent = collider.transform; }
         }
 
         if (destroyOnHit) { Release(); }

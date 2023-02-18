@@ -171,7 +171,7 @@ Transform:
   m_Children:
   - {fileID: 689578866}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &187666624
 BoxCollider2D:
@@ -199,6 +199,54 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.4, y: 3.6}
   m_EdgeRadius: 0
+--- !u!1 &205087000
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 205087002}
+  - component: {fileID: 205087001}
+  m_Layer: 0
+  m_Name: EnemySpawnFly
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &205087001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 205087000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cda781252f5272b48af4d637c33cbde7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyPrefab: {fileID: 134649478358822322, guid: 3d5086f7185965a42a78785de471b23b, type: 3}
+  spawnCount: 2
+  spawnInterval: 5
+  initialWaitingTime: 2.5
+--- !u!4 &205087002
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 205087000}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 9.500191, y: -5.0001, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &212604022
 GameObject:
   m_ObjectHideFlags: 0
@@ -772,7 +820,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 134649478358822322, guid: 0c5138c3b6e371c4897d17b7ea2eae29, type: 3}
   spawnCount: 4
-  spawnInterval: 1.6
+  spawnInterval: 2
   initialWaitingTime: 0
 --- !u!1 &464707528
 GameObject:
@@ -1084,7 +1132,7 @@ Transform:
   m_Children:
   - {fileID: 1925619528}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &619394800
 GameObject:
@@ -1228,8 +1276,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 134649478358822322, guid: 0c5138c3b6e371c4897d17b7ea2eae29, type: 3}
   spawnCount: 4
-  spawnInterval: 1.6
-  initialWaitingTime: 0.4
+  spawnInterval: 2
+  initialWaitingTime: 0.5
 --- !u!4 &625709359
 Transform:
   m_ObjectHideFlags: 0
@@ -1324,7 +1372,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &971526954
 GameObject:
@@ -3865,7 +3913,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3814938566087493861, guid: eeffe423e6fde6747a3d4ce41eeec622, type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3814938566087493861, guid: eeffe423e6fde6747a3d4ce41eeec622, type: 3}
       propertyPath: m_LocalPosition.x

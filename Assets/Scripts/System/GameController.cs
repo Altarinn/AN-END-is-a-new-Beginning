@@ -107,6 +107,11 @@ public class GameController : SingletonMonoBehaviour<GameController>
         {
             TEST_InstantPhantom();
         }
+
+        if (GUI.Button(new Rect(400, 50, 100, 14), "Reset"))
+        {
+            RestartLevel();
+        }
     }
 
     private void FirstInit()
@@ -143,6 +148,7 @@ public class GameController : SingletonMonoBehaviour<GameController>
 
     public Dictionary<string, Room> rooms = new();
     Room currentRoom;
+    string doorEntered;
 
     [HideInInspector] public GameObject player { get; private set; }
     private float initialWait = 1.0f;
@@ -155,12 +161,6 @@ public class GameController : SingletonMonoBehaviour<GameController>
         {
             Debug.LogWarning($"Scene \"{sceneName}\" does not exist!");
             return;
-        }
-
-        // TODO: Finish room properly
-        if (currentRoom != null)
-        {
-            currentRoom.FinishRoom();
         }
 
         // TODO: Black screen
@@ -190,11 +190,16 @@ public class GameController : SingletonMonoBehaviour<GameController>
         }
         else
         {
-            currentRoom = new Room();
+            currentRoom = new Room(roomName);
             rooms.Add(roomName, currentRoom);
         }
 
         currentRoom.InitRoom(player);
+    }
+
+    public void FinishRoom(string roomName)
+    {
+
     }
 
     public void LoadPlayer(string spawnName = "unspecified")
@@ -250,6 +255,8 @@ public class GameController : SingletonMonoBehaviour<GameController>
             pc.Gravity = false;
             pc.UseInput = false;
 
+            doorEntered = targetSpawn.name;
+
             // Wait for everything loaded, especially preventing player fall through the ground
             Invoke(nameof(ActivatePlayer), initialWait);
         }
@@ -295,6 +302,20 @@ public class GameController : SingletonMonoBehaviour<GameController>
         yield return StartCoroutine(LoadLevelAsync(SceneManager.GetActiveScene().name, "NO"));
 
         player.transform.position = playerPos;
+    }
+
+    public void TimeUp() { RestartLevel(); }
+
+    private void RestartLevel()
+    {
+        if(IsPhantom)
+        {
+            EnterLevelAsync(SceneManager.GetActiveScene().name, doorEntered);
+        }
+        else
+        {
+            EnterLevelAsync(SceneManager.GetActiveScene().name);
+        }
     }
 
     void ActivatePlayer()

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class EnemySpawn : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class EnemySpawn : MonoBehaviour
     public int spawnCount = 1;
     public float spawnInterval = 0;
     public float initialWaitingTime = 0;
+
+    public bool spawnFinished { get; private set; } = false;
 
     // Start is called before the first frame update
     void Start()
@@ -22,9 +25,13 @@ public class EnemySpawn : MonoBehaviour
 
         for(int i = 0; i < spawnCount; i++)
         {
-            Instantiate(enemyPrefab, transform);
+            SpriteRenderer renderer = Instantiate(enemyPrefab, transform).GetComponent<DamageTaker>().spriteRenderer;
+            renderer.color = Color.clear;
+            renderer.DOColor(Color.white, 0.3f);
             yield return new WaitForSeconds(spawnInterval);
         }
+
+        spawnFinished = true;
     }
 
     private void OnDrawGizmos()

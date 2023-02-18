@@ -38,6 +38,8 @@ public class PlayerTimedBomb : AttackPatternBase
     {
         m_MyAudioSource.PlayOneShot(mega, 1.0f);
         b.BulletFanShots(setting, 1, origin, (direction + Vector2.up / 1f).normalized * flySpeed, 60, initialOffset)
+        .SetSticky(true)
+        .SetDamage(0)
         .OnUpdate((self) => 
         { 
             self.velocity.y = Mathf.Max(-maxFall, self.velocity.y - gravity * Time.deltaTime);
@@ -50,6 +52,8 @@ public class PlayerTimedBomb : AttackPatternBase
             m_MyAudioSource.PlayOneShot(slime, 0.6f);
             b.BulletFanShots(setting, 1, self.transform.position, Vector2.zero, 360, 0.0f)
             .SetDestroyOnHit(false)
+            .SetSticky(true)
+            .SetDamage(0)
             .SetLife(delay)
             .OnRelease((self) => {
                 m_MyAudioSource.PlayOneShot(bomb_m, 0.9f);
@@ -69,6 +73,8 @@ public class PlayerTimedBomb : AttackPatternBase
 
             b.BulletFanShots(setting, 1, self.transform.position, Vector2.zero, 360, 0.0f)
             .SetDestroyOnHit(false)
+            .SetSticky(true)
+            .SetDamage(0)
             .SetLife(delay * 2)
             .OnRelease((self) => {
                 m_MyAudioSource.PlayOneShot(bomb_m, 0.9f);
@@ -88,6 +94,8 @@ public class PlayerTimedBomb : AttackPatternBase
 
             b.BulletFanShots(setting, 1, self.transform.position, Vector2.zero, 360, 0.0f)
             .SetDestroyOnHit(false)
+            .SetSticky(true)
+            .SetDamage(0)
             .SetLife(delay * 3)
             .OnRelease((self) => {
                 m_MyAudioSource.PlayOneShot(bomb_m, 0.9f);
