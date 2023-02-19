@@ -176,6 +176,7 @@ public class GameController : SingletonMonoBehaviour<GameController>
 
         // TODO: Black screen
         StartCoroutine(LoadLevelAsync(sceneName, doorName));
+        ScoreManager.Instance.StartScore();
     }
 
     IEnumerator LoadLevelAsync(string sceneName, string doorName)
@@ -234,6 +235,7 @@ public class GameController : SingletonMonoBehaviour<GameController>
     public void FinishRoom(string roomName)
     {
         OpenAllDoors();
+        ScoreManager.Instance.GetScore(ScoreManager.Instance.clearRoomScore);
     }
 
     public void RefreshRoomEnemyList() => currentRoom?.RefreshEnemyList();
@@ -242,6 +244,7 @@ public class GameController : SingletonMonoBehaviour<GameController>
     {
         IsPhantom = false;
         rooms.Clear();
+        ScoreManager.Instance.EndScore();
     }
 
     public void LoadPlayer(string spawnName = "unspecified")

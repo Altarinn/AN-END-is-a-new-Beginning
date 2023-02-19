@@ -130,6 +130,11 @@ public class DamageTaker : MonoBehaviour
                 spriteRenderer?.SetPropertyBlock(propertyBlock, 0);
             }));
 
+        if (GameController.Instance.player == gameObject)
+        {
+            ScoreManager.Instance.LoseScore(ScoreManager.Instance.hurtLostScore);
+        }
+
         invincibleTimer = invincibleTime;
         knockbackVelocity = direction * knockbackSpeed;
     }

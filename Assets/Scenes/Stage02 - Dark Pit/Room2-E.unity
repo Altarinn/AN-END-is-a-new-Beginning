@@ -11944,10 +11944,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c50e07320a3ccf340be1cb717f42c76e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetScene: Room3-3
+  targetScene: Room2-N
   targetDoor: EggDoor
   spawnPivot: {fileID: 1921680068}
   isDefaultDoor: 1
+  isHidden: 0
 --- !u!4 &685499193
 Transform:
   m_ObjectHideFlags: 0

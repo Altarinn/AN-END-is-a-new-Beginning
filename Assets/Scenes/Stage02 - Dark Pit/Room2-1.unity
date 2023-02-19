@@ -15698,6 +15698,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemySpawn-homing
       objectReference: {fileID: 0}
+    - target: {fileID: 7647163067251148608, guid: 98f7db23e4eb892408ffd1e2be331b09, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7647163067251148609, guid: 98f7db23e4eb892408ffd1e2be331b09, type: 3}
       propertyPath: m_RootOrder
       value: 15
