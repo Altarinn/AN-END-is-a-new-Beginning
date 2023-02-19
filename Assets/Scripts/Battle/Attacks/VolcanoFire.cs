@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class VolcanoFire : PlayerInputHandler
+public class VolcanoFire : PlayerFire
 {
-    public AttackPatternBase Fire1;
+    //public AttackPatternBase Fire1;
 
     public float originHeight = 1.0f;
 

@@ -25,12 +25,12 @@ public class UIManager : SingletonMonoBehaviour<UIManager>
 
     public void OpenMenu(GameObject openMenu)
     {
-        openMenu.SetActive(true);
+        openMenu?.SetActive(true);
     }
 
     public void CloseMenu(GameObject closeMenu)
     {
-        closeMenu.SetActive(false);
+        closeMenu?.SetActive(false);
     }
 
     public void InstantiateMenu(GameObject openMenu)

@@ -210,18 +210,50 @@ public class GameController : SingletonMonoBehaviour<GameController>
 
     public void InitLevel(string doorName)
     {
+        var sceneName = SceneManager.GetActiveScene().name;
         MainCamera = GameObject.FindObjectOfType<Camera>().gameObject;
-        LoadPlayer(doorName);
         UIManager.Instance.RefreshState();
-
-        // Terminates if no player generated (no spawn point found)
-        if (player == null)
+        
+        if(sceneName == "MainMenu")
         {
-            currentRoom = null;
-            return;
+            StartCoroutine(MainMenuCoroutine());
+        }
+        else
+        {
+            LoadPlayer(doorName);
+
+            // Terminates if no player generated (no spawn point found)
+            if (player == null)
+            {
+                currentRoom = null;
+                return;
+            }
+
+            InitRoom(SceneManager.GetActiveScene().name);
+        }
+    }
+
+    [Header("Stages")]
+    [SerializeField] string[] sceneStarts = new string[3] { "Room1-1", "Room2-1", "Room3-1" };
+    [SerializeField] int nextStage = 0;
+    [SerializeField] GameObject[] stageHints;
+
+    IEnumerator MainMenuCoroutine()
+    {
+        ExitStage();
+        UIManager.Instance.OpenMenu(MainMenu);
+        yield return null;
+
+        nextStage++;
+        for(int i = 0; i < nextStage; i++)
+        {
+            stageHints[i].SetActive(true);
         }
 
-        InitRoom(SceneManager.GetActiveScene().name);
+        yield return new WaitForSeconds(2.0f);
+
+        UIManager.Instance.CloseMenu(MainMenu);
+        EnterLevelAsync(sceneStarts[nextStage - 1]);
     }
 
     public void InitRoom(string roomName)
@@ -314,7 +346,7 @@ public class GameController : SingletonMonoBehaviour<GameController>
                 player.SetActive(false);
 
                 var sceneName = SceneManager.GetActiveScene().name;
-                if (!bossRooms.Contains(sceneName) && !retryAsPlayer)
+                if (!bossRooms.Contains(sceneName) && !retryAsPlayer && (targetSpawn.targetScene != "MainMenu"))
                 {
                     targetSpawn.Open();
                 }
