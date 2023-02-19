@@ -509,6 +509,12 @@ public class GameController : SingletonMonoBehaviour<GameController>
         yield return new WaitForSeconds(2.57f);
         player.GetComponent<DamageTaker>().health = 0;
         player.SetActive(false);
+
+        yield return new WaitForSeconds(4.0f);
+        ExitStage();
+        EnterLevelAsync("End");
+
+        yield break;
     }
 
     HashSet<int> ObtainedItems = new();

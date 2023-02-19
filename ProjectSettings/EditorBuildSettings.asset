@@ -80,4 +80,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Stage03 - Phantom Temple/Room3-N.unity
     guid: ef72406f87306c044aa6e4c8ad21d30b
+  - enabled: 1
+    path: Assets/Scenes/End.unity
+    guid: 694a631f6654b8e459110c95761bb086
   m_configObjects: {}

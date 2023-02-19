@@ -2811,7 +2811,7 @@ MonoBehaviour:
   - Room1-1
   - Room2-1
   - Room3-1
-  nextStage: 2
+  nextStage: 0
   stageHints:
   - {fileID: 718955722}
   - {fileID: 28128853}
