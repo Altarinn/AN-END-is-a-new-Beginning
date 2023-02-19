@@ -52,9 +52,11 @@ public class UIManager : SingletonMonoBehaviour<UIManager>
     public void ToggleMute()
     {
         muted = !muted;
+        SoundManager.Instance.backgroundMusicPlayer.mute = !SoundManager.Instance.backgroundMusicPlayer.mute;
         if(muted)
         {
             muteBtn.sprite = mute;
+            
         }
         else
         {
