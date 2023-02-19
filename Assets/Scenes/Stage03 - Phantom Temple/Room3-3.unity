@@ -1180,7 +1180,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 475671029}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.36, y: -7.48, z: 0}
+  m_LocalPosition: {x: -0.36, y: -8.00016, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1195,10 +1195,10 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 475671029}
-  m_Text: Thanks for Playing!  --Team Altarin
+  m_Text: "We will thank you for playing!  \n                        --Team Altarin"
   m_OffsetZ: 0
   m_CharacterSize: 1
-  m_LineSpacing: 1
+  m_LineSpacing: 1.3
   m_Anchor: 4
   m_Alignment: 0
   m_TabSize: 4
@@ -2119,6 +2119,12 @@ MonoBehaviour:
   playerPrefab: {fileID: 7445834223152265321, guid: e12df4ecedf75b34e9f400ef52533d75, type: 3}
   phantomPrefab: {fileID: 1399722513075810306, guid: 9501cae35fc3a6f4cade9a1c12e95d4e, type: 3}
   doorSprite: {fileID: 0}
+  sceneStarts:
+  - Room1-1
+  - Room2-1
+  - Room3-1
+  nextStage: 0
+  stageHints: []
   nBerries: 0
   playerHasBomb: 0
   debugUISkin: {fileID: 11400000, guid: 24daaa55cc51fc14c88d4162d67ae9c4, type: 2}
