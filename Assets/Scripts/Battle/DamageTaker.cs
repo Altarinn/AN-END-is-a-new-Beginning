@@ -37,7 +37,7 @@ public class DamageTaker : MonoBehaviour
 
     [Header("Audio")]
     public AudioClip hurt;
-    AudioSource m_MyAudioSource;
+    protected AudioSource m_MyAudioSource;
 
     protected Sequence seq;
 

@@ -12,6 +12,9 @@ public class Phantom : DamageTaker
 
     public GameObject TilesToDestroy, SoulOrb;
 
+    public AudioClip absorb;
+    public AudioClip bubble;
+
     protected override void Awake()
     {
         if (GameController.Instance.IsPhantom)
@@ -84,6 +87,9 @@ public class Phantom : DamageTaker
         yield return new WaitForSeconds(1.0f);
 
         // Drain soul
+        SoundManager.Instance.silence = true;
+        SoundManager.Instance.StopBGM();
+        m_MyAudioSource?.PlayOneShot(absorb, 0.7f);
         for (int i = 0; i < 60; i++)
         {
             var so = Instantiate(SoulOrb, player.transform.position, Quaternion.identity).GetComponent<SoulOrb>();
@@ -95,6 +101,7 @@ public class Phantom : DamageTaker
         yield return new WaitForSeconds(5.0f);
 
         // Explosion
+        m_MyAudioSource?.PlayOneShot(bubble, 0.7f);
         var expl = Instantiate(GameController.Instance.DeathExplosion, transform.position, Quaternion.identity);
         expl.transform.localScale = Vector3.one * 6.0f;
 
@@ -112,6 +119,7 @@ public class Phantom : DamageTaker
         pc.GetComponent<Collider2D>().enabled = true;
 
         GameController.Instance.ChangeToPhantom(this);
+        SoundManager.Instance.silence = false;
 
         GameController.Instance.ExitCutScene();
     }

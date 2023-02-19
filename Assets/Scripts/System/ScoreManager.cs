@@ -20,6 +20,7 @@ public class ScoreManager : SingletonMonoBehaviour<ScoreManager>
     public int initScore;
     public int hurtLostScore = 50;
     public int timeLoseScore = 10;
+    public int DropScore = 200;
     public int clearRoomScore = 500;
     public int StrawberryBonus = 200;
 

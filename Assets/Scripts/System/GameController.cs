@@ -20,7 +20,7 @@ public class GameController : SingletonMonoBehaviour<GameController>
     [HideInInspector]
     public int offlineTime = 0;
 
-    [Header("»ù´¡×é¼þ")]
+    [Header("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½")]
     public GameObject MainMenu;
     public GameObject MainCamera;
     public GameObject DeathExplosion;
@@ -127,7 +127,7 @@ public class GameController : SingletonMonoBehaviour<GameController>
     private void FirstInit()
     {
         GetPermission();
-        //´¦ÀíÊý¾Ý³õÊ¼»¯
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý³ï¿½Ê¼ï¿½ï¿½
 
         //Save.GetInstance().SaveFunc();
     }
@@ -157,7 +157,7 @@ public class GameController : SingletonMonoBehaviour<GameController>
     public bool IsPhantom { get; private set; }
 
     public Dictionary<string, Room> rooms = new();
-    Room currentRoom;
+    public Room currentRoom { get; private set; }
     string doorEntered;
 
     public Sprite doorSprite;
