@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class UIManager : SingletonMonoBehaviour<UIManager>
 {
@@ -12,6 +13,9 @@ public class UIManager : SingletonMonoBehaviour<UIManager>
     public Image muteBtn, shakeBtn;
     public bool muted = false;
     public bool shaked = true;
+
+    public GameObject timeup, dead, clear;
+    public TMPro.TextMeshProUGUI time;
 
     public static UIManager GetInstance() => Instance;
 
@@ -47,6 +51,29 @@ public class UIManager : SingletonMonoBehaviour<UIManager>
     {
         HPBar.SetActive(!GameController.Instance.IsPhantom);
         HPBarPh.SetActive(GameController.Instance.IsPhantom);
+    }
+
+    public void TimeUp()
+    {
+        timeup.SetActive(true);
+        DOVirtual.DelayedCall(0.5f, () => timeup.SetActive(false));
+    }
+
+    public void Dead()
+    {
+        dead.SetActive(true);
+        DOVirtual.DelayedCall(0.5f, () => dead.SetActive(false));
+    }
+
+    public void Clear()
+    {
+        clear.SetActive(true);
+        DOVirtual.DelayedCall(0.5f, () => clear.SetActive(false));
+    }
+
+    public void SetTime(int timeVal)
+    {
+        time.text = timeVal.ToString("D2");
     }
 
     public void ToggleMute()

@@ -19,7 +19,7 @@ public class Phantom : DamageTaker
     {
         if (GameController.Instance.IsPhantom)
         {
-            TilesToDestroy.SetActive(false);
+            //TilesToDestroy.SetActive(false);
             Destroy(gameObject);
             return;
         }

@@ -172,6 +172,7 @@ public class DamageTaker : MonoBehaviour
             if(GameController.Instance.player == gameObject)
             {
                 GetComponent<ReplayableInput>().InputEnabled = false;
+                UIManager.Instance.Dead();
                 DOVirtual.DelayedCall(0.5f, () => { GameController.Instance.RestartLevel(); });
             }
 

@@ -369,6 +369,7 @@ MonoBehaviour:
   bomb_m: {fileID: 8300000, guid: a3f59191a4abcb54fb6fa2d16ae229e4, type: 3}
   bomb_s: {fileID: 8300000, guid: d8ea2481d6a5ef94a94ccad92b2527d1, type: 3}
   slime: {fileID: 8300000, guid: b5803c17557c59c40bf3a6d69cb46cb3, type: 3}
+  rechargeTime: 2.5
   shake1: 0.3
   shake2: 0.1
   shake3: 0.03
@@ -20094,7 +20095,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireIntervalMS: 50
-  ShowDebugMenu: 1
+  ShowDebugMenu: 0
 --- !u!114 &4472587150047085593
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20136,6 +20137,7 @@ MonoBehaviour:
   knockbackSpeed: 15
   knockbackTime: 0.3
   hurt: {fileID: 8300000, guid: 0ac85f38f7e9cca419b4c779da563b28, type: 3}
+  IsCrystal: 0
 --- !u!82 &8711687960651554524
 AudioSource:
   m_ObjectHideFlags: 0

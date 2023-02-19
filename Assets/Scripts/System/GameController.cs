@@ -106,22 +106,22 @@ public class GameController : SingletonMonoBehaviour<GameController>
 
         if (currentRoom == null) { return; }
 
-        if (DebugUI.Instance != null)
-        {
-            GUI.skin = DebugUI.Instance.debugUISkin;
-        }
+        //if (DebugUI.Instance != null)
+        //{
+        //    GUI.skin = DebugUI.Instance.debugUISkin;
+        //}
 
-        GUI.Label(new Rect(400, 10, 100, 14), $"TIME: {currentRoom?.time}");
+        //GUI.Label(new Rect(400, 10, 100, 14), $"TIME: {currentRoom?.time}");
 
-        if (GUI.Button(new Rect(400, 30, 100, 14), "GO Phantom"))
-        {
-            TEST_InstantPhantom();
-        }
+        //if (GUI.Button(new Rect(400, 30, 100, 14), "GO Phantom"))
+        //{
+        //    TEST_InstantPhantom();
+        //}
 
-        if (GUI.Button(new Rect(400, 50, 100, 14), "Reset"))
-        {
-            RestartLevel();
-        }
+        //if (GUI.Button(new Rect(400, 50, 100, 14), "Reset"))
+        //{
+        //    RestartLevel();
+        //}
     }
 
     private void FirstInit()
@@ -283,6 +283,7 @@ public class GameController : SingletonMonoBehaviour<GameController>
     public void FinishRoom(string roomName)
     {
         if (tempRoom != null) { tempRoom = null; }
+        UIManager.Instance.Clear();
         OpenAllDoors();
         ScoreManager.Instance.GetScore(ScoreManager.Instance.clearRoomScore);
     }
@@ -375,10 +376,12 @@ public class GameController : SingletonMonoBehaviour<GameController>
     private void Update()
     {
         currentRoom?.UpdateRoom();
+        UIManager.Instance.SetTime(Mathf.CeilToInt(currentRoom.time));
     }
 
     public void CameraShake(float strength = 0.5f)
     {
+        if (!UIManager.Instance.shaked) { return; }
         MainCamera.transform.DOShakePosition(0.5f, strength, 13, 1, false, true);
     }
 
@@ -391,6 +394,7 @@ public class GameController : SingletonMonoBehaviour<GameController>
         {
             var plri = player.GetComponent<ReplayableInput>();
             plri.InputEnabled = false;
+            player.GetComponent<TarodevController.PlayerController>().Gravity = false;
 
             var phri = phantom.GetComponent<ReplayableInput>();
             phri.InputEnabled = true;
@@ -450,7 +454,8 @@ public class GameController : SingletonMonoBehaviour<GameController>
     public void TimeUp()
     {
         if (isInCutscene) { return; }
-        RestartLevel();
+        UIManager.Instance.TimeUp();
+        DOVirtual.DelayedCall(0.5f, () => RestartLevel());
     }
 
     public void RestartLevel()
