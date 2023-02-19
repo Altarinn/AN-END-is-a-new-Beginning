@@ -6,7 +6,7 @@ using System.Linq;
 
 public class Room
 {
-    string key;
+    public string key;
     static HashSet<string> ignoredKeys = new HashSet<string>() { "Room1-F", "Room2-F", "Room3-F", "Room(Easter egg)" };
 
     public Room(string name)

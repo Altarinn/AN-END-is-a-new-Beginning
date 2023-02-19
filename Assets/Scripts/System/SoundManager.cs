@@ -10,14 +10,60 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     public AudioSource UISEPlayer;
     public GameObject effectSoundPlayer;
     public UnityEngine.Audio.AudioMixerGroup audioMixer;
-    [Header("°´Å¥ÒôÐ§ËØ²Ä")]
+    [Header("ï¿½ï¿½Å¥ï¿½ï¿½Ð§ï¿½Ø²ï¿½")]
     public AudioClip moveOnSE;
     public AudioClip clickSE;
+    public AudioClip bgm1;
+    public AudioClip bgm2;
+    public AudioClip bgm3;
+    public bool silence;
+    string lastroom = "";
+
 
     protected override void Awake()
     {
         base.Awake();
         DontDestroyOnLoad(this);
+        PlayBGM();
+    }
+
+    private void Update()
+    {
+        
+    }
+
+    void PlayBGM()
+    {
+        if (GameController.Instance.currentRoom != null) {
+            if (GameController.Instance.currentRoom.key != lastroom) {
+                lastroom = GameController.Instance.currentRoom.key;
+                if (lastroom.Contains('F')) {
+                    backgroundMusicPlayer.Stop();
+                    backgroundMusicPlayer.clip = bgm3;
+                }
+                else {
+                    backgroundMusicPlayer.clip = GameController.Instance.IsPhantom? bgm2:bgm1;
+                }
+            }
+        }
+
+        if (!backgroundMusicPlayer.isPlaying)
+        { 
+            Debug.Log(lastroom);
+            if(!silence) {
+                backgroundMusicPlayer.Play(); 
+            }
+            
+        }
+        Invoke("PlayBGM", 1); 
+    }
+
+    public void StopBGM()
+    {
+        if(backgroundMusicPlayer.isPlaying)
+        {
+            backgroundMusicPlayer.Stop();
+        }
     }
 
     public void PlayBGM(AudioClip bgm)
