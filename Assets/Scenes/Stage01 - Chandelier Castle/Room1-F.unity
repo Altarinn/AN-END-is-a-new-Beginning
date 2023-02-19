@@ -10322,6 +10322,7 @@ MonoBehaviour:
   initScore: 1000
   hurtLostScore: 50
   timeLoseScore: 10
+  DropScore: 200
   clearRoomScore: 500
   StrawberryBonus: 200
 --- !u!4 &766179499
@@ -11100,11 +11101,11 @@ MonoBehaviour:
     dontDestroyOnHit: 0
     isEnemy: 1
     extraLifeSpan: 0
-  flySpeed: 22
-  explosionSpeed: 10
+  flySpeed: 15
+  explosionSpeed: 8
   burstNum: 3
-  explosionNum: 19
-  burstRecoverSec: 0.35
+  explosionNum: 15
+  burstRecoverSec: 0.5
   mega: {fileID: 8300000, guid: 9efdbe054296d1c4ab8c5dce1d46514f, type: 3}
   bomb: {fileID: 8300000, guid: a3f59191a4abcb54fb6fa2d16ae229e4, type: 3}
 --- !u!1 &1091702312
@@ -11174,8 +11175,8 @@ MonoBehaviour:
   target: {fileID: 0}
   targetTag: TruePlayer
   body: {fileID: 1160820408}
-  attack1Interval: 1
-  attack2Interval: 0.5
+  attack1Interval: 3
+  attack2Interval: 1
   direction: {x: 0, y: 1}
   floatSpeed: 4
   flySpeed: 2
@@ -15897,10 +15898,10 @@ MonoBehaviour:
     dontDestroyOnHit: 0
     isEnemy: 1
     extraLifeSpan: 0
-  flySpeed: 18
-  explosionSpeed: 16
-  explosionNum: 36
-  gravity: 50
+  flySpeed: 8
+  explosionSpeed: 12
+  explosionNum: 16
+  gravity: 20
   maxFall: 20
   bomb_l: {fileID: 0}
   bomb_s: {fileID: 0}
