@@ -167,6 +167,8 @@ public class GameController : SingletonMonoBehaviour<GameController>
 
     public void EnterLevelAsync(string sceneName, string doorName = "unspecified")
     {
+        if (loading) { return; }
+
         // Check if scene exists
         int buildIdx = SceneUtility.GetBuildIndexByScenePath(sceneName);
         if (buildIdx < 0)
@@ -175,6 +177,7 @@ public class GameController : SingletonMonoBehaviour<GameController>
             return;
         }
 
+        loading = true;
         // Handle reset as player
         if(retryAsPlayer)
         {
@@ -195,6 +198,8 @@ public class GameController : SingletonMonoBehaviour<GameController>
         ScoreManager.Instance.StartScore();
     }
 
+    bool loading = false;
+
     IEnumerator LoadLevelAsync(string sceneName, string doorName)
     {
         //if (player) { DontDestroyOnLoad(player); }
@@ -206,6 +211,8 @@ public class GameController : SingletonMonoBehaviour<GameController>
         while (!asyncLoad.isDone) { yield return null; }
 
         InitLevel(doorName);
+
+        loading = false;
     }
 
     public void InitLevel(string doorName)
@@ -376,7 +383,10 @@ public class GameController : SingletonMonoBehaviour<GameController>
     private void Update()
     {
         currentRoom?.UpdateRoom();
-        UIManager.Instance.SetTime(Mathf.CeilToInt(currentRoom.time));
+        if(currentRoom != null)
+        {
+            UIManager.Instance.SetTime(Mathf.CeilToInt(currentRoom.time));
+        }
     }
 
     public void CameraShake(float strength = 0.5f)

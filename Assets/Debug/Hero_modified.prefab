@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4472587148362988784
 Transform:
   m_ObjectHideFlags: 0
@@ -20111,7 +20111,7 @@ MonoBehaviour:
   InputModule: {fileID: 4472587150047085592}
   Fire1: {fileID: 4472587148700581357}
   Fire2: {fileID: 4472587149035624461}
-  Fire3: {fileID: 0}
+  Fire3: {fileID: 4472587148362988785}
 --- !u!114 &4472587150047085597
 MonoBehaviour:
   m_ObjectHideFlags: 0

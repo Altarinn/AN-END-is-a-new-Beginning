@@ -1410,6 +1410,12 @@ MonoBehaviour:
   playerPrefab: {fileID: 7445834223152265321, guid: e12df4ecedf75b34e9f400ef52533d75, type: 3}
   phantomPrefab: {fileID: 1399722513075810306, guid: 9501cae35fc3a6f4cade9a1c12e95d4e, type: 3}
   doorSprite: {fileID: 0}
+  sceneStarts:
+  - Room1-1
+  - Room2-1
+  - Room3-1
+  nextStage: 0
+  stageHints: []
   nBerries: 0
   playerHasBomb: 0
   debugUISkin: {fileID: 11400000, guid: 24daaa55cc51fc14c88d4162d67ae9c4, type: 2}
@@ -1630,19 +1636,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5232419598030745932, guid: ad00b702c6599014c985dcde96455b08, type: 3}
       propertyPath: health
-      value: 25
+      value: 32
       objectReference: {fileID: 0}
     - target: {fileID: 5232419598030745932, guid: ad00b702c6599014c985dcde96455b08, type: 3}
       propertyPath: CSPivot
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1792888959}
     - target: {fileID: 5232419598030745932, guid: ad00b702c6599014c985dcde96455b08, type: 3}
       propertyPath: SoulOrb
       value: 
       objectReference: {fileID: 685497055556611708, guid: a6a72f74c8f9e3b4ab4f711676a97618, type: 3}
     - target: {fileID: 5232419598030745932, guid: ad00b702c6599014c985dcde96455b08, type: 3}
       propertyPath: maxHealth
-      value: 25
+      value: 32
       objectReference: {fileID: 0}
     - target: {fileID: 5232419598030745932, guid: ad00b702c6599014c985dcde96455b08, type: 3}
       propertyPath: CSflySpeed
@@ -1655,7 +1661,7 @@ PrefabInstance:
     - target: {fileID: 5232419598030745932, guid: ad00b702c6599014c985dcde96455b08, type: 3}
       propertyPath: TilesToDestroy
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 656939469}
     - target: {fileID: 5232419598030745932, guid: ad00b702c6599014c985dcde96455b08, type: 3}
       propertyPath: knockbackSpeed
       value: 0
