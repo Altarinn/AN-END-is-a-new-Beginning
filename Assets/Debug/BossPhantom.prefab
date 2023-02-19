@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 951601687091428119}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.184, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: -1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1399722514436702936}
@@ -304,7 +304,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1788557070905278659}
-  - {fileID: 5344058223016604768}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -322,8 +321,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InputModule: {fileID: 5344058223637253235}
   UseInput: 1
-  IsPhantom: 1
-  Gravity: 1
+  IsPhantom: 0
+  Gravity: 0
   _characterBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0.4, y: 0.5, z: 0}
@@ -417,7 +416,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InputModule: {fileID: 5344058223637253235}
-  Fire1: {fileID: 5344058222819521926}
+  Fire1: {fileID: 0}
   Fire2: {fileID: 0}
   Fire3: {fileID: 0}
 --- !u!114 &5232419598030745932
@@ -445,9 +444,11 @@ MonoBehaviour:
   knockbackSpeed: 15
   knockbackTime: 0.3
   hurt: {fileID: 0}
+  IsCrystal: 0
   CSPivot: {fileID: 0}
   CSflySpeed: 0
   TilesToDestroy: {fileID: 0}
+  SoulOrb: {fileID: 0}
 --- !u!1 &1399722514436702939
 GameObject:
   m_ObjectHideFlags: 0
@@ -553,217 +554,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
---- !u!1 &5344058222083372184
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5344058222083372187}
-  - component: {fileID: 5344058222083372186}
-  m_Layer: 9
-  m_Name: GravityBomb
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &5344058222083372187
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5344058222083372184}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5344058223016604768}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5344058222083372186
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5344058222083372184}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebfae204d11668d4bb4f30fd0bedf06c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  setting:
-    sprite: {fileID: 21300000, guid: 8620bcf7fa769e94fa548c2fc0325ef4, type: 3}
-    color: {r: 1, g: 0.4188679, b: 0.4188679, a: 1}
-    dontDestroyOnHit: 0
-    isEnemy: 0
-    extraLifeSpan: 0
-  flySpeed: 18
-  explosionSpeed: 16
-  explosionNum: 36
-  gravity: 30
-  maxFall: 20
-  bomb_l: {fileID: 0}
-  bomb_s: {fileID: 0}
---- !u!1 &5344058222486556772
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5344058222486556775}
-  - component: {fileID: 5344058222486556774}
-  m_Layer: 9
-  m_Name: TimedBomb
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &5344058222486556775
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5344058222486556772}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5344058223016604768}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5344058222486556774
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5344058222486556772}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b54975a80feda6240b1a8a9d40564a82, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  setting:
-    sprite: {fileID: 21300000, guid: 8620bcf7fa769e94fa548c2fc0325ef4, type: 3}
-    color: {r: 0.9716981, g: 0.377555, b: 0, a: 1}
-    dontDestroyOnHit: 0
-    isEnemy: 0
-    extraLifeSpan: 0
-  flySpeed: 18
-  explosionSpeed: 16
-  explosionNum: 36
-  gravity: 30
-  maxFall: 20
-  delay: 1
-  mega: {fileID: 0}
-  bomb_m: {fileID: 0}
-  bomb_s: {fileID: 0}
-  slime: {fileID: 0}
-  shake1: 0.5
-  shake2: 0.3
-  shake3: 0.1
---- !u!1 &5344058222819521924
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5344058222819521927}
-  - component: {fileID: 5344058222819521926}
-  m_Layer: 9
-  m_Name: Megaman
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5344058222819521927
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5344058222819521924}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5344058223016604768}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5344058222819521926
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5344058222819521924}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c6a61cf454efb44c93ebeb46c0ea1bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  setting:
-    sprite: {fileID: 21300000, guid: 8620bcf7fa769e94fa548c2fc0325ef4, type: 3}
-    color: {r: 0.83396226, g: 0.9191463, b: 1, a: 1}
-    dontDestroyOnHit: 0
-    isEnemy: 0
-    extraLifeSpan: 0
-  flySpeed: 18
-  explosionSpeed: 10
-  burstNum: 3
-  explosionNum: 17
-  burstRecoverSec: 0.35
-  mega: {fileID: 0}
-  bomb: {fileID: 0}
---- !u!1 &5344058223016604769
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5344058223016604768}
-  m_Layer: 9
-  m_Name: Attacks
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5344058223016604768
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5344058223016604769}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 5344058222819521927}
-  - {fileID: 5344058222083372187}
-  - {fileID: 5344058222486556775}
-  m_Father: {fileID: 1399722513075810305}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5344058223065352577
 GameObject:
   m_ObjectHideFlags: 0

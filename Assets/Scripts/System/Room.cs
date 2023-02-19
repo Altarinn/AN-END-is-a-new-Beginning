@@ -66,6 +66,7 @@ public class Room
             }
             else
             {
+                controller.FinishRoom(key);
                 enemies.ForEach(e => e.gameObject.SetActive(false));
                 spawns.ForEach(s => s.gameObject.SetActive(false));
             }

@@ -20,6 +20,15 @@ public class Phantom : DamageTaker
             Destroy(gameObject);
             return;
         }
+        else
+        {
+            var pc = GetComponent<TarodevController.PlayerController>();
+            pc.InputModule = GetComponent<BaseAI>();
+
+            GetComponent<PlayerFire>().InputModule = GetComponent<BaseAI>();
+
+            transform.GetChild(0).GetComponent<TarodevController.PlayerAnimator>().enabled = false;
+        }
 
         base.Awake();
         destroyOnDeath = false;
@@ -40,6 +49,14 @@ public class Phantom : DamageTaker
         // Initialization
         var pc = GetComponent<TarodevController.PlayerController>();
         var player = GameController.Instance.player;
+
+        GetComponent<BaseAI>().enabled = false;
+
+        pc.InputModule = GetComponent<ReplayableInput>();
+        pc.IsPhantom = true;
+        pc.Gravity = true;
+        GetComponent<PlayerFire>().InputModule = GetComponent<ReplayableInput>();
+
         GameController.Instance.EnterCutScene();
 
         // Jump
@@ -80,6 +97,8 @@ public class Phantom : DamageTaker
         // Explosion
         var expl = Instantiate(GameController.Instance.DeathExplosion, transform.position, Quaternion.identity);
         expl.transform.localScale = Vector3.one * 6.0f;
+
+        transform.DOScale(Vector3.one, 0.8f);
 
         yield return new WaitForSeconds(0.1f);
 

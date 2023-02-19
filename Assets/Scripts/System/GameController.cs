@@ -177,6 +177,7 @@ public class GameController : SingletonMonoBehaviour<GameController>
 
         // TODO: Black screen
         StartCoroutine(LoadLevelAsync(sceneName, doorName));
+        ScoreManager.Instance.StartScore();
     }
 
     IEnumerator LoadLevelAsync(string sceneName, string doorName)
@@ -235,6 +236,7 @@ public class GameController : SingletonMonoBehaviour<GameController>
     public void FinishRoom(string roomName)
     {
         OpenAllDoors();
+        ScoreManager.Instance.GetScore(ScoreManager.Instance.clearRoomScore);
     }
 
     public void RefreshRoomEnemyList() => currentRoom?.RefreshEnemyList();
@@ -243,7 +245,10 @@ public class GameController : SingletonMonoBehaviour<GameController>
     {
         IsPhantom = false;
         rooms.Clear();
+        ScoreManager.Instance.EndScore();
     }
+
+    HashSet<string> bossRooms = new HashSet<string>() { "Room1-F", "Room2-F", "Room3-F" };
 
     public void LoadPlayer(string spawnName = "unspecified")
     {
@@ -291,7 +296,12 @@ public class GameController : SingletonMonoBehaviour<GameController>
                 Debug.Log($"Instantiate player at {SceneManager.GetActiveScene().name}");
                 player = Instantiate(playerPrefab);
                 player.SetActive(false);
-                targetSpawn.Open();
+
+                var sceneName = SceneManager.GetActiveScene().name;
+                if (!bossRooms.Contains(sceneName))
+                {
+                    targetSpawn.Open();
+                }
             }
         }
 
@@ -301,7 +311,7 @@ public class GameController : SingletonMonoBehaviour<GameController>
         // Set Bomb Status
         if(player != null && !playerHasBomb)
         {
-            player.GetComponent<PlayerFire>().Fire2.gameObject.SetActive(false);
+            player.GetComponent<PlayerFire>()?.Fire2.gameObject.SetActive(false);
         }
 
         var pc = player.GetComponent<TarodevController.PlayerController>();
@@ -426,7 +436,9 @@ public class GameController : SingletonMonoBehaviour<GameController>
         yield return new WaitForSeconds(1.0f);
         director1.Play();
 
-        yield return null;
+        yield return new WaitForSeconds(2.57f);
+        player.GetComponent<DamageTaker>().health = 0;
+        player.SetActive(false);
     }
 
     HashSet<int> ObtainedItems = new();
