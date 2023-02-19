@@ -21,13 +21,15 @@ public class WanderingAI : BaseAI
 
     private EnemyState state; //enemy state
     private float restTime;
-    private float stateTime; 
+    private float stateTime;
+    private float face;
 
     protected override void Start()
     {
         restTime = 0.0f;
         stateTime = 0.0f;
         state = EnemyState.Rest;
+        face = 1.0f;
     }
 
     protected override void Update()
@@ -55,9 +57,7 @@ public class WanderingAI : BaseAI
             {
                 if (Random.value > 0.5)
                 {
-                    Vector3 scale = transform.localScale;
-                    scale.x *= -1;
-                    transform.localScale = scale;
+                    face *= -1.0f;
                 }
             }
             stateTime = Random.value * idleTime;
@@ -72,7 +72,7 @@ public class WanderingAI : BaseAI
         else
         {
             var currInput = Input;
-            currInput.X = -1.0f * transform.localScale.x;
+            currInput.X = -1.0f * face;
             Input = currInput;
         }
        
