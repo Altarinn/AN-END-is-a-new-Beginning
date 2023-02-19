@@ -9,6 +9,7 @@ public class DebugUI : SingletonMonoBehaviour<DebugUI>
 
     public ReplayableInput[] inputs;
     int currentInputID = 0;
+    public static DebugUI GetInstance() => Instance;
 
     protected override void Awake()
     {
