@@ -94,8 +94,8 @@ GameObject:
   m_Component:
   - component: {fileID: 134649478358822316}
   - component: {fileID: 134649478358822317}
-  - component: {fileID: 134649478358822318}
   - component: {fileID: 794044404361303902}
+  - component: {fileID: 134649478358822318}
   - component: {fileID: 134649478358822319}
   - component: {fileID: -1224536174945984945}
   - component: {fileID: 3567099202883713157}
@@ -149,6 +149,27 @@ MonoBehaviour:
   knockbackSpeed: 5
   knockbackTime: 0.1
   hurt: {fileID: 0}
+  IsCrystal: 0
+--- !u!114 &794044404361303902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 134649478358822322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46a05636a5c9d30419fad56c6661b42d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  targetTag: TruePlayer
+  frontRect: {fileID: 0}
+  freeSpeed: 1
+  idleTime: 3
+  chaseTime: 3
+  restRate: 0.35
+  WanderRate: 0.65
 --- !u!114 &134649478358822318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,26 +215,6 @@ MonoBehaviour:
   _climbSpeed: 2
   _wallJumpNoHorizontal: 0.5
   _freeColliderIterations: 10
---- !u!114 &794044404361303902
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 134649478358822322}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46a05636a5c9d30419fad56c6661b42d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  targetTag: TruePlayer
-  frontRect: {fileID: 0}
-  freeSpeed: 1
-  idleTime: 3
-  chaseTime: 3
-  restRate: 0.35
-  WanderRate: 0.65
 --- !u!61 &134649478358822319
 BoxCollider2D:
   m_ObjectHideFlags: 0
