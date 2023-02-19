@@ -686,6 +686,10 @@ MonoBehaviour:
   audioMixer: {fileID: -2533914821650245495, guid: eb28b622a1e13ae4abdf52e99d0f0c07, type: 2}
   moveOnSE: {fileID: 0}
   clickSE: {fileID: 0}
+  bgm1: {fileID: 8300000, guid: 6533cb91f26c80f4ba60a241aade37fa, type: 3}
+  bgm2: {fileID: 8300000, guid: 26897f8848e503e41804ca8678be6dc5, type: 3}
+  bgm3: {fileID: 8300000, guid: 8d84516985385a24c8b29962c07ccb4f, type: 3}
+  silence: 0
 --- !u!1 &484167165
 GameObject:
   m_ObjectHideFlags: 0
@@ -1570,6 +1574,7 @@ MonoBehaviour:
   initScore: 1000
   hurtLostScore: 50
   timeLoseScore: 10
+  DropScore: 200
   clearRoomScore: 500
   StrawberryBonus: 200
 --- !u!1 &1319503591
