@@ -175,6 +175,21 @@ public class GameController : SingletonMonoBehaviour<GameController>
             return;
         }
 
+        // Handle reset as player
+        if(retryAsPlayer)
+        {
+            IsPhantom = true;
+            retryAsPlayer = false;
+
+            // The player did not complete the level.
+            if(tempRoom != null)
+            {
+                rooms[sceneName] = tempRoom;
+            }
+
+            doorName = tempDoorName;
+        }
+
         // TODO: Black screen
         StartCoroutine(LoadLevelAsync(sceneName, doorName));
         ScoreManager.Instance.StartScore();
@@ -235,6 +250,7 @@ public class GameController : SingletonMonoBehaviour<GameController>
 
     public void FinishRoom(string roomName)
     {
+        if (tempRoom != null) { tempRoom = null; }
         OpenAllDoors();
         ScoreManager.Instance.GetScore(ScoreManager.Instance.clearRoomScore);
     }
@@ -298,7 +314,7 @@ public class GameController : SingletonMonoBehaviour<GameController>
                 player.SetActive(false);
 
                 var sceneName = SceneManager.GetActiveScene().name;
-                if (!bossRooms.Contains(sceneName))
+                if (!bossRooms.Contains(sceneName) && !retryAsPlayer)
                 {
                     targetSpawn.Open();
                 }
@@ -417,6 +433,28 @@ public class GameController : SingletonMonoBehaviour<GameController>
         {
             EnterLevelAsync(SceneManager.GetActiveScene().name);
         }
+    }
+
+    bool retryAsPlayer = false;
+    string tempDoorName;
+    Room tempRoom;
+
+    public void RestartLevelAsPlayer()
+    {
+        if (currentRoom == null) return;
+        if (!IsPhantom) return;
+        string key = SceneManager.GetActiveScene().name;
+
+        IsPhantom = false;
+
+        tempRoom = currentRoom;
+        tempDoorName = doorEntered;
+        currentRoom = new Room(key);
+        rooms[key] = currentRoom;
+
+        RestartLevel();
+
+        retryAsPlayer = true;
     }
 
     public void GameClear()

@@ -8,6 +8,11 @@ public class UIManager : SingletonMonoBehaviour<UIManager>
 
     public GameObject HPBar, HPBarPh;
 
+    public Sprite mute, unmute, shake, unshake;
+    public Image muteBtn, shakeBtn;
+    public bool muted = false;
+    public bool shaked = true;
+
     public static UIManager GetInstance() => Instance;
 
     protected override void Awake()
@@ -42,6 +47,42 @@ public class UIManager : SingletonMonoBehaviour<UIManager>
     {
         HPBar.SetActive(!GameController.Instance.IsPhantom);
         HPBarPh.SetActive(GameController.Instance.IsPhantom);
+    }
+
+    public void ToggleMute()
+    {
+        muted = !muted;
+        if(muted)
+        {
+            muteBtn.sprite = mute;
+        }
+        else
+        {
+            muteBtn.sprite = unmute;
+        }
+    }
+
+    public void ToggleShake()
+    {
+        shaked = !shaked;
+        if (shaked)
+        {
+            shakeBtn.sprite = shake;
+        }
+        else
+        {
+            shakeBtn.sprite = unshake;
+        }
+    }
+
+    public void GoRetry()
+    {
+        GameController.Instance.RestartLevel();
+    }
+
+    public void GoRetryPlayer()
+    {
+        GameController.Instance.RestartLevelAsPlayer();
     }
 
     public GameObject InstantiateTips(string text, Vector2 pos)
