@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
 using UnityEditor;
 using System;
@@ -176,6 +177,7 @@ public class GameController : SingletonMonoBehaviour<GameController>
 
         // TODO: Black screen
         StartCoroutine(LoadLevelAsync(sceneName, doorName));
+        ScoreManager.Instance.StartScore();
     }
 
     IEnumerator LoadLevelAsync(string sceneName, string doorName)
@@ -234,6 +236,7 @@ public class GameController : SingletonMonoBehaviour<GameController>
     public void FinishRoom(string roomName)
     {
         OpenAllDoors();
+        ScoreManager.Instance.GetScore(ScoreManager.Instance.clearRoomScore);
     }
 
     public void RefreshRoomEnemyList() => currentRoom?.RefreshEnemyList();
@@ -242,7 +245,10 @@ public class GameController : SingletonMonoBehaviour<GameController>
     {
         IsPhantom = false;
         rooms.Clear();
+        ScoreManager.Instance.EndScore();
     }
+
+    HashSet<string> bossRooms = new HashSet<string>() { "Room1-F", "Room2-F", "Room3-F" };
 
     public void LoadPlayer(string spawnName = "unspecified")
     {
@@ -290,12 +296,23 @@ public class GameController : SingletonMonoBehaviour<GameController>
                 Debug.Log($"Instantiate player at {SceneManager.GetActiveScene().name}");
                 player = Instantiate(playerPrefab);
                 player.SetActive(false);
-                targetSpawn.Open();
+
+                var sceneName = SceneManager.GetActiveScene().name;
+                if (!bossRooms.Contains(sceneName))
+                {
+                    targetSpawn.Open();
+                }
             }
         }
 
         player.SetActive(true);
         player.transform.position = targetSpawn.spawnPivot.position;
+
+        // Set Bomb Status
+        if(player != null && !playerHasBomb)
+        {
+            player.GetComponent<PlayerFire>()?.Fire2.gameObject.SetActive(false);
+        }
 
         var pc = player.GetComponent<TarodevController.PlayerController>();
         pc.Gravity = false;
@@ -402,9 +419,31 @@ public class GameController : SingletonMonoBehaviour<GameController>
         }
     }
 
+    public void GameClear()
+    {
+        EnterCutScene();
+
+        var obj = GameObject.Find("ClearDirector");
+        if(obj == null) { ExitCutScene(); return; }
+
+        StartCoroutine(EndGame(obj));
+    }
+
+    IEnumerator EndGame(GameObject director1obj)
+    {
+        var director1 = director1obj.GetComponent<PlayableDirector>();
+
+        yield return new WaitForSeconds(1.0f);
+        director1.Play();
+
+        yield return new WaitForSeconds(2.57f);
+        player.GetComponent<DamageTaker>().health = 0;
+        player.SetActive(false);
+    }
+
     HashSet<int> ObtainedItems = new();
-    int nBerries = 0;
-    bool playerHasBomb = false;
+    public int nBerries = 0;
+    public bool playerHasBomb = false;
 
     public bool ItemObtained(int id) => ObtainedItems.Contains(id);
     public void GetItem(int id)
@@ -413,7 +452,15 @@ public class GameController : SingletonMonoBehaviour<GameController>
     }
 
     public void GetBerry() => nBerries++;
-    public void GetBomb() => playerHasBomb = true;
+    public void GetBomb()
+    {
+        playerHasBomb = true;
+
+        if(player != null)
+        {
+            player.GetComponent<PlayerFire>().Fire2.gameObject.SetActive(true);
+        }
+    }
 
     void ActivatePlayer()
     {

@@ -33,6 +33,7 @@ public class DamageTaker : MonoBehaviour
     public float knockbackSpeed = 5.0f;
     public float knockbackTime = 0.5f;
     Vector2 knockbackVelocity = Vector2.zero;
+    Vector3 originalScale;
 
     [Header("Audio")]
     public AudioClip hurt;
@@ -40,10 +41,14 @@ public class DamageTaker : MonoBehaviour
 
     protected Sequence seq;
 
+    [Header("Misc")]
+    public bool IsCrystal = false;
+
     protected virtual void Awake()
     {
         vT = visuals.transform;
         vTorigin = vT.localPosition;
+        originalScale = vT.localScale;
 
         vRcolor = spriteRenderer.color;
 
@@ -107,12 +112,15 @@ public class DamageTaker : MonoBehaviour
         body.UseInput = false;
         body.ZeroVelocity();
 
+        var scale = originalScale;
+
         seq?.Kill();
         seq = DOTween.Sequence()
             //.Append(vT.DOLocalMove(vTorigin + (Vector3)direction, damageTime))
-            .Append(vT.DOScale(0.8f, damageTime))
+            .Append(vT.DOScale(scale * 0.8f, damageTime))
             .Join(DOVirtual.Float(0, 1, damageTime, (val) =>
             {
+                if (IsCrystal) { return; }
                 spriteRenderer?.GetPropertyBlock(propertyBlock, 0);
                 propertyBlock.SetTexture("_MainTex", spriteRenderer.sprite.texture);
                 propertyBlock.SetFloat("_Damaged", val);
@@ -121,14 +129,20 @@ public class DamageTaker : MonoBehaviour
             .Join(DOVirtual.DelayedCall(damageTime, () => body.UseInput = true))
 
             //.Append(vT.DOLocalMove(vTorigin, recoverTime))
-            .Append(vT.DOScale(1.0f, recoverTime))
+            .Append(vT.DOScale(scale, recoverTime))
             .Join(DOVirtual.Float(1, 0, recoverTime, (val) =>
             {
+                if (IsCrystal) { return; }
                 spriteRenderer?.GetPropertyBlock(propertyBlock, 0);
                 propertyBlock.SetTexture("_MainTex", spriteRenderer.sprite.texture);
                 propertyBlock.SetFloat("_Damaged", val);
                 spriteRenderer?.SetPropertyBlock(propertyBlock, 0);
             }));
+
+        if (GameController.Instance.player == gameObject)
+        {
+            ScoreManager.Instance.LoseScore(ScoreManager.Instance.hurtLostScore);
+        }
 
         invincibleTimer = invincibleTime;
         knockbackVelocity = direction * knockbackSpeed;
@@ -146,6 +160,9 @@ public class DamageTaker : MonoBehaviour
             dead = true;
             GameObject obj = Instantiate(GameController.Instance.DeathExplosion, transform.position, Quaternion.identity);
 
+            // dirty LOL
+            obj.transform.localScale = spriteRenderer.transform.localScale;
+
             if (destroyOnDeath) 
             { 
                 seq?.Kill();
@@ -156,6 +173,11 @@ public class DamageTaker : MonoBehaviour
             {
                 GetComponent<ReplayableInput>().InputEnabled = false;
                 DOVirtual.DelayedCall(0.5f, () => { GameController.Instance.RestartLevel(); });
+            }
+
+            if(IsCrystal)
+            {
+                GameController.Instance.GameClear();
             }
         }
     }
