@@ -32,7 +32,10 @@ public class Berry : MonoBehaviour
         if(collision.gameObject == GameController.Instance.player)
         {
             GameController.Instance.GetItem(id);
-            if (IsBerry) { GameController.Instance.GetBerry(); }
+            if (IsBerry) {
+                ScoreManager.Instance.GetScore(ScoreManager.Instance.StrawberryBonus);
+                GameController.Instance.GetBerry(); 
+            }
             if (IsBomb) { GameController.Instance.GetBomb(); }
 
             gameObject.SetActive(false);
