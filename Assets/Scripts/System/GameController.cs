@@ -35,7 +35,7 @@ public class GameController : SingletonMonoBehaviour<GameController>
         base.Awake();
         DontDestroyOnLoad(this);
 
-        if(gameObject.activeSelf)
+        if (gameObject.activeSelf)
         {
             GetPermission();
             DataInit();
@@ -103,16 +103,16 @@ public class GameController : SingletonMonoBehaviour<GameController>
         }
 #endif
 
-        if(currentRoom == null) { return; }
+        if (currentRoom == null) { return; }
 
-        if(DebugUI.Instance != null)
+        if (DebugUI.Instance != null)
         {
             GUI.skin = DebugUI.Instance.debugUISkin;
         }
 
         GUI.Label(new Rect(400, 10, 100, 14), $"TIME: {currentRoom?.time}");
-        
-        if(GUI.Button(new Rect(400, 30, 100, 14), "GO Phantom"))
+
+        if (GUI.Button(new Rect(400, 30, 100, 14), "GO Phantom"))
         {
             TEST_InstantPhantom();
         }
@@ -168,7 +168,7 @@ public class GameController : SingletonMonoBehaviour<GameController>
     {
         // Check if scene exists
         int buildIdx = SceneUtility.GetBuildIndexByScenePath(sceneName);
-        if(buildIdx < 0)
+        if (buildIdx < 0)
         {
             Debug.LogWarning($"Scene \"{sceneName}\" does not exist!");
             return;
@@ -210,7 +210,7 @@ public class GameController : SingletonMonoBehaviour<GameController>
 
     public void InitRoom(string roomName)
     {
-        if(rooms.ContainsKey(roomName))
+        if (rooms.ContainsKey(roomName))
         {
             currentRoom = rooms[roomName];
         }
@@ -272,10 +272,10 @@ public class GameController : SingletonMonoBehaviour<GameController>
         if (targetSpawn == null && spawnPoints.Length > 0) { targetSpawn = spawnPoints[0]; }
 
         // No spawnpoint, not a level
-        if (targetSpawn == null) 
+        if (targetSpawn == null)
         {
             Debug.Log($"No spawn point found in {SceneManager.GetActiveScene().name}");
-            return; 
+            return;
         }
 
         // Found target spawn point, put our player there
@@ -325,7 +325,7 @@ public class GameController : SingletonMonoBehaviour<GameController>
         // Already phantom
         if (IsPhantom) { return; }
 
-        if(player != null)
+        if (player != null)
         {
             var plri = player.GetComponent<ReplayableInput>();
             plri.InputEnabled = false;
@@ -346,7 +346,7 @@ public class GameController : SingletonMonoBehaviour<GameController>
 
     public void EnterCutScene()
     {
-        if(player != null)
+        if (player != null)
         {
             var pi = player.GetComponent<ReplayableInput>();
             pi.InputEnabled = false;
@@ -385,17 +385,17 @@ public class GameController : SingletonMonoBehaviour<GameController>
         player.transform.position = playerPos;
     }
 
-    public void TimeUp() 
+    public void TimeUp()
     {
         if (isInCutscene) { return; }
-        RestartLevel(); 
+        RestartLevel();
     }
 
     public void RestartLevel()
     {
         if (isInCutscene) { return; }
 
-        if(IsPhantom)
+        if (IsPhantom)
         {
             EnterLevelAsync(SceneManager.GetActiveScene().name, doorEntered);
         }
@@ -404,6 +404,19 @@ public class GameController : SingletonMonoBehaviour<GameController>
             EnterLevelAsync(SceneManager.GetActiveScene().name);
         }
     }
+
+    HashSet<int> ObtainedItems = new();
+    int nBerries = 0;
+    bool playerHasBomb = false;
+
+    public bool ItemObtained(int id) => ObtainedItems.Contains(id);
+    public void GetItem(int id)
+    {
+        ObtainedItems.Add(id);
+    }
+
+    public void GetBerry() => nBerries++;
+    public void GetBomb() => playerHasBomb = true;
 
     void ActivatePlayer()
     {
