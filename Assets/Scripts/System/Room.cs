@@ -84,7 +84,7 @@ public class Room
     public void RefreshEnemyList()
     {
         int enemyLayer = LayerMask.NameToLayer("Enemy");
-        enemies = GameObject.FindObjectsOfType<DamageTaker>().Where(dt => dt.gameObject.layer == enemyLayer).ToList();
+        enemies = GameObject.FindObjectsOfType<DamageTaker>().Where(dt => dt.gameObject.layer == enemyLayer && !dt.IsCrystal).ToList();
         spawns = GameObject.FindObjectsOfType<EnemySpawn>().ToList();
     }
 

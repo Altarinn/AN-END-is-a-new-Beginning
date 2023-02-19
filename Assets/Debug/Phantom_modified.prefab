@@ -283,7 +283,7 @@ GameObject:
   - component: {fileID: 3911960926767179957}
   - component: {fileID: 5344058223637253235}
   - component: {fileID: 5344058223637253234}
-  - component: {fileID: 5232419598030745932}
+  - component: {fileID: 315212485326720558}
   m_Layer: 13
   m_Name: Phantom_modified
   m_TagString: Phantom
@@ -420,7 +420,7 @@ MonoBehaviour:
   Fire1: {fileID: 5344058222819521926}
   Fire2: {fileID: 0}
   Fire3: {fileID: 0}
---- !u!114 &5232419598030745932
+--- !u!114 &315212485326720558
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -429,7 +429,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1399722513075810306}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac3b701b5b59132459c71953f79fbcea, type: 3}
+  m_Script: {fileID: 11500000, guid: 9b0e0cc2c4d1edd4d9e72e3382bad80d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   visuals: {fileID: 951601687091428119}
@@ -445,6 +445,7 @@ MonoBehaviour:
   knockbackSpeed: 15
   knockbackTime: 0.3
   hurt: {fileID: 0}
+  IsCrystal: 0
 --- !u!1 &1399722514436702939
 GameObject:
   m_ObjectHideFlags: 0
@@ -667,6 +668,7 @@ MonoBehaviour:
   bomb_m: {fileID: 0}
   bomb_s: {fileID: 0}
   slime: {fileID: 0}
+  rechargeTime: 2.5
   shake1: 0.5
   shake2: 0.3
   shake3: 0.1

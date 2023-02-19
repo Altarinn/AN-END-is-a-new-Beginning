@@ -19,6 +19,10 @@ public class PlayerTimedBomb : AttackPatternBase
 
     float initialOffset = 0.4f;
 
+    public float rechargeTime = 2.5f;
+    float rechargeTimer = 0.0f;
+    bool useable => rechargeTimer <= 0;
+
     [Header("CameraShake")]
     public float shake1 = 0.5f;
     public float shake2 = 0.3f;
@@ -35,12 +39,25 @@ public class PlayerTimedBomb : AttackPatternBase
     }
 
     // Update is called once per frame
-    //void Update()
-    //{
-    //}
+    void Update()
+    {
+        if (!useable) 
+        { 
+            rechargeTimer -= Time.deltaTime; 
+            if(useable)
+            {
+                // TODO: Fx
+            }
+        }
+    }
 
     public override void Fire(Vector2 origin, Vector2 direction)
     {
+        if(gameObject.activeSelf == false) { return; }
+        if (!useable) { return; }
+
+        rechargeTimer = rechargeTime;
+
         m_MyAudioSource.PlayOneShot(mega, 1.0f);
         b.BulletFanShots(setting, 1, origin, (direction + Vector2.up / 1f).normalized * flySpeed, 60, initialOffset)
         .SetSticky(true)

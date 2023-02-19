@@ -40,6 +40,9 @@ public class DamageTaker : MonoBehaviour
 
     protected Sequence seq;
 
+    [Header("Misc")]
+    public bool IsCrystal = false;
+
     protected virtual void Awake()
     {
         vT = visuals.transform;
@@ -146,6 +149,9 @@ public class DamageTaker : MonoBehaviour
             dead = true;
             GameObject obj = Instantiate(GameController.Instance.DeathExplosion, transform.position, Quaternion.identity);
 
+            // dirty LOL
+            obj.transform.localScale = spriteRenderer.transform.localScale;
+
             if (destroyOnDeath) 
             { 
                 seq?.Kill();
@@ -156,6 +162,11 @@ public class DamageTaker : MonoBehaviour
             {
                 GetComponent<ReplayableInput>().InputEnabled = false;
                 DOVirtual.DelayedCall(0.5f, () => { GameController.Instance.RestartLevel(); });
+            }
+
+            if(IsCrystal)
+            {
+                GameController.Instance.GameClear();
             }
         }
     }

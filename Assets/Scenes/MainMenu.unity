@@ -1766,6 +1766,8 @@ MonoBehaviour:
   playerPrefab: {fileID: 7445834223152265321, guid: e12df4ecedf75b34e9f400ef52533d75, type: 3}
   phantomPrefab: {fileID: 1399722513075810306, guid: 9501cae35fc3a6f4cade9a1c12e95d4e, type: 3}
   doorSprite: {fileID: 21300000, guid: b18abdf24a618764c89f2bb78eeabb0e, type: 3}
+  nBerries: 0
+  playerHasBomb: 1
   debugUISkin: {fileID: 11400000, guid: 24daaa55cc51fc14c88d4162d67ae9c4, type: 2}
 --- !u!1 &1503398181
 GameObject:

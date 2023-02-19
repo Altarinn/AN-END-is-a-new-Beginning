@@ -9,6 +9,8 @@ public class Berry : MonoBehaviour
     public bool IsBerry;
     public bool IsBomb;
 
+    Vector3 origin;
+
     private void Awake()
     {
         if(GameController.Instance.ItemObtained(id))
@@ -16,6 +18,13 @@ public class Berry : MonoBehaviour
             gameObject.SetActive(false);
             Destroy(gameObject);
         }
+
+        origin = transform.position;
+    }
+
+    private void Update()
+    {
+        transform.position = origin + 0.2f * Vector3.up * Mathf.Sin(Time.time);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
