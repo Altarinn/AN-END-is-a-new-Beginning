@@ -69,6 +69,8 @@ public class GameController : SingletonMonoBehaviour<GameController>
 
         //DataLoader.GetInstance().InitSaveData();
         InitLevel("unspecified");
+
+        ScoreManager.Instance.StartScore();
     }
 
     private void GetPermission()
@@ -165,6 +167,8 @@ public class GameController : SingletonMonoBehaviour<GameController>
     [HideInInspector] public GameObject player { get; private set; }
     private float initialWait = 1.0f;
 
+    [HideInInspector] public int[] scores = new int[3];
+
     public void EnterLevelAsync(string sceneName, string doorName = "unspecified")
     {
         if (loading) { return; }
@@ -176,6 +180,9 @@ public class GameController : SingletonMonoBehaviour<GameController>
             Debug.LogWarning($"Scene \"{sceneName}\" does not exist!");
             return;
         }
+
+        // Get all items
+        ObtainedItemsTemp.Clear();
 
         loading = true;
         // Handle reset as player
@@ -195,7 +202,6 @@ public class GameController : SingletonMonoBehaviour<GameController>
 
         // TODO: Black screen
         StartCoroutine(LoadLevelAsync(sceneName, doorName));
-        ScoreManager.Instance.StartScore();
     }
 
     bool loading = false;
@@ -275,6 +281,7 @@ public class GameController : SingletonMonoBehaviour<GameController>
             rooms.Add(roomName, currentRoom);
         }
 
+        ScoreManager.Instance.ResumeTimer();
         currentRoom.InitRoom(player);
     }
 
@@ -287,12 +294,21 @@ public class GameController : SingletonMonoBehaviour<GameController>
         }
     }
 
-    public void FinishRoom(string roomName)
+    public void FinishRoom(string roomName, bool isFirst = false)
     {
         if (tempRoom != null) { tempRoom = null; }
         UIManager.Instance.Clear();
         OpenAllDoors();
-        ScoreManager.Instance.GetScore(ScoreManager.Instance.clearRoomScore);
+
+        if(!IsPhantom)
+        {
+            ScoreManager.Instance.PauseTimer();
+        }
+
+        if (isFirst)
+        {
+            ScoreManager.Instance.GetScore(ScoreManager.Instance.clearRoomScore);
+        }
     }
 
     public void RefreshRoomEnemyList() => currentRoom?.RefreshEnemyList();
@@ -300,8 +316,8 @@ public class GameController : SingletonMonoBehaviour<GameController>
     public void ExitStage()
     {
         IsPhantom = false;
+        ScoreManager.Instance.PauseTimer();
         rooms.Clear();
-        ScoreManager.Instance.EndScore();
     }
 
     HashSet<string> bossRooms = new HashSet<string>() { "Room1-F", "Room2-F", "Room3-F" };
@@ -365,9 +381,13 @@ public class GameController : SingletonMonoBehaviour<GameController>
         player.transform.position = targetSpawn.spawnPivot.position;
 
         // Set Bomb Status
-        if(player != null && !playerHasBomb)
+        if (player != null && !playerHasBomb)
         {
-            player.GetComponent<PlayerFire>()?.Fire2.gameObject.SetActive(false);
+            var pf = player.GetComponent<PlayerFire>();
+            if (pf != null)
+            {
+                player.GetComponent<PlayerFire>()?.Fire2?.gameObject?.SetActive(false);
+            }
         }
 
         var pc = player.GetComponent<TarodevController.PlayerController>();
@@ -418,7 +438,7 @@ public class GameController : SingletonMonoBehaviour<GameController>
         UIManager.Instance.RefreshState();
     }
 
-    bool isInCutscene = false;
+    public bool isInCutscene = false;
 
     public void EnterCutScene()
     {
@@ -471,6 +491,18 @@ public class GameController : SingletonMonoBehaviour<GameController>
     public void RestartLevel()
     {
         if (isInCutscene) { return; }
+
+        // Return all items
+        foreach (var item in ObtainedItemsTemp)
+        {
+            if(ObtainedItems.Remove(item))
+            {
+                ScoreManager.Instance.LoseScore(ScoreManager.Instance.StrawberryBonus);
+                nBerries--;
+            }
+
+            ObtainedItemsTemp.Clear();
+        }
 
         if (IsPhantom)
         {
@@ -527,12 +559,14 @@ public class GameController : SingletonMonoBehaviour<GameController>
 
         yield return new WaitForSeconds(4.0f);
         ExitStage();
+        ScoreManager.Instance.EndScore();
         EnterLevelAsync("End");
 
         yield break;
     }
 
     HashSet<int> ObtainedItems = new();
+    HashSet<int> ObtainedItemsTemp = new();
     public int nBerries = 0;
     public bool playerHasBomb = false;
 
@@ -540,6 +574,12 @@ public class GameController : SingletonMonoBehaviour<GameController>
     public void GetItem(int id)
     {
         ObtainedItems.Add(id);
+
+        // Bomb = 15
+        if(id < 15)
+        {
+            ObtainedItemsTemp.Add(id);
+        }
     }
 
     public void GetBerry() => nBerries++;

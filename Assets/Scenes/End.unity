@@ -2253,4 +2253,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   score: {fileID: 857082359}
   berry: {fileID: 1389731152}
-  totalBerries: 5
+  totalBerries: 9

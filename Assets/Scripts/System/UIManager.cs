@@ -73,7 +73,7 @@ public class UIManager : SingletonMonoBehaviour<UIManager>
 
     public void SetTime(int timeVal)
     {
-        time.text = timeVal.ToString("D2");
+        time.text = Mathf.Max(timeVal, 0).ToString("D2");
     }
 
     public void ToggleMute()

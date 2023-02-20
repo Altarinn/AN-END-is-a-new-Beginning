@@ -10171,9 +10171,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_ComponentVersion: 1
   m_AssetsPPU: 8
-  m_RefResolutionX: 256
-  m_RefResolutionY: 160
-  m_CropFrame: 0
+  m_RefResolutionX: 320
+  m_RefResolutionY: 180
+  m_CropFrame: 3
   m_GridSnapping: 0
   m_UpscaleRT: 0
   m_PixelSnapping: 0
@@ -20025,12 +20025,14 @@ MonoBehaviour:
   playerPrefab: {fileID: 7445834223152265321, guid: e12df4ecedf75b34e9f400ef52533d75, type: 3}
   phantomPrefab: {fileID: 1399722513075810306, guid: 9501cae35fc3a6f4cade9a1c12e95d4e, type: 3}
   doorSprite: {fileID: 21300000, guid: b18abdf24a618764c89f2bb78eeabb0e, type: 3}
+  scores: 000000000000000000000000
   sceneStarts:
   - Room1-1
   - Room2-1
   - Room3-1
   nextStage: 0
   stageHints: []
+  isInCutscene: 0
   nBerries: 0
   playerHasBomb: 0
   debugUISkin: {fileID: 11400000, guid: 24daaa55cc51fc14c88d4162d67ae9c4, type: 2}

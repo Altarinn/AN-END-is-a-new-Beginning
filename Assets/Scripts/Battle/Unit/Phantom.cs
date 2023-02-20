@@ -52,6 +52,7 @@ public class Phantom : DamageTaker
         // Initialization
         var pc = GetComponent<TarodevController.PlayerController>();
         var player = GameController.Instance.player;
+        player.GetComponent<TarodevController.PlayerController>().Gravity = false;
 
         GetComponent<BaseAI>().enabled = false;
 

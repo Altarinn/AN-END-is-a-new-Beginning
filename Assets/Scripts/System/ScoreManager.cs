@@ -28,15 +28,18 @@ public class ScoreManager : SingletonMonoBehaviour<ScoreManager>
     private float refreshFrequence = 1f;
     private float refreshTimer = 0;
 
+    bool timer = false;
+
     private void Update()
     {
         if (!ifActive) return;
+        if (!timer) return;
 
         refreshTimer -= Time.deltaTime;
         if(refreshTimer <= 0)
         {
             refreshTimer = refreshFrequence;
-            score -= 10;
+            score -= timeLoseScore;
             if(scoreText != null)
             {
                 SetScoreStr();
@@ -46,7 +49,7 @@ public class ScoreManager : SingletonMonoBehaviour<ScoreManager>
 
     public void SetScoreStr()
     {
-        scoreText.text = $"<mspace=0.9em>{score.ToString("D6")}</mspace>";
+        scoreText.text = $"<mspace=0.9em>{score.ToString("D5")}</mspace>";
     }
 
     public void GetScore(int getScore)
@@ -59,6 +62,16 @@ public class ScoreManager : SingletonMonoBehaviour<ScoreManager>
     {
         score -= loseScore;
         SetScoreStr();
+    }
+
+    public void PauseTimer()
+    {
+        timer = false;
+    }
+
+    public void ResumeTimer()
+    {
+        timer = true;
     }
 
     public void StartScore()

@@ -55,7 +55,7 @@ public class Door : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!isOpen) return;
-        if(collision.gameObject == GameController.Instance.player)
+        if(collision.gameObject == GameController.Instance.player)// && (!GameController.Instance.isInCutscene))
         {
             GameController.Instance.EnterLevelAsync(targetScene, targetDoor);
         }

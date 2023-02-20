@@ -443,7 +443,7 @@ MonoBehaviour:
   invincibleTime: 0.3
   knockbackSpeed: 15
   knockbackTime: 0.3
-  hurt: {fileID: 0}
+  hurt: {fileID: 8300000, guid: 0ac85f38f7e9cca419b4c779da563b28, type: 3}
   IsCrystal: 0
 --- !u!1 &1399722514436702939
 GameObject:

@@ -30,6 +30,8 @@ public class Room
 
         if(controller.IsPhantom)
         {
+            roomCompleted = CheckRoomCompleted();
+
             // Play replay if any
             if (playerRecord != null)
             {
@@ -49,6 +51,7 @@ public class Room
         {
             // Find all enemies
             RefreshEnemyList();
+            roomCompleted = CheckRoomCompleted();
 
             enemies.ForEach(e => Debug.Log(e.gameObject));
             spawns.ForEach(e => Debug.Log(e.gameObject));
@@ -107,16 +110,16 @@ public class Room
             time += Time.deltaTime;
         }
 
-        if (!roomCompleted && CheckRoomCompleted()) { FinishRoom(); }
+        if (!roomCompleted && CheckRoomCompleted()) { FinishRoom(true); }
     }
 
-    public void FinishRoom()
+    public void FinishRoom(bool isFirst = false)
     {
         if(!controller.IsPhantom)
         {
             roomCompleted = true;
             plri.EndRecording();
-            controller.FinishRoom(key);
+            controller.FinishRoom(key, true);
         }
     }
 }

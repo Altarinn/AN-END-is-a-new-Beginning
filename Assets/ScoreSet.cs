@@ -8,7 +8,7 @@ public class ScoreSet : MonoBehaviour
 {
     [SerializeField]
     TMPro.TextMeshProUGUI score, berry;
-    public int totalBerries = 5;
+    public int totalBerries = 9;
 
     private void Awake()
     {
