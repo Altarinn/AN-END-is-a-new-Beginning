@@ -37,6 +37,16 @@ namespace TarodevController {
         
         private Vector2 _externalMovement;
 
+        [Header("Audio")]
+        public AudioClip dashAudio;
+        protected AudioSource m_MyAudioSource;
+
+        protected override void Awake()
+        {
+            base.Awake();
+            m_MyAudioSource = GetComponent<AudioSource>();
+        }
+
         /// <summary>
         /// This is the expected way for an external component to move the controller (except thru InputModule).
         /// It should be used as `transform.Translate(movement)`.
@@ -375,6 +385,8 @@ namespace TarodevController {
                 // Start:dash!
                 DashingThisFrame = true;
                 _dashing = true;
+
+                m_MyAudioSource?.PlayOneShot(dashAudio, 0.2f);
 
                 Vector2 dashSpeed = dashDirc * _dashDistance / _dashTime;
                 _dashSpeed = dashSpeed.magnitude;

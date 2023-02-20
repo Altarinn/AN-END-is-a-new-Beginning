@@ -3170,7 +3170,7 @@ MonoBehaviour:
   - {fileID: 1127749087}
   isInCutscene: 0
   nBerries: 0
-  playerHasBomb: 1
+  playerHasBomb: 0
   debugUISkin: {fileID: 11400000, guid: 24daaa55cc51fc14c88d4162d67ae9c4, type: 2}
 --- !u!1 &1503398181
 GameObject:
