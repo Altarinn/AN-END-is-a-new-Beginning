@@ -2244,8 +2244,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 7.1001024, y: 2.9162}
-  m_SizeDelta: {x: 396.0721, y: 211.1896}
+  m_AnchoredPosition: {x: 11.1866, y: -21.1945}
+  m_SizeDelta: {x: 530.1113, y: 563.4512}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &892353431
 MonoBehaviour:
@@ -3163,7 +3163,7 @@ MonoBehaviour:
   - Room1-1
   - Room2-1
   - Room3-1
-  nextStage: 0
+  nextStage: 1
   stageHints:
   - {fileID: 718955722}
   - {fileID: 28128853}

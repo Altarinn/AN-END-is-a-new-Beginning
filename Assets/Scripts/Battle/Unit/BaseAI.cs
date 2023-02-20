@@ -22,4 +22,12 @@ public abstract class BaseAI : InputModule
 
     // Update is called once per frame
     protected abstract void Update();
+
+    protected virtual void LateUpdate()
+    {
+        if (target == null)
+        {
+            target = GameObject.FindWithTag(targetTag);
+        }
+    }
 }

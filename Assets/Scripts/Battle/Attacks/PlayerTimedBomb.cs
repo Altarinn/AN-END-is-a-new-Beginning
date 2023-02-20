@@ -17,7 +17,7 @@ public class PlayerTimedBomb : AttackPatternBase
     public AudioClip slime;
     AudioSource m_MyAudioSource;
 
-    float initialOffset = 0.4f;
+    float initialOffset = 0.5f;
 
     public float rechargeTime = 2.5f;
     float rechargeTimer = 0.0f;

@@ -51,7 +51,6 @@ public class Room
         {
             // Find all enemies
             RefreshEnemyList();
-            roomCompleted = CheckRoomCompleted();
 
             enemies.ForEach(e => Debug.Log(e.gameObject));
             spawns.ForEach(e => Debug.Log(e.gameObject));
